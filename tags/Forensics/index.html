@@ -3,7 +3,7 @@
 <html lang="zh">
 <head>
     <meta charset="utf-8" />
-    <title>MISC2 Writeup | PR0_M1X 的小站</title>
+    <title>Tags: Forensics | PR0_M1X 的小站</title>
     <meta name="author" content="PR0_M1X" />
     <meta name="description" content="一万年太久，只争朝夕" />
     <meta name="keywords" content="CTF" />
@@ -42,10 +42,6 @@
 
 
 <script src="/js/lib/preview.js"></script>
-
-
-
-
 
 
 
@@ -159,55 +155,144 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div class="article">
-    <div>
-        <h1>MISC2 Writeup</h1>
-    </div>
-    <div class="info">
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/10/11
+            <div id="archives">
+    
+    <div class="categories-tags">
+        
+        
+        
+        <span>
+            <a href="/tags/Crypto/" style="background: #00bcd4">
+                <span class="icon">
+                    <i class="fa-solid fa-tags fa-fw"></i>
+                </span>
+                Crypto
+            </a>
         </span>
         
         
-        <span class="tags">
-            <span class="icon">
-                <i class="fa-solid fa-tags fa-fw"></i>
-            </span>
-            
-            
-            <span class="tag">
-                
-                <a href="/tags/Misc/" style="color: #ff7d73">
-                    Misc
-                </a>
-            </span>
-            
-            <span class="tag">
-                
-                <a href="/tags/Writeup/" style="color: #00bcd4">
-                    Writeup
-                </a>
-            </span>
-            
+        
+        <span>
+            <a href="/tags/Misc/" style="background: #03a9f4">
+                <span class="icon">
+                    <i class="fa-solid fa-tags fa-fw"></i>
+                </span>
+                Misc
+            </a>
         </span>
+        
+        
+        
+        <span>
+            <a href="/tags/Reverse/" style="background: #00bcd4">
+                <span class="icon">
+                    <i class="fa-solid fa-tags fa-fw"></i>
+                </span>
+                Reverse
+            </a>
+        </span>
+        
+        
+        
+        <span>
+            <a href="/tags/Web/" style="background: #ffa2c4">
+                <span class="icon">
+                    <i class="fa-solid fa-tags fa-fw"></i>
+                </span>
+                Web
+            </a>
+        </span>
+        
+        
+        
+        <span>
+            <a href="/tags/Forensics/" style="background: linear-gradient(120deg, #9abbf7 0%, #ffbbf4 100%)">
+                <span class="icon">
+                    <i class="fa-solid fa-tags fa-fw"></i>
+                </span>
+                Forensics
+            </a>
+        </span>
+        
+        
+        
+        
+        
+        <span>
+            <a href="/tags/Writeup/" style="background: #ff7d73">
+                <span class="icon">
+                    <i class="fa-solid fa-tags fa-fw"></i>
+                </span>
+                Writeup
+            </a>
+        </span>
+        
         
     </div>
     
-    <div class="content" v-pre>
-        <p>这是信工院网安群里发的misc2作业的writeup。<br>解压压缩包，发现是个txt文件。<br><img src="%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE-2024-10-12-001413.png" alt="截图1"></p>
-
-<p>直接打开是乱码。推断是其他文件改了文件扩展名得来的。<br><img src="%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE-2024-10-12-001553.png" alt="截图2"><br>看文件第一行，有NG，推断是PNG格式文件。<br>直接改文件扩展名为png，保存。打开即可获得flag。<br><img src="%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE-2024-10-12-005254.png" alt="截图3"></p>
-
+    <div class="timeline">
+        <div class="timeline-tail"></div>
+        <div class="timeline-content">
+            <div class="item-time">2024/10/25</div>
+            <a href="/2024/10/25/SLsec-Week1-Writeup/">
+                <h3>SLsec Week1 Writeup</h3>
+            </a>
+            <div class="info">
+                
+                
+                <span class="tags">
+                    <span class="icon">
+                        <i class="fa-solid fa-tags fa-fw"></i>
+                    </span>
+                    
+                    
+                    <span class="tag">
+                        
+                        <a href="/tags/Crypto/" style="color: #ffa2c4">
+                            Crypto
+                        </a>
+                    </span>
+                    
+                    <span class="tag">
+                        
+                        <a href="/tags/Misc/" style="color: #00a596">
+                            Misc
+                        </a>
+                    </span>
+                    
+                    <span class="tag">
+                        
+                        <a href="/tags/Reverse/" style="color: #ffa2c4">
+                            Reverse
+                        </a>
+                    </span>
+                    
+                    <span class="tag">
+                        
+                        <a href="/tags/Web/" style="color: #ff7d73">
+                            Web
+                        </a>
+                    </span>
+                    
+                    <span class="tag">
+                        
+                        <a href="/tags/Forensics/" style="color: #00bcd4">
+                            Forensics
+                        </a>
+                    </span>
+                    
+                    <span class="tag">
+                        
+                        <a href="/tags/Writeup/" style="color: #03a9f4">
+                            Writeup
+                        </a>
+                    </span>
+                    
+                </span>
+                
+            </div>
+        </div>
     </div>
-    
-    
-    
-    
-    
-    
     
 </div>
 
@@ -239,12 +324,6 @@
         
     </div>
     <script src="/js/main.js"></script>
-    
-    
-
-
-
-
     
 </body>
 </html>
