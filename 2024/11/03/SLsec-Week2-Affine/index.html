@@ -180,14 +180,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/Writeup/" style="color: #00a596">
+                <a href="/tags/Writeup/" style="color: #ffa2c4">
                     Writeup
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/Crypto/" style="color: #ffa2c4">
+                <a href="/tags/Crypto/" style="color: #03a9f4">
                     Crypto
                 </a>
             </span>
@@ -199,7 +199,7 @@
     <div class="content" v-pre>
         <p>Affine密码是一种替换密码，它使用以下数学公式来加密字符：</p>
 <span id="more"></span>
-<p>$$E(x) &#x3D; (a \cdot x + b) \mod m$$<br>其中：E(x) 是加密后的字符。<br>x是原始字符（通常是从0开始的数字，例如，’a’ 对应 0, ‘b’ 对应 1，依此类推）。<br>a和 b是密钥。<br>m是字母表的大小（对于英文字母，m &#x3D; 26 ）。<br>解密过程使用以下公式：<br>$$D(y) &#x3D; a^{-1} \cdot (y - b) \mod m$$<br>其中:<br>D(y) 是解密后的字符，y 是加密后的字符。<br>$$a^{-1}$$是a在模m下的乘法逆元，即满足$$a \cdot a^{-1} \equiv 1 \pmod{m}$$的数。<br>在Affine密码中，为了确保a有乘法逆元，a必须与m互质。如，对于英文字母，a必须与26互质。<br>下面给出爆破脚本。</p>
+<p>$$E(x) &#x3D; (a \cdot x + b) \mod m$$<br>其中：E(x) 是加密后的字符。<br>x是原始字符（通常是从0开始的数字，例如，’a’ 对应 0, ‘b’ 对应 1，依此类推）。<br>a和 b是密钥。<br>m是字母表的大小（对于英文字母，m &#x3D; 26 ）。<br>解密过程使用以下公式：<br>$$D(y) &#x3D; a^{-1} \cdot (y - b) \mod m$$<br>其中:<br>D(y) 是解密后的字符，y 是加密后的字符。<br>$$a^{-1}$$是a在模m下的乘法逆元，即满足$$a \cdot a^{-1} \equiv 1\ mod\ m$$的数。<br>在Affine密码中，为了确保a有乘法逆元，a必须与m互质。如，对于英文字母，a必须与26互质。<br>下面给出爆破脚本。</p>
 <pre><code class="Python">import math
 
 def affine_decrypt(ciphertext, a, b, m=26):
