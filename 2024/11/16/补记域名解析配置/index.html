@@ -3,7 +3,7 @@
 <html lang="zh">
 <head>
     <meta charset="utf-8" />
-    <title>Tags: 笔记 | PR0_M1X 的小站</title>
+    <title>补记域名解析配置 | PR0_M1X 的小站</title>
     <meta name="author" content="PR0_M1X" />
     <meta name="description" content="一万年太久，只争朝夕" />
     <meta name="keywords" content="CTF" />
@@ -42,6 +42,10 @@
 
 
 <script src="/js/lib/preview.js"></script>
+
+
+
+
 
 
 
@@ -155,254 +159,101 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div id="archives">
-    
-    <div class="categories-tags">
-        
-        
-        
-        <span>
-            <a href="/tags/Writeup/" style="background: #00bcd4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                Writeup
-            </a>
+            <div class="article">
+    <div>
+        <h1>补记域名解析配置</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/11/16
         </span>
         
-        
-        
-        <span>
-            <a href="/tags/Misc/" style="background: #ffa2c4">
+        <span class="category">
+            <a href="/categories/%E7%AC%94%E8%AE%B0/">
                 <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                Misc
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="background: linear-gradient(120deg, #9abbf7 0%, #ffbbf4 100%)">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
                 </span>
                 笔记
             </a>
         </span>
         
         
-        
-        
-        
-        <span>
-            <a href="/tags/Pwn/" style="background: #00bcd4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                Pwn
-            </a>
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00bcd4">
+                    笔记
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="color: #00a596">
+                    服务器
+                </a>
+            </span>
+            
         </span>
-        
-        
-        
-        <span>
-            <a href="/tags/CTF/" style="background: #00a596">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                CTF
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/Crypto/" style="background: #ffa2c4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                Crypto
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="background: #03a9f4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                小说
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="background: #00a596">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                服务器
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/%E9%9A%8F%E7%AC%94/" style="background: #ffa2c4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                随笔
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/%E8%A1%8C%E6%B8%B8%E9%9A%8F%E8%AE%B0/" style="background: #00a596">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                行游随记
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/Reverse/" style="background: #03a9f4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                Reverse
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/Web/" style="background: #00a596">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                Web
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/Forensics/" style="background: #ffa2c4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                Forensics
-            </a>
-        </span>
-        
         
     </div>
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2024/11/16</div>
-            <a href="/2024/11/16/%E8%A1%A5%E8%AE%B0%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E9%85%8D%E7%BD%AE/">
-                <h3>补记域名解析配置</h3>
-            </a>
-            <div class="info">
-                
-                <span class="category">
-                    <a href="/categories/%E7%AC%94%E8%AE%B0/">
-                        <span class="icon">
-                            <i class="fa-solid fa-bookmark fa-fw"></i>
-                        </span>
-                        笔记
-                    </a>
-                </span>
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #ff7d73">
-                            笔记
-                        </a>
-                    </span>
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="color: #00a596">
-                            服务器
-                        </a>
-                    </span>
-                    
-                </span>
-                
-            </div>
-        </div>
+    <div class="content" v-pre>
+        <p>之前买的域名，自己配置了一下往github pages上连接，只顾自己配置没有记笔记，今天记一下以防忘记。</p>
+<span id="more"></span>
+<h2 id="购买域名"><a href="#购买域名" class="headerlink" title="购买域名"></a>购买域名</h2><p>这个没啥说的。我在腾讯云上买的域名，自己找个心仪的后缀，想一个能用的名字就行。</p>
+<h2 id="DNS配置"><a href="#DNS配置" class="headerlink" title="DNS配置"></a>DNS配置</h2><h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>首先得知道自己github pages的域名。一般照网上教程配置好后都是*<u>github用户名.github.io</u>*。</p>
+<p>然后得知道github pages服务器的IP地址，一般网上都能查到。</p>
+<pre><code class="Plain">185.199.110.153
+
+185.199.109.153
+
+185.199.111.153
+
+185.199.108.153
+</code></pre>
+<p>现在我们的准备工作就做好了，可以开始配置了。</p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>配置解析在云解析DNS页面里，进去就能找到自己买的域名。我们要做的就是配置一下解析记录即可。</p>
+<p>只用配置两个：</p>
+<table>
+<thead>
+<tr>
+<th>主机记录</th>
+<th>记录类型</th>
+<th>线路类型</th>
+<th>记录值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>www</td>
+<td>CNAME</td>
+<td>默认</td>
+<td>github用户名.github.io.</td>
+</tr>
+<tr>
+<td>@</td>
+<td>A</td>
+<td>默认</td>
+<td>上面给出的4个ip任选其一即可</td>
+</tr>
+</tbody></table>
+<p>配置好后别忘了保存，完成后等一会就能用了。</p>
+<h2 id="GitHub-Pages配置"><a href="#GitHub-Pages配置" class="headerlink" title="GitHub Pages配置"></a>GitHub Pages配置</h2><p>在博客仓库的设置中找到pages选项，在Custom domain的框里填上你买的域名即可。</p>
+
     </div>
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2024/11/11</div>
-            <a href="/2024/11/11/PWN%E5%85%A5%E9%97%A8%E6%B5%85%E8%AE%B0/">
-                <h3>PWN入门浅记</h3>
-            </a>
-            <div class="info">
-                
-                <span class="category">
-                    <a href="/categories/CTF/">
-                        <span class="icon">
-                            <i class="fa-solid fa-bookmark fa-fw"></i>
-                        </span>
-                        CTF
-                    </a>
-                </span>
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00bcd4">
-                            笔记
-                        </a>
-                    </span>
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/Pwn/" style="color: #03a9f4">
-                            Pwn
-                        </a>
-                    </span>
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/CTF/" style="color: #ffa2c4">
-                            CTF
-                        </a>
-                    </span>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
+    
+    
+    
+    
+    
     
 </div>
 
@@ -434,6 +285,12 @@
         
     </div>
     <script src="/js/main.js"></script>
+    
+    
+
+
+
+
     
 </body>
 </html>
