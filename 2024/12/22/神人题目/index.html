@@ -3,7 +3,7 @@
 <html lang="zh">
 <head>
     <meta charset="utf-8" />
-    <title>MISC2 Writeup | PR0_M1X 的小站</title>
+    <title>神人题目——三相之力 | PR0_M1X 的小站</title>
     <meta name="author" content="PR0_M1X" />
     <meta name="description" content="一万年太久，只争朝夕" />
     <meta name="keywords" content="CTF" />
@@ -161,14 +161,14 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>MISC2 Writeup</h1>
+        <h1>神人题目——三相之力</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2024/10/11
+            2024/12/22
         </span>
         
         <span class="category">
@@ -189,14 +189,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/Writeup/" style="color: #ff7d73">
+                <a href="/tags/Writeup/" style="color: #ffa2c4">
                     Writeup
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/Misc/" style="color: #ffa2c4">
+                <a href="/tags/Misc/" style="color: #00bcd4">
                     Misc
                 </a>
             </span>
@@ -206,11 +206,16 @@
     </div>
     
     <div class="content" v-pre>
-        <p>这是信工院网安群里发的misc2作业的writeup。</p>
+        <h2 id="题干："><a href="#题干：" class="headerlink" title="题干："></a>题干：</h2><p>你说的对，但是《三相之力》是由 Muscer 自主研发的一款全新杂项套娃题。……中间忘了……。总之你将扮演一位名为「Misc手」的神秘角色，在小小的附件中邂逅「Reversed」、「Gopher esolang」、「Bitmap RGBA」，找回失散的flag碎片——同时，逐步发掘「套娃」的真相。</p>
 <span id="more"></span>
-<p>解压压缩包，发现是个txt文件。<br><img src="%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE-2024-10-12-001413.png" alt="截图1"></p>
-
-<p>直接打开是乱码。推断是其他文件改了文件扩展名得来的。<br><img src="%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE-2024-10-12-001553.png" alt="截图2"><br>看文件第一行，有NG，推断是PNG格式文件。<br>直接改文件扩展名为png，保存。打开即可获得flag。<br><img src="%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE-2024-10-12-005254.png" alt="截图3"></p>
+<h2 id="解题"><a href="#解题" class="headerlink" title="解题"></a>解题</h2><p>需要从RGB四个通道的最低位提取信息。R通道能提取出一个png格式的图片（题目给出的reversed提示在这里用到），内容为一张二维码，扫码结果：</p>
+<pre><code class="Plaintext">key_part1:0d000721_114514_1919810_
+</code></pre>
+<p>G通道能提取出一个压缩包，有密码的，经测试是真加密。联想到前面二维码解码结果，猜测可能是压缩包密码的一部分。</p>
+<p>B通道似乎没有什么东西存在，但当用stegsolve查看B通道的最低位时，能看到一大堆条码。但这些条码并非真正可以扫描出结果的条码，需要导出为bin文件，加上BMP的文件头。位深为32位（题目提示Bitmap RGBA）。提取出来的bin文件经清洗有40000字节可用，结合位图大小计算公式  长x宽x（位深度&#x2F;8），可以暴力破解得到长宽为100x100的位图，内容为一个二维码，解码得到第二部分的key。</p>
+<pre><code class="Plaintext">key_part2:089d7147-6786-42b5-b81e-3b7e050304a6
+</code></pre>
+<p>两部分key组合起来，正是压缩包的密码。解压得到一个txt文件，用gopher esolang解码即可得到flag。</p>
 
     </div>
     
