@@ -189,14 +189,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/AI/" style="color: #00bcd4">
+                <a href="/tags/AI/" style="color: #03a9f4">
                     AI
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00a596">
+                <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #ff7d73">
                     笔记
                 </a>
             </span>
@@ -208,6 +208,8 @@
     <div class="content" v-pre>
         <p>最近deepseek-r1挺火的，大概研究了一下怎么本地部署。</p>
 <p>这里我用的是Ollama，基本上可以开箱即用，非常方便。</p>
+<span id="more"></span>
+
 <h2 id="Windows-平台"><a href="#Windows-平台" class="headerlink" title="Windows 平台"></a>Windows 平台</h2><p>我用的配置如下：</p>
 <table>
 <thead>
@@ -273,20 +275,75 @@ eval rate:            20.17 tokens/s
 </tbody></table>
 <p>同样地，也是使用Ollama部署，方法同上，这里部署了32b的模型。</p>
 <p>需要先ollama serve启动ollama的服务，然后才能run。</p>
-<pre><code>root@server:~# ollama serve    				#终端1
+<pre><code>root@server:~# ollama serve    			#终端1
 root@server:~# ollama run deepseek-r1:32b 	#终端2
 </code></pre>
 <p>测试下来，速度如下：</p>
 <pre><code>total duration:			44.762242265s
 load duration:			27.576243ms
 prompt eval count:		1973 token(s)
-prompt eval duration:	2.85s
+prompt eval duration:		2.85s
 prompt eval rate:		692.28 tokens/s
-eval count:				1032 token(s)
+eval count:			1032 token(s)
 evalduration:			41.86s
-eval rate:				24.65 tokens/s
+eval rate:			24.65 tokens/s
 </code></pre>
-<p>显存占用约22GB，依然是非常吃显存的。</p>
+<p>显存占用约22GB，依然是非常吃显存的，但内容质量还算可以，用于家用部署已经处于可用状态了。</p>
+<h2 id="自己写的可用配置单"><a href="#自己写的可用配置单" class="headerlink" title="自己写的可用配置单"></a>自己写的可用配置单</h2><p>总结了一个可以家用部署deepseek-r1:32b 模型的可用配置单，有条件的话可以实践一下。</p>
+<table>
+<thead>
+<tr>
+<th>硬件</th>
+<th>详细信息</th>
+<th>花费（元）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>主板</td>
+<td>ASUS X99-A</td>
+<td>500</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>Intel Xeon E5-2680 v3 12 Cores 24 Threads</td>
+<td>40</td>
+</tr>
+<tr>
+<td>内存</td>
+<td>DDR4 16GB 2133MT&#x2F;s ECC *4</td>
+<td>300</td>
+</tr>
+<tr>
+<td>散热</td>
+<td>6热管三风扇风冷</td>
+<td>50</td>
+</tr>
+<tr>
+<td>GPU</td>
+<td>NVIDIA GeForce RTX 2080Ti 22GB魔改版*2 + NVLink</td>
+<td>5000</td>
+</tr>
+<tr>
+<td>硬盘</td>
+<td>铠侠 RC20 1TB 全新固态</td>
+<td>420</td>
+</tr>
+<tr>
+<td>电源</td>
+<td>鑫谷 1250W 金牌 全新</td>
+<td>800</td>
+</tr>
+<tr>
+<td>机箱</td>
+<td>先马 坦克3 全新</td>
+<td>170</td>
+</tr>
+<tr>
+<td>共计</td>
+<td>-</td>
+<td>7280</td>
+</tr>
+</tbody></table>
 
     </div>
     
