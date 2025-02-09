@@ -186,6 +186,140 @@
         
 
 <div class="post">
+    <a href="/2025/02/09/Deepseek-R1-%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E5%B0%8F%E8%AE%B0/">
+        <h2 class="post-title">Deepseek-R1 本地部署小记</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/%E7%AC%94%E8%AE%B0/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                笔记
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/2/9
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>最近deepseek-r1挺火的，大概研究了一下怎么本地部署。</p>
+<p>这里我用的是Ollama，基本上可以开箱即用，非常方便。</p>
+<h2 id="Windows-平台"><a href="#Windows-平台" class="headerlink" title="Windows 平台"></a>Windows 平台</h2><p>我用的配置如下：</p>
+<table>
+<thead>
+<tr>
+<th>硬件</th>
+<th>详细信息</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CPU</td>
+<td>AMD Ryzen 9 7940HX 16 Cores 32 Threads</td>
+</tr>
+<tr>
+<td>GPU</td>
+<td>RTX 4060 Laptop 8GB</td>
+</tr>
+<tr>
+<td>内存</td>
+<td>32GB DDR5 5200MT&#x2F;s</td>
+</tr>
+<tr>
+<td>操作系统</td>
+<td>Windows 11 Pro</td>
+</tr>
+</tbody></table>
+<p>Windows平台上只用到官网<a target="_blank" rel="noopener" href="https://ollama.com/download">Download Ollama on Windows</a>下载Ollama安装就行了。</p>
+<p>安装完成后，在命令行输入</p>
+<p><code>ollama run deepseek-r1:8b</code></p>
+<p>即可，它会自动下载需要的模型文件。</p>
+<p>实测速度如下：</p>
+<pre><code>total duration:       1m13.3695657s
+load duration:        41.8234ms
+prompt eval count:    65 token(s)
+prompt eval duration: 322ms
+prompt eval rate:     201.86 tokens/s
+eval count:           1461 token(s)
+eval duration:        1m12.441s
+eval rate:            20.17 tokens/s
+</code></pre>
+<p>显存占用了7.1GB，还是很吃显存的。</p>
+<p>token输出速度还是可以的，但是准确性很明显不太行。</p>
+<h2 id="Linux-平台"><a href="#Linux-平台" class="headerlink" title="Linux 平台"></a>Linux 平台</h2><p>为了追求更好的效果，我购买了一天的GPU服务器用来测试。</p>
+<p>我使用了AutoDL的算力资源，配置如下：</p>
+<table>
+<thead>
+<tr>
+<th>硬件</th>
+<th>详细信息</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CPU</td>
+<td>Intel Xeon Gold 6130 6 Cores</td>
+</tr>
+<tr>
+<td>GPU</td>
+<td>NVIDIA Tesla V100 32GB</td>
+</tr>
+<tr>
+<td>内存</td>
+<td>25GB</td>
+</tr>
+</tbody></table>
+<p>同样地，也是使用Ollama部署，方法同上，这里部署了32b的模型。</p>
+<p>需要先ollama serve启动ollama的服务，然后才能run。</p>
+<pre><code>root@server:~# ollama serve    				#终端1
+root@server:~# ollama run deepseek-r1:32b 	#终端2
+</code></pre>
+<p>测试下来，速度如下：</p>
+<pre><code>total duration:			44.762242265s
+load duration:			27.576243ms
+prompt eval count:		1973 token(s)
+prompt eval duration:	2.85s
+prompt eval rate:		692.28 tokens/s
+eval count:				1032 token(s)
+evalduration:			41.86s
+eval rate:				24.65 tokens/s
+</code></pre>
+<p>显存占用约22GB，依然是非常吃显存的。</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/AI/" style="color: #ff7d73">AI</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #03a9f4">笔记</a>
+        </span>
+        
+    </div>
+    <a href="/2025/02/09/Deepseek-R1-%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E5%B0%8F%E8%AE%B0/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2024/12/25/%E5%A9%86%E8%AF%AD/">
         <h2 class="post-title">婆语</h2>
     </a>
@@ -226,7 +360,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E6%9D%82%E9%A1%B9/" style="color: #ff7d73">杂项</a>
+            <a href="/tags/%E6%9D%82%E9%A1%B9/" style="color: #00bcd4">杂项</a>
         </span>
         
     </div>
@@ -277,7 +411,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="color: #00a596">小说</a>
+            <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="color: #ffa2c4">小说</a>
         </span>
         
     </div>
@@ -325,7 +459,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="color: #03a9f4">小说</a>
+            <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="color: #ff7d73">小说</a>
         </span>
         
     </div>
@@ -373,7 +507,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="color: #ff7d73">小说</a>
+            <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="color: #ffa2c4">小说</a>
         </span>
         
     </div>
@@ -421,7 +555,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="color: #03a9f4">小说</a>
+            <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="color: #00bcd4">小说</a>
         </span>
         
     </div>
@@ -469,12 +603,12 @@
         
         <span class="tag">
             
-            <a href="/tags/Writeup/" style="color: #ff7d73">Writeup</a>
+            <a href="/tags/Writeup/" style="color: #00a596">Writeup</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/Misc/" style="color: #00a596">Misc</a>
+            <a href="/tags/Misc/" style="color: #ffa2c4">Misc</a>
         </span>
         
     </div>
@@ -522,12 +656,12 @@
         
         <span class="tag">
             
-            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00a596">笔记</a>
+            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00bcd4">笔记</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="color: #ffa2c4">服务器</a>
+            <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="color: #03a9f4">服务器</a>
         </span>
         
     </div>
@@ -606,79 +740,21 @@
         
         <span class="tag">
             
-            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00a596">笔记</a>
+            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #ffa2c4">笔记</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/Pwn/" style="color: #ff7d73">Pwn</a>
+            <a href="/tags/Pwn/" style="color: #00a596">Pwn</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/CTF/" style="color: #00bcd4">CTF</a>
+            <a href="/tags/CTF/" style="color: #ffa2c4">CTF</a>
         </span>
         
     </div>
     <a href="/2024/11/11/PWN%E5%85%A5%E9%97%A8%E6%B5%85%E8%AE%B0/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/11/03/SLsec-Week2-Affine/">
-        <h2 class="post-title">SLsec Week2 Affine</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="category">
-            <a href="/categories/Writeup/">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                Writeup
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/11/3
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>Affine密码是一种替换密码，它使用以下数学公式来加密字符：</p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/Writeup/" style="color: #00a596">Writeup</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/CTF/" style="color: #03a9f4">CTF</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/Crypto/" style="color: #ffa2c4">Crypto</a>
-        </span>
-        
-    </div>
-    <a href="/2024/11/03/SLsec-Week2-Affine/" class="go-post">阅读全文</a>
 </div>
 
 
