@@ -201,7 +201,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E7%BD%91%E5%AE%89/" style="color: #03a9f4">
+                <a href="/tags/%E7%BD%91%E5%AE%89/" style="color: #00a596">
                     网安
                 </a>
             </span>
@@ -238,8 +238,9 @@
 </code></pre>
 <p><img src="image-20250319172437447.png" alt="image-20250319172437447"></p>
 <p>提示去&#x2F;home&#x2F;saket&#x2F;目录下找一个password.txt文件，依旧利用这个参数。</p>
-<p>payload &#x3D; <a target="_blank" rel="noopener" href="http://192.168.23.156/image.php?secrettier360=/home/saket/password.txt">http://192.168.23.156/image.php?secrettier360=/home/saket/password.txt</a></p>
-<p><img src="Prime-Series-Level-1%E9%9D%B6%E5%9C%BA-%E5%AE%9E%E6%88%98%5Cimage-20250319172611941.png" alt="image-20250319172611941"></p>
+<pre><code class="bash">payload = http://192.168.23.156/image.php?secrettier360=/home/saket/password.txt
+</code></pre>
+<p><img src="image-20250319172611941.png" alt="image-20250319172611941"></p>
 <p>这个密码经测试，不是靶机中几个用户的密码。联想到靶机上运行着wordpress服务，猜测是wordpress上管理员账户的密码。</p>
 <p><img src="image-20250319172730587.png" alt="image-20250319172730587"></p>
 <p>只有一个用户，那就是他了。</p>
