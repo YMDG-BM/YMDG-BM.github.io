@@ -203,14 +203,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/Writeup/" style="color: #03a9f4">
+                <a href="/tags/Writeup/" style="color: #00a596">
                     Writeup
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E7%BD%91%E5%AE%89/" style="color: #00a596">
+                <a href="/tags/%E7%BD%91%E5%AE%89/" style="color: #00bcd4">
                     网安
                 </a>
             </span>
@@ -220,7 +220,10 @@
     </div>
     
     <div class="content" v-pre>
-        <h1 id="信息搜集"><a href="#信息搜集" class="headerlink" title="信息搜集"></a>信息搜集</h1><p> 首先进行网络发现，扫描192.168.23.0网段下所有存活主机并获取开放端口。</p>
+        <p><em>这里假设已知攻击机ip。</em></p>
+<span id="more"></span>
+
+<h1 id="信息搜集"><a href="#信息搜集" class="headerlink" title="信息搜集"></a>信息搜集</h1><p> 首先进行网络发现，扫描192.168.23.0网段下所有存活主机并获取开放端口。</p>
 <p><img src="image-20250331160817182.png" alt="image-20250331160817182"></p>
 <p>靶机ip为192.168.23.158，开放了一系列端口。奇怪的是，常用的22和80端口被防火墙阻挡了，无法访问。猜测可能有敲门机制什么的。注意到有个8080端口开放访问，这是http代理端口，先从这里看起。另外，还注意到有445端口，这是samba服务，同样作为一个可能的攻击方向。</p>
 <p><img src="image-20250331161237919.png" alt="image-20250331161237919"></p>
