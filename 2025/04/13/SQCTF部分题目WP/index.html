@@ -203,50 +203,50 @@
             
             <span class="tag">
                 
-                <a href="/tags/Writeup/" style="color: #00a596">
-                    Writeup
-                </a>
-            </span>
-            
-            <span class="tag">
-                
-                <a href="/tags/Misc/" style="color: #00bcd4">
+                <a href="/tags/Misc/" style="color: #03a9f4">
                     Misc
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/Pwn/" style="color: #ffa2c4">
-                    Pwn
+                <a href="/tags/Writeup/" style="color: #00bcd4">
+                    Writeup
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/CTF/" style="color: #03a9f4">
-                    CTF
-                </a>
-            </span>
-            
-            <span class="tag">
-                
-                <a href="/tags/Crypto/" style="color: #00a596">
+                <a href="/tags/Crypto/" style="color: #ffa2c4">
                     Crypto
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/Reverse/" style="color: #ff7d73">
+                <a href="/tags/CTF/" style="color: #00a596">
+                    CTF
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/Reverse/" style="color: #03a9f4">
                     Reverse
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/Web/" style="color: #03a9f4">
+                <a href="/tags/Web/" style="color: #ffa2c4">
                     Web
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/Pwn/" style="color: #00bcd4">
+                    Pwn
                 </a>
             </span>
             
@@ -327,7 +327,7 @@ if __name__ == &#39;__main__&#39;:
 </code></pre>
 <p>SQCTF{HELLO}</p>
 <h2 id="孩儿们等我破军"><a href="#孩儿们等我破军" class="headerlink" title="孩儿们等我破军"></a>孩儿们等我破军</h2><p>压缩包密码是爆破出来的，15375022是密码</p>
-<p>解出来后给了6个铁剑，有不同的编号。解一下附图给的矩阵就有顺序了。<br>$$<br>\begin{aligned}<br>A &amp;&#x3D; \begin{pmatrix} 1 &amp; 2 \ 3 &amp; 4 \end{pmatrix}, \<br>B &amp;&#x3D; \begin{pmatrix} 7 &amp; 5 &amp; 6 \ 4 &amp; 9 &amp; 8 \end{pmatrix}, \<br>AB &amp;&#x3D; \begin{pmatrix} 15 &amp; 23 &amp; 22 \ 37 &amp; 51 &amp; 50 \end{pmatrix}.<br>\end{aligned}<br>$$<br>然后按照这个顺序在6个铁剑的文件尾能找到reflect&#x3D;{}这样格式的特征，把花括号的内容拼一块<br><code>WeL1c0Me</code>这就是222的密码<br>解出来一个风暴巨剑，文件尾有一个密码<code>O5XXOILUMETXGIDDORTGK4R7EE======</code></p>
+<p>解出来后给了6个铁剑，有不同的编号。解一下附图给的矩阵就有顺序了。<br>$$\begin{aligned} A &amp;&#x3D; \begin{pmatrix} 1 &amp; 2 \ 3 &amp; 4 \end{pmatrix}, \ B &amp;&#x3D; \begin{pmatrix} 7 &amp; 5 &amp; 6 \ 4 &amp; 9 &amp; 8 \end{pmatrix}, \ AB &amp;&#x3D; \begin{pmatrix} 15 &amp; 23 &amp; 22 \ 37 &amp; 51 &amp; 50 \end{pmatrix}. \end{aligned}$$<br>然后按照这个顺序在6个铁剑的文件尾能找到reflect&#x3D;{}这样格式的特征，把花括号的内容拼一块<br><code>WeL1c0Me</code>这就是222的密码<br>解出来一个风暴巨剑，文件尾有一个密码<code>O5XXOILUMETXGIDDORTGK4R7EE======</code></p>
 <p>base32解一下解出来<code>wow!ta&#39;s ctfer?!</code></p>
 <p>作为快了快了的密码</p>
 <p>解出来一个二维码，进行处理后扫描，得到<code>ZmxhZ3vkurLniLHnmoTlj6zllKTluIjvvJrmrKLov47mnaXliLBzcW51Y3Rm77yBfQ==</code></p>
