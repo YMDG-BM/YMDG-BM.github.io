@@ -203,7 +203,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/Writeup/" style="color: #ffa2c4">
+                <a href="/tags/Writeup/" style="color: #ff7d73">
                     Writeup
                 </a>
             </span>
@@ -217,7 +217,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/Crypto/" style="color: #ffa2c4">
+                <a href="/tags/Crypto/" style="color: #00bcd4">
                     Crypto
                 </a>
             </span>
@@ -230,7 +230,7 @@
         <p>Affine密码是一种替换密码，它使用以下数学公式来加密字符：</p>
 <span id="more"></span>
 <p>$$E(x) &#x3D; (a \cdot x + b) \mod m$$<br>其中：E(x) 是加密后的字符。<br>x是原始字符（通常是从0开始的数字，例如，’a’ 对应 0, ‘b’ 对应 1，依此类推）。<br>a和 b是密钥。<br>m是字母表的大小（对于英文字母，m &#x3D; 26 ）。<br>解密过程使用以下公式：<br>$$D(y) &#x3D; a^{-1} \cdot (y - b) \mod m$$<br>其中:<br>D(y) 是解密后的字符，y 是加密后的字符。<br>$$a^{-1}$$是a在模m下的乘法逆元，即满足$$a \cdot a^{-1} \equiv 1\ mod\ m$$的数。<br>在Affine密码中，为了确保a有乘法逆元，a必须与m互质。如，对于英文字母，a必须与26互质。<br>下面给出爆破脚本。</p>
-<pre><code class="Python">import math
+<pre><code class="language-Python">import math
 
 def affine_decrypt(ciphertext, a, b, m=26):
     # 解密函数
@@ -262,7 +262,7 @@ ciphertext = &quot;pii1c3_jv_1ce3m3vejcr&quot;
 crack_affine(ciphertext)
 </code></pre>
 <p>这个Python脚本定义了两个函数：affine_decrypt 和 crack_affine。它们用于解密使用Affine密码加密的文本。<br>affine_decrypt 函数：<br>接受四个参数：ciphertext（密文），a 和 b（Affine密码的密钥），以及 m（字母表的大小，默认为26）。<br>函数通过遍历密文中的每个字符来解密文本。<br>对于每个字母字符，它首先将其转换为0-25的范围，然后应用Affine解密公式 (a * char_value - b) % m 来解密字符。<br>对于非字母字符，它保持不变。<br>函数返回解密后的明文。<br>crack_affine 函数：<br>接受一个参数：ciphertext（密文）。<br>函数通过遍历所有可能的 a 和 b 值来尝试破解Affine密码。<br>a 的值是从给定的列表中选取的，而 b 的值是从0到25。<br>对于每个密钥组合，它检查 a 和26是否互质（使用 math.gcd 函数）。<br>如果它们互质，函数使用 affine_decrypt 函数解密密文，并打印出密钥和解密后的文本。<br>脚本的最后部分：<br>定义了一个密文 ciphertext。<br>调用 crack_affine 函数来尝试破解这个密文。<br>这个脚本是一个简单的Affine密码破解器。Affine密码是一种替换密码，它使用公式 (a * char_value + b) % m 来加密字符，其中 a 和 b 是密钥，m 是字母表的大小。解密公式是 (a * char_value - b) % m。由于 a 必须与 m 互质，所以脚本中只尝试了与26互质的 a 值。<br>运行结果如下：</p>
-<pre><code class="Bash">Key (a=1, b=0) -&gt; Decrypted text: pii1c3_jv_1ce3m3vejcr
+<pre><code class="language-Bash">Key (a=1, b=0) -&gt; Decrypted text: pii1c3_jv_1ce3m3vejcr
 Key (a=1, b=1) -&gt; Decrypted text: ohh1b3_iu_1bd3l3udibq
 ……（省略）
 Key (a=3, b=18) -&gt; Decrypted text: bgg1o3_jt_1ou3s3tujoh

