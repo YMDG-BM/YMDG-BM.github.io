@@ -45,6 +45,8 @@
 
 
 
+<script src="/js/lib/search.js"></script>
+
 
 
 <link rel="stylesheet" href="/css/main.css" />
@@ -172,6 +174,8 @@
             
 <div id="archives">
     
+    <input id="search-bar" class="input" placeholder="搜索" v-model="rawSearch" />
+    
     <div id="timeline-wrap" ref="timeline">
         
         <div class="timeline" data-title="misc2writeup">
@@ -201,14 +205,14 @@
                         
                         <span class="tag">
                             
-                            <a href="/tags/Writeup/" style="color: #03a9f4">
+                            <a href="/tags/Writeup/" style="color: #00bcd4">
                                 Writeup
                             </a>
                         </span>
                         
                         <span class="tag">
                             
-                            <a href="/tags/Misc/" style="color: #00bcd4">
+                            <a href="/tags/Misc/" style="color: #ff7d73">
                                 Misc
                             </a>
                         </span>
@@ -253,14 +257,14 @@
                         
                         <span class="tag">
                             
-                            <a href="/tags/Misc/" style="color: #00bcd4">
+                            <a href="/tags/Misc/" style="color: #03a9f4">
                                 Misc
                             </a>
                         </span>
                         
                         <span class="tag">
                             
-                            <a href="/tags/CTF/" style="color: #03a9f4">
+                            <a href="/tags/CTF/" style="color: #00bcd4">
                                 CTF
                             </a>
                         </span>
@@ -274,21 +278,21 @@
                         
                         <span class="tag">
                             
-                            <a href="/tags/Reverse/" style="color: #00a596">
+                            <a href="/tags/Reverse/" style="color: #ffa2c4">
                                 Reverse
                             </a>
                         </span>
                         
                         <span class="tag">
                             
-                            <a href="/tags/Web/" style="color: #03a9f4">
+                            <a href="/tags/Web/" style="color: #ff7d73">
                                 Web
                             </a>
                         </span>
                         
                         <span class="tag">
                             
-                            <a href="/tags/Forensics/" style="color: #00a596">
+                            <a href="/tags/Forensics/" style="color: #00bcd4">
                                 Forensics
                             </a>
                         </span>
@@ -326,7 +330,7 @@
                         
                         <span class="tag">
                             
-                            <a href="/tags/%E9%9A%8F%E7%AC%94/" style="color: #ff7d73">
+                            <a href="/tags/%E9%9A%8F%E7%AC%94/" style="color: #ffa2c4">
                                 随笔
                             </a>
                         </span>
@@ -371,7 +375,7 @@
                         
                         <span class="tag">
                             
-                            <a href="/tags/Writeup/" style="color: #03a9f4">
+                            <a href="/tags/Writeup/" style="color: #ffa2c4">
                                 Writeup
                             </a>
                         </span>
@@ -416,14 +420,14 @@
                         
                         <span class="tag">
                             
-                            <a href="/tags/CTF/" style="color: #ff7d73">
+                            <a href="/tags/CTF/" style="color: #00bcd4">
                                 CTF
                             </a>
                         </span>
                         
                         <span class="tag">
                             
-                            <a href="/tags/Crypto/" style="color: #03a9f4">
+                            <a href="/tags/Crypto/" style="color: #ff7d73">
                                 Crypto
                             </a>
                         </span>
@@ -461,21 +465,21 @@
                         
                         <span class="tag">
                             
-                            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #ffa2c4">
+                            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #03a9f4">
                                 笔记
                             </a>
                         </span>
                         
                         <span class="tag">
                             
-                            <a href="/tags/Pwn/" style="color: #03a9f4">
+                            <a href="/tags/Pwn/" style="color: #ffa2c4">
                                 Pwn
                             </a>
                         </span>
                         
                         <span class="tag">
                             
-                            <a href="/tags/CTF/" style="color: #ff7d73">
+                            <a href="/tags/CTF/" style="color: #00bcd4">
                                 CTF
                             </a>
                         </span>
@@ -534,7 +538,7 @@
                         
                         <span class="tag">
                             
-                            <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="color: #03a9f4">
+                            <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="color: #00bcd4">
                                 服务器
                             </a>
                         </span>
@@ -617,7 +621,7 @@
                         
                         <span class="tag">
                             
-                            <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="color: #ff7d73">
+                            <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="color: #ffa2c4">
                                 小说
                             </a>
                         </span>
@@ -655,7 +659,7 @@
                         
                         <span class="tag">
                             
-                            <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="color: #03a9f4">
+                            <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="color: #ffa2c4">
                                 小说
                             </a>
                         </span>
@@ -693,7 +697,7 @@
                         
                         <span class="tag">
                             
-                            <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="color: #ff7d73">
+                            <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="color: #00a596">
                                 小说
                             </a>
                         </span>
@@ -731,7 +735,7 @@
                         
                         <span class="tag">
                             
-                            <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="color: #ff7d73">
+                            <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="color: #00a596">
                                 小说
                             </a>
                         </span>
@@ -769,7 +773,7 @@
                         
                         <span class="tag">
                             
-                            <a href="/tags/%E6%9D%82%E9%A1%B9/" style="color: #00a596">
+                            <a href="/tags/%E6%9D%82%E9%A1%B9/" style="color: #00bcd4">
                                 杂项
                             </a>
                         </span>
@@ -807,7 +811,7 @@
                         
                         <span class="tag">
                             
-                            <a href="/tags/AI/" style="color: #03a9f4">
+                            <a href="/tags/AI/" style="color: #00bcd4">
                                 AI
                             </a>
                         </span>
@@ -852,7 +856,7 @@
                         
                         <span class="tag">
                             
-                            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #ff7d73">
+                            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00a596">
                                 笔记
                             </a>
                         </span>
@@ -869,134 +873,6 @@
                 <div class="item-time">2025/3/19</div>
                 <a href="/2025/03/19/Prime-Series-Level-1%E9%9D%B6%E5%9C%BA-%E5%AE%9E%E6%88%98/">
                     <h3>Prime_Series_Level-1靶场 实战</h3>
-                </a>
-                <div class="info">
-                    
-                    <span class="category">
-                        <a href="/categories/%E7%AC%94%E8%AE%B0/">
-                            <span class="icon">
-                                <i class="fa-solid fa-bookmark fa-fw"></i>
-                            </span>
-                            笔记
-                        </a>
-                    </span>
-                    
-                    
-                    <span class="tags">
-                        <span class="icon">
-                            <i class="fa-solid fa-tags fa-fw"></i>
-                        </span>
-                        
-                        
-                        <span class="tag">
-                            
-                            <a href="/tags/Writeup/" style="color: #ffa2c4">
-                                Writeup
-                            </a>
-                        </span>
-                        
-                        <span class="tag">
-                            
-                            <a href="/tags/%E7%BD%91%E5%AE%89/" style="color: #03a9f4">
-                                网安
-                            </a>
-                        </span>
-                        
-                    </span>
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="githubpages博客简单搭建">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2025/3/27</div>
-                <a href="/2025/03/27/github-pages-%E5%8D%9A%E5%AE%A2%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BA/">
-                    <h3>github pages 博客简单搭建</h3>
-                </a>
-                <div class="info">
-                    
-                    <span class="category">
-                        <a href="/categories/%E7%AC%94%E8%AE%B0/">
-                            <span class="icon">
-                                <i class="fa-solid fa-bookmark fa-fw"></i>
-                            </span>
-                            笔记
-                        </a>
-                    </span>
-                    
-                    
-                    <span class="tags">
-                        <span class="icon">
-                            <i class="fa-solid fa-tags fa-fw"></i>
-                        </span>
-                        
-                        
-                        <span class="tag">
-                            
-                            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00bcd4">
-                                笔记
-                            </a>
-                        </span>
-                        
-                    </span>
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="mercy靶机实战">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2025/3/31</div>
-                <a href="/2025/03/31/mercy%E9%9D%B6%E6%9C%BA%E5%AE%9E%E6%88%98/">
-                    <h3>mercy靶机实战</h3>
-                </a>
-                <div class="info">
-                    
-                    <span class="category">
-                        <a href="/categories/%E7%AC%94%E8%AE%B0/">
-                            <span class="icon">
-                                <i class="fa-solid fa-bookmark fa-fw"></i>
-                            </span>
-                            笔记
-                        </a>
-                    </span>
-                    
-                    
-                    <span class="tags">
-                        <span class="icon">
-                            <i class="fa-solid fa-tags fa-fw"></i>
-                        </span>
-                        
-                        
-                        <span class="tag">
-                            
-                            <a href="/tags/Writeup/" style="color: #00bcd4">
-                                Writeup
-                            </a>
-                        </span>
-                        
-                        <span class="tag">
-                            
-                            <a href="/tags/%E7%BD%91%E5%AE%89/" style="color: #ffa2c4">
-                                网安
-                            </a>
-                        </span>
-                        
-                    </span>
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="matrix-breakout:2morpheus实战">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2025/4/2</div>
-                <a href="/2025/04/02/Matrix-Breakout-2-Morpheus-%E5%AE%9E%E6%88%98/">
-                    <h3>Matrix-Breakout: 2 Morpheus 实战</h3>
                 </a>
                 <div class="info">
                     
@@ -1036,6 +912,134 @@
             </div>
         </div>
         
+        <div class="timeline" data-title="githubpages博客简单搭建">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/3/27</div>
+                <a href="/2025/03/27/github-pages-%E5%8D%9A%E5%AE%A2%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BA/">
+                    <h3>github pages 博客简单搭建</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E7%AC%94%E8%AE%B0/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            笔记
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #03a9f4">
+                                笔记
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="mercy靶机实战">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/3/31</div>
+                <a href="/2025/03/31/mercy%E9%9D%B6%E6%9C%BA%E5%AE%9E%E6%88%98/">
+                    <h3>mercy靶机实战</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E7%AC%94%E8%AE%B0/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            笔记
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/Writeup/" style="color: #03a9f4">
+                                Writeup
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E7%BD%91%E5%AE%89/" style="color: #00a596">
+                                网安
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="matrix-breakout:2morpheus实战">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/4/2</div>
+                <a href="/2025/04/02/Matrix-Breakout-2-Morpheus-%E5%AE%9E%E6%88%98/">
+                    <h3>Matrix-Breakout: 2 Morpheus 实战</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E7%AC%94%E8%AE%B0/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            笔记
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/Writeup/" style="color: #00a596">
+                                Writeup
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E7%BD%91%E5%AE%89/" style="color: #00bcd4">
+                                网安
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
         <div class="timeline" data-title="sqctf部分题目wp">
             <div class="timeline-tail"></div>
             <div class="timeline-content">
@@ -1063,7 +1067,7 @@
                         
                         <span class="tag">
                             
-                            <a href="/tags/Writeup/" style="color: #ffa2c4">
+                            <a href="/tags/Writeup/" style="color: #ff7d73">
                                 Writeup
                             </a>
                         </span>
@@ -1077,21 +1081,21 @@
                         
                         <span class="tag">
                             
-                            <a href="/tags/Pwn/" style="color: #03a9f4">
+                            <a href="/tags/Pwn/" style="color: #00bcd4">
                                 Pwn
                             </a>
                         </span>
                         
                         <span class="tag">
                             
-                            <a href="/tags/CTF/" style="color: #ffa2c4">
+                            <a href="/tags/CTF/" style="color: #00a596">
                                 CTF
                             </a>
                         </span>
                         
                         <span class="tag">
                             
-                            <a href="/tags/Crypto/" style="color: #00bcd4">
+                            <a href="/tags/Crypto/" style="color: #ff7d73">
                                 Crypto
                             </a>
                         </span>
@@ -1105,7 +1109,7 @@
                         
                         <span class="tag">
                             
-                            <a href="/tags/Web/" style="color: #00a596">
+                            <a href="/tags/Web/" style="color: #ff7d73">
                                 Web
                             </a>
                         </span>
