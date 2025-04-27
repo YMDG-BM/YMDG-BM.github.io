@@ -203,49 +203,49 @@
             
             <span class="tag">
                 
-                <a href="/tags/Writeup/" style="color: #03a9f4">
+                <a href="/tags/Writeup/" style="color: #ff7d73">
                     Writeup
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/Misc/" style="color: #00bcd4">
+                <a href="/tags/Misc/" style="color: #00a596">
                     Misc
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/Pwn/" style="color: #ff7d73">
+                <a href="/tags/Pwn/" style="color: #ffa2c4">
                     Pwn
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/CTF/" style="color: #00a596">
+                <a href="/tags/CTF/" style="color: #03a9f4">
                     CTF
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/Crypto/" style="color: #00bcd4">
+                <a href="/tags/Crypto/" style="color: #ff7d73">
                     Crypto
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/Reverse/" style="color: #03a9f4">
+                <a href="/tags/Reverse/" style="color: #ffa2c4">
                     Reverse
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/Web/" style="color: #00bcd4">
+                <a href="/tags/Web/" style="color: #ff7d73">
                     Web
                 </a>
             </span>
@@ -278,10 +278,7 @@ print(flag)
 <h1 id="flowzip"><a href="#flowzip" class="headerlink" title="flowzip"></a>flowzip</h1><p>strings flowzip.pcapng | grep “flag”即可找到</p>
 <p>flag{c6db63e6-6459-4e75-bb37-3aec5d2b947b}</p>
 <h1 id="星际XML解析器"><a href="#星际XML解析器" class="headerlink" title="星际XML解析器"></a>星际XML解析器</h1><p>XML 外部实体注入漏洞</p>
-<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;!DOCTYPE root [&lt;!ENTITY file SYSTEM &quot;file://flag&quot;&gt;]&gt;
-&lt;root&gt;&amp;file;&lt;/root&gt;
-</code></pre>
+<p><img src="image-20250427140601705.png" alt="image-20250427140601705"></p>
 <p>这个payload解析即可</p>
 <p>flag{d63c2f41-2677-4a89-9e7b-89080cebb603}</p>
 <h1 id="RuneBreach"><a href="#RuneBreach" class="headerlink" title="RuneBreach"></a>RuneBreach</h1><p>直接运行程序，输入4次n后得到了一个地址。不过这个地址似乎并没有什么用</p>
