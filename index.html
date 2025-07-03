@@ -233,34 +233,6 @@
 <p>GPU：NVIDIA GeForce RTX 4060 Laptop</p>
 <p>双16G DDR5 5200MHz</p>
 <p>原机预装的1T SN560被我移到了1号盘位，0号盘位是Colorful CN600 Pro 1TB</p>
-<p>下面是折腾的路线：</p>
-<h1 id="1-尝试Ubuntu-Live-CD修复"><a href="#1-尝试Ubuntu-Live-CD修复" class="headerlink" title="1. 尝试Ubuntu Live CD修复"></a>1. 尝试Ubuntu Live CD修复</h1><p>刚好手头有个刷了ventoy的盘，里面有一个完整的Ubuntu desktop 24.10镜像。于是启动一下，然后尝试使用fsck修复。</p>
-<p>先sudo -s，获取一下root权限。</p>
-<p>然后fdisk -l，看一下分区在哪里。这个有时候可能还会随着重启系统改变，注意不要看错了。</p>
-<p>这里看到在nvme0n1这个盘有一个100MB左右的EFI分区，还有个100GB左右的ext4分区，就是它了。</p>
-<p>挂载一下看看里面有没有丢文件。</p>
-<p><code>mount /dev/nvme0n1p1 /mnt/boot/efi</code>这个是EFI分区</p>
-<p><code>mount /dev/nvme0n1p2 /mnt</code>这个是kali的根分区</p>
-<p>看了一下，grubx64.efi还在，怎么会报错呢？很奇怪。</p>
-<p>猜测可能是文件系统出现了问题，尝试用fsck修复，无果。</p>
-<p>又尝试efibootmgr看一下efi的详细信息，但因为LiveCD环境问题，报错：<code>EFI variables are not supported on this system.</code></p>
-<p>无果。尝试直接用grub启动一下试试，刚好这个盘有grub。</p>
-<h1 id="2-grub手动启动"><a href="#2-grub手动启动" class="headerlink" title="2. grub手动启动"></a>2. grub手动启动</h1><p>于是又重启进了grub，这里磁盘表示和linux还有些区别，是(hd0,msdos0)这样的格式。</p>
-<p>然后<code>set root=(hd2,msdos2)</code>把kali根分区挂载上。</p>
-<p><code>linux /boot/vmlinuz-6.12.33-kali1-amd64</code></p>
-<p><code>initrd /boot/initrd.img-6.12.33-kali1-amd64</code></p>
-<p><code>boot</code></p>
-<p>可以启动，但是卡到了busybox，依然行不通，啥都没有。</p>
-<h1 id="3-ventoy直接引导efi文件"><a href="#3-ventoy直接引导efi文件" class="headerlink" title="3. ventoy直接引导efi文件"></a>3. ventoy直接引导efi文件</h1><p>这时笔者突然想起来ventoy是可以直接引导efi文件的。</p>
-<p>于是再次重启，进入了ventoy。</p>
-<p>按F2，进入手动引导模式。</p>
-<p>导航进EFI分区，到EFI&#x2F;kali&#x2F;</p>
-<p>找到了grubx64.efi，回车启动，引导成功。</p>
-<p>成功进入系统，sudo -i提权</p>
-<p>然后grub-install修复一下grub，再efibootmgr验证</p>
-<p>kali引导项又出现了。</p>
-<p>至此，修复成功。</p>
-
             
         </div>
     </div>
@@ -325,7 +297,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #ff7d73">弔文</a>
+            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #03a9f4">弔文</a>
         </span>
         
     </div>
@@ -373,12 +345,12 @@
         
         <span class="tag">
             
-            <a href="/tags/Writeup/" style="color: #00a596">Writeup</a>
+            <a href="/tags/Writeup/" style="color: #03a9f4">Writeup</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/CTF/" style="color: #ff7d73">CTF</a>
+            <a href="/tags/CTF/" style="color: #00bcd4">CTF</a>
         </span>
         
     </div>
@@ -426,7 +398,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E9%9A%8F%E7%AC%94/" style="color: #00bcd4">随笔</a>
+            <a href="/tags/%E9%9A%8F%E7%AC%94/" style="color: #00a596">随笔</a>
         </span>
         
     </div>
@@ -474,12 +446,12 @@
         
         <span class="tag">
             
-            <a href="/tags/Writeup/" style="color: #03a9f4">Writeup</a>
+            <a href="/tags/Writeup/" style="color: #00bcd4">Writeup</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/CTF/" style="color: #00bcd4">CTF</a>
+            <a href="/tags/CTF/" style="color: #03a9f4">CTF</a>
         </span>
         
     </div>
@@ -575,7 +547,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #00bcd4">弔文</a>
+            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #ffa2c4">弔文</a>
         </span>
         
     </div>
@@ -671,7 +643,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #03a9f4">弔文</a>
+            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #00a596">弔文</a>
         </span>
         
     </div>
@@ -721,7 +693,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #00bcd4">弔文</a>
+            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #03a9f4">弔文</a>
         </span>
         
     </div>
