@@ -200,6 +200,88 @@
         
 
 <div class="post">
+    <a href="/2025/07/03/%E8%AE%B0%E4%B8%80%E6%AC%A1Kali-Linux%E5%BC%95%E5%AF%BC%E4%BF%AE%E5%A4%8D/">
+        <h2 class="post-title">记一次Kali Linux引导修复</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/%E7%AC%94%E8%AE%B0/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                笔记
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/7/3
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>不知道发生了什么，kali的引导突然崩掉了。EFI分区的&#x2F;EFI&#x2F;kali&#x2F;grubx64.efi明明还在，但是bios就是不识别。</p>
+<p>于是进行了一次修复，折腾了将近一个小时。</p>
+<p>笔者的配置是：华硕天选5Pro 锐龙版笔记本电脑</p>
+<p>CPU：AMD Ryzen 9 7940HX</p>
+<p>GPU：NVIDIA GeForce RTX 4060 Laptop</p>
+<p>双16G DDR5 5200MHz</p>
+<p>原机预装的1T SN560被我移到了1号盘位，0号盘位是Colorful CN600 Pro 1TB</p>
+<p>下面是折腾的路线：</p>
+<h1 id="1-尝试Ubuntu-Live-CD修复"><a href="#1-尝试Ubuntu-Live-CD修复" class="headerlink" title="1. 尝试Ubuntu Live CD修复"></a>1. 尝试Ubuntu Live CD修复</h1><p>刚好手头有个刷了ventoy的盘，里面有一个完整的Ubuntu desktop 24.10镜像。于是启动一下，然后尝试使用fsck修复。</p>
+<p>先sudo -s，获取一下root权限。</p>
+<p>然后fdisk -l，看一下分区在哪里。这个有时候可能还会随着重启系统改变，注意不要看错了。</p>
+<p>这里看到在nvme0n1这个盘有一个100MB左右的EFI分区，还有个100GB左右的ext4分区，就是它了。</p>
+<p>挂载一下看看里面有没有丢文件。</p>
+<p><code>mount /dev/nvme0n1p1 /mnt/boot/efi</code>这个是EFI分区</p>
+<p><code>mount /dev/nvme0n1p2 /mnt</code>这个是kali的根分区</p>
+<p>看了一下，grubx64.efi还在，怎么会报错呢？很奇怪。</p>
+<p>猜测可能是文件系统出现了问题，尝试用fsck修复，无果。</p>
+<p>又尝试efibootmgr看一下efi的详细信息，但因为LiveCD环境问题，报错：<code>EFI variables are not supported on this system.</code></p>
+<p>无果。尝试直接用grub启动一下试试，刚好这个盘有grub。</p>
+<h1 id="2-grub手动启动"><a href="#2-grub手动启动" class="headerlink" title="2. grub手动启动"></a>2. grub手动启动</h1><p>于是又重启进了grub，这里磁盘表示和linux还有些区别，是(hd0,msdos0)这样的格式。</p>
+<p>然后<code>set root=(hd2,msdos2)</code>把kali根分区挂载上。</p>
+<p><code>linux /boot/vmlinuz-6.12.33-kali1-amd64</code></p>
+<p><code>initrd /boot/initrd.img-6.12.33-kali1-amd64</code></p>
+<p><code>boot</code></p>
+<p>可以启动，但是卡到了busybox，依然行不通，啥都没有。</p>
+<h1 id="3-ventoy直接引导efi文件"><a href="#3-ventoy直接引导efi文件" class="headerlink" title="3. ventoy直接引导efi文件"></a>3. ventoy直接引导efi文件</h1><p>这时笔者突然想起来ventoy是可以直接引导efi文件的。</p>
+<p>于是再次重启，进入了ventoy。</p>
+<p>按F2，进入手动引导模式。</p>
+<p>导航进EFI分区，到EFI&#x2F;kali&#x2F;</p>
+<p>找到了grubx64.efi，回车启动，引导成功。</p>
+<p>成功进入系统，sudo -i提权</p>
+<p>然后grub-install修复一下grub，再efibootmgr验证</p>
+<p>kali引导项又出现了。</p>
+<p>至此，修复成功。</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #ff7d73">笔记</a>
+        </span>
+        
+    </div>
+    <a href="/2025/07/03/%E8%AE%B0%E4%B8%80%E6%AC%A1Kali-Linux%E5%BC%95%E5%AF%BC%E4%BF%AE%E5%A4%8D/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2025/06/21/%E5%A5%A2%E4%BE%88%E5%B9%BB%E5%BD%B1%E7%9A%84%E7%A0%B4%E7%A2%8E%E2%80%94%E2%80%94%E5%A4%8D%E6%B4%BB%E7%89%88/">
         <h2 class="post-title">奢侈幻影的破碎——复活版</h2>
     </a>
@@ -291,12 +373,12 @@
         
         <span class="tag">
             
-            <a href="/tags/Writeup/" style="color: #ffa2c4">Writeup</a>
+            <a href="/tags/Writeup/" style="color: #00a596">Writeup</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/CTF/" style="color: #00a596">CTF</a>
+            <a href="/tags/CTF/" style="color: #ff7d73">CTF</a>
         </span>
         
     </div>
@@ -344,7 +426,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E9%9A%8F%E7%AC%94/" style="color: #00a596">随笔</a>
+            <a href="/tags/%E9%9A%8F%E7%AC%94/" style="color: #00bcd4">随笔</a>
         </span>
         
     </div>
@@ -392,12 +474,12 @@
         
         <span class="tag">
             
-            <a href="/tags/Writeup/" style="color: #00a596">Writeup</a>
+            <a href="/tags/Writeup/" style="color: #03a9f4">Writeup</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/CTF/" style="color: #ff7d73">CTF</a>
+            <a href="/tags/CTF/" style="color: #00bcd4">CTF</a>
         </span>
         
     </div>
@@ -445,7 +527,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #00a596">弔文</a>
+            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #ffa2c4">弔文</a>
         </span>
         
     </div>
@@ -493,7 +575,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #ffa2c4">弔文</a>
+            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #00bcd4">弔文</a>
         </span>
         
     </div>
@@ -541,7 +623,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #00bcd4">弔文</a>
+            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #03a9f4">弔文</a>
         </span>
         
     </div>
@@ -589,7 +671,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #00a596">弔文</a>
+            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #03a9f4">弔文</a>
         </span>
         
     </div>
@@ -639,60 +721,11 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #00a596">弔文</a>
+            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #00bcd4">弔文</a>
         </span>
         
     </div>
     <a href="/2025/04/27/%E6%9E%97%E6%AF%85%E6%8A%BD%E9%9C%84%E5%AE%AB%E4%BC%A0-%E5%B9%B6%E5%BA%8F/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2025/04/27/%E5%BC%BA%E5%88%B6%E6%80%A7%E9%9B%86%E4%BD%93%E6%B4%BB%E5%8A%A8%E7%A9%B6%E7%AB%9F%E4%B8%BA%E4%BD%95%E7%9B%AE%E7%9A%84%EF%BC%9F/">
-        <h2 class="post-title">强制性集体活动究竟为何目的？</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="category">
-            <a href="/categories/%E5%BC%94%E6%96%87/">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                弔文
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2025/4/27
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h2 id="——对强制性参加活动的简要分析"><a href="#——对强制性参加活动的简要分析" class="headerlink" title="——对强制性参加活动的简要分析"></a>——对强制性参加活动的简要分析</h2><h3 id="编者按："><a href="#编者按：" class="headerlink" title="编者按："></a>编者按：</h3><p>纯纯乱写，看个乐子即可。</p>
-<h3 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h3><p>在大概一个月之前，某高中组织了一场跳操大赛。据编者所知，比赛有奖，如果进入决赛，并且拿到了奖项的话就能获得所谓“班级活动经费400到1000元不等”。比赛需要评委打分，其中如果一个班到齐的话，可以另外获得1分所谓“印象分”。编者猜测，这个活动可能并非强制活动，但下发到各班后，班委通知强制所有高一学生参加。绝大多数同学对此活动并不感冒，更有部分同学表示自己非常厌恶这个强制活动，称其为“小唐舞大赛”。</p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #ffa2c4">弔文</a>
-        </span>
-        
-    </div>
-    <a href="/2025/04/27/%E5%BC%BA%E5%88%B6%E6%80%A7%E9%9B%86%E4%BD%93%E6%B4%BB%E5%8A%A8%E7%A9%B6%E7%AB%9F%E4%B8%BA%E4%BD%95%E7%9B%AE%E7%9A%84%EF%BC%9F/" class="go-post">阅读全文</a>
 </div>
 
 

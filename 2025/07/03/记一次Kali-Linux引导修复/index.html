@@ -3,7 +3,7 @@
 <html lang="zh">
 <head>
     <meta charset="utf-8" />
-    <title>补记域名解析配置 | PR0_M1X 的小站</title>
+    <title>记一次Kali Linux引导修复 | PR0_M1X 的小站</title>
     <meta name="author" content="PR0_M1X" />
     <meta name="description" content="自力更生 艰苦奋斗" />
     <meta name="keywords" content="CTF" />
@@ -175,14 +175,14 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>补记域名解析配置</h1>
+        <h1>记一次Kali Linux引导修复</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2024/11/16
+            2025/7/3
         </span>
         
         <span class="category">
@@ -208,58 +208,45 @@
                 </a>
             </span>
             
-            <span class="tag">
-                
-                <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="color: #ff7d73">
-                    服务器
-                </a>
-            </span>
-            
         </span>
         
     </div>
     
     <div class="content" v-pre>
-        <p>之前买的域名，自己配置了一下往github pages上连接，只顾自己配置没有记笔记，今天记一下以防忘记。</p>
-<span id="more"></span>
-<h2 id="购买域名"><a href="#购买域名" class="headerlink" title="购买域名"></a>购买域名</h2><p>这个没啥说的。我在腾讯云上买的域名，自己找个心仪的后缀，想一个能用的名字就行。</p>
-<h2 id="DNS配置"><a href="#DNS配置" class="headerlink" title="DNS配置"></a>DNS配置</h2><h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>首先得知道自己github pages的域名。一般照网上教程配置好后都是*<u>github用户名.github.io</u>*。</p>
-<p>然后得知道github pages服务器的IP地址，一般网上都能查到。</p>
-<pre><code class="language-Plain">185.199.110.153
-
-185.199.109.153
-
-185.199.111.153
-
-185.199.108.153
-</code></pre>
-<p>现在我们的准备工作就做好了，可以开始配置了。</p>
-<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>配置解析在云解析DNS页面里，进去就能找到自己买的域名。我们要做的就是配置一下解析记录即可。</p>
-<p>只用配置两个：</p>
-<table>
-<thead>
-<tr>
-<th>主机记录</th>
-<th>记录类型</th>
-<th>线路类型</th>
-<th>记录值</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>www</td>
-<td>CNAME</td>
-<td>默认</td>
-<td>github用户名.github.io.</td>
-</tr>
-<tr>
-<td>@</td>
-<td>A</td>
-<td>默认</td>
-<td>上面给出的4个ip任选其一即可</td>
-</tr>
-</tbody></table>
-<p>配置好后别忘了保存，完成后等一会就能用了。</p>
-<h2 id="GitHub-Pages配置"><a href="#GitHub-Pages配置" class="headerlink" title="GitHub Pages配置"></a>GitHub Pages配置</h2><p>在博客仓库的设置中找到pages选项，在Custom domain的框里填上你买的域名即可。</p>
+        <p>不知道发生了什么，kali的引导突然崩掉了。EFI分区的&#x2F;EFI&#x2F;kali&#x2F;grubx64.efi明明还在，但是bios就是不识别。</p>
+<p>于是进行了一次修复，折腾了将近一个小时。</p>
+<p>笔者的配置是：华硕天选5Pro 锐龙版笔记本电脑</p>
+<p>CPU：AMD Ryzen 9 7940HX</p>
+<p>GPU：NVIDIA GeForce RTX 4060 Laptop</p>
+<p>双16G DDR5 5200MHz</p>
+<p>原机预装的1T SN560被我移到了1号盘位，0号盘位是Colorful CN600 Pro 1TB</p>
+<p>下面是折腾的路线：</p>
+<h1 id="1-尝试Ubuntu-Live-CD修复"><a href="#1-尝试Ubuntu-Live-CD修复" class="headerlink" title="1. 尝试Ubuntu Live CD修复"></a>1. 尝试Ubuntu Live CD修复</h1><p>刚好手头有个刷了ventoy的盘，里面有一个完整的Ubuntu desktop 24.10镜像。于是启动一下，然后尝试使用fsck修复。</p>
+<p>先sudo -s，获取一下root权限。</p>
+<p>然后fdisk -l，看一下分区在哪里。这个有时候可能还会随着重启系统改变，注意不要看错了。</p>
+<p>这里看到在nvme0n1这个盘有一个100MB左右的EFI分区，还有个100GB左右的ext4分区，就是它了。</p>
+<p>挂载一下看看里面有没有丢文件。</p>
+<p><code>mount /dev/nvme0n1p1 /mnt/boot/efi</code>这个是EFI分区</p>
+<p><code>mount /dev/nvme0n1p2 /mnt</code>这个是kali的根分区</p>
+<p>看了一下，grubx64.efi还在，怎么会报错呢？很奇怪。</p>
+<p>猜测可能是文件系统出现了问题，尝试用fsck修复，无果。</p>
+<p>又尝试efibootmgr看一下efi的详细信息，但因为LiveCD环境问题，报错：<code>EFI variables are not supported on this system.</code></p>
+<p>无果。尝试直接用grub启动一下试试，刚好这个盘有grub。</p>
+<h1 id="2-grub手动启动"><a href="#2-grub手动启动" class="headerlink" title="2. grub手动启动"></a>2. grub手动启动</h1><p>于是又重启进了grub，这里磁盘表示和linux还有些区别，是(hd0,msdos0)这样的格式。</p>
+<p>然后<code>set root=(hd2,msdos2)</code>把kali根分区挂载上。</p>
+<p><code>linux /boot/vmlinuz-6.12.33-kali1-amd64</code></p>
+<p><code>initrd /boot/initrd.img-6.12.33-kali1-amd64</code></p>
+<p><code>boot</code></p>
+<p>可以启动，但是卡到了busybox，依然行不通，啥都没有。</p>
+<h1 id="3-ventoy直接引导efi文件"><a href="#3-ventoy直接引导efi文件" class="headerlink" title="3. ventoy直接引导efi文件"></a>3. ventoy直接引导efi文件</h1><p>这时笔者突然想起来ventoy是可以直接引导efi文件的。</p>
+<p>于是再次重启，进入了ventoy。</p>
+<p>按F2，进入手动引导模式。</p>
+<p>导航进EFI分区，到EFI&#x2F;kali&#x2F;</p>
+<p>找到了grubx64.efi，回车启动，引导成功。</p>
+<p>成功进入系统，sudo -i提权</p>
+<p>然后grub-install修复一下grub，再efibootmgr验证</p>
+<p>kali引导项又出现了。</p>
+<p>至此，修复成功。</p>
 
     </div>
     
