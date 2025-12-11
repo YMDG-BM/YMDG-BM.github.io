@@ -194,7 +194,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/CTF/" style="color: #03a9f4">
+                <a href="/tags/CTF/" style="color: #ff7d73">
                     CTF
                 </a>
             </span>
@@ -208,14 +208,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/Reverse/" style="color: #00bcd4">
+                <a href="/tags/Reverse/" style="color: #ff7d73">
                     Reverse
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E5%87%BA%E9%A2%98/" style="color: #03a9f4">
+                <a href="/tags/%E5%87%BA%E9%A2%98/" style="color: #00bcd4">
                     出题
                 </a>
             </span>
@@ -230,6 +230,8 @@
 <p>不过是闭着眼出的题，拿自己前段时间的一些作业改出来了三道题目出来。</p>
 <p>看评价还可以，偷摸零算是0差评吧，两个单片机总共只有2个差评，感觉已经很不错了捏~</p>
 <p>那末，本文就简单概述一下这三道题的Writeup以及出题想法吧。</p>
+<span id="more"></span>
+
 <h2 id="冲刺！偷摸零！"><a href="#冲刺！偷摸零！" class="headerlink" title="冲刺！偷摸零！"></a>冲刺！偷摸零！</h2><p>Jar包，拿到题目直接解压。<br>看到解压出来一个ctf.db，用navicat看一眼。 这里设计这个ctf.db的原因其实是这个实训作业当时用了数据库，，，为了游戏不崩溃所以换成了sqlite3。于是就顺手把flag掰成两段塞里面了一份。<br>main-表-user，看到第一行有PART1。</p>
 <p><img src="9dbf6c57-c6c1-465b-aa1f-43964151d0d4.png" alt="9dbf6c57-c6c1-465b-aa1f-43964151d0d4"></p>
 <p>第一段flag就找到了。同时，看到这个形式，猜测第二段flag的开头也是PART，并且是PART2。<br>启动游戏，把凑企鹅玩死之后，弹窗提示内存多了什么东西。这里是：诶！☝️🤓</p>

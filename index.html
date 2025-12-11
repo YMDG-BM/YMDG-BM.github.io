@@ -222,113 +222,6 @@
 <p>不过是闭着眼出的题，拿自己前段时间的一些作业改出来了三道题目出来。</p>
 <p>看评价还可以，偷摸零算是0差评吧，两个单片机总共只有2个差评，感觉已经很不错了捏~</p>
 <p>那末，本文就简单概述一下这三道题的Writeup以及出题想法吧。</p>
-<h2 id="冲刺！偷摸零！"><a href="#冲刺！偷摸零！" class="headerlink" title="冲刺！偷摸零！"></a>冲刺！偷摸零！</h2><p>Jar包，拿到题目直接解压。<br>看到解压出来一个ctf.db，用navicat看一眼。 这里设计这个ctf.db的原因其实是这个实训作业当时用了数据库，，，为了游戏不崩溃所以换成了sqlite3。于是就顺手把flag掰成两段塞里面了一份。<br>main-表-user，看到第一行有PART1。</p>
-<p><img src="9dbf6c57-c6c1-465b-aa1f-43964151d0d4.png" alt="9dbf6c57-c6c1-465b-aa1f-43964151d0d4"></p>
-<p>第一段flag就找到了。同时，看到这个形式，猜测第二段flag的开头也是PART，并且是PART2。<br>启动游戏，把凑企鹅玩死之后，弹窗提示内存多了什么东西。这里是：诶！☝️🤓</p>
-<p>于是：</p>
-<p><img src="a2c5ff9d-3f43-4b6f-97b4-de01ec924a4b.png" alt="a2c5ff9d-3f43-4b6f-97b4-de01ec924a4b"></p>
-<p>两种方案：用CE查内存或者直接逆。<br>方案1：打开CE，然后打开GAME OVER!!!进程。</p>
-<p><img src="fc1e1514-06b6-49f1-bfaf-243e9241d8b9.png" alt="fc1e1514-06b6-49f1-bfaf-243e9241d8b9"></p>
-<p>用memory view查内存里PART2关键字。</p>
-<p><img src="34c2827e-b759-4ada-8cb8-24f97bd1bf77.png" alt="34c2827e-b759-4ada-8cb8-24f97bd1bf77"></p>
-<p><img src="53dfd173-3389-453c-9e65-ab8ab1e40f74.png" alt="53dfd173-3389-453c-9e65-ab8ab1e40f74"></p>
-<p>很快就找到了。</p>
-<p><img src="1763b5d8-0fc3-4473-ad1e-52bd0a64d63a.png" alt="1763b5d8-0fc3-4473-ad1e-52bd0a64d63a"></p>
-<p>两段拼一起就是flag。</p>
-<p>方案2：直接逆向法</p>
-<p>加密算法并不难，所以逆着也简单。IDEA就能逆，逆向起来很方便。</p>
-<p>先把Jar包解压掉，然后找到GameOverView类，点开即送。</p>
-<p><img src="image-20251211195448969.png"></p>
-<p>这一坨就是密文，一眼异或，直接cyberchef一把梭。</p>
-<p><img src="image-20251211195558920.png"></p>
-<p>这就出了捏~</p>
-<p>ISCTF{Tom0R1_Dash_GuGu_GAGA!!}</p>
-<h2 id="单片机1"><a href="#单片机1" class="headerlink" title="单片机1"></a>单片机1</h2><h4 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h4><p>其实是把flag的字模塞到了程序里。</p>
-<p>用工具逆一下，可以发现最底部有大堆的数据。这些就是字模。</p>
-<p><img src="77b2a984-131c-4160-81a3-b6a5382ec54e.png" alt="77b2a984-131c-4160-81a3-b6a5382ec54e"></p>
-<p>写个脚本，把字模渲染出来，就能看到flag了。</p>
-<h4 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h4><pre><code class="language-Python">def visualize_font(asm_data):
-    # 1. 解析数据
-    byte_list = []
-    
-    lines = asm_data.strip().split(&#39;\n&#39;)
-    for line in lines:
-        if &quot;DB&quot; not in line:
-            continue
-            
-        # 提取 DB 后面的部分: &quot;03CH, 018H...&quot;
-        content = line.split(&quot;DB&quot;)[1]
-        
-        # 按逗号分割并清理数据
-        hex_values = content.split(&#39;,&#39;)
-        for h in hex_values:
-            # 去掉空格和结尾的 &#39;H&#39;
-            clean_hex = h.strip().replace(&#39;H&#39;, &#39;&#39;)
-            if clean_hex:
-                byte_list.append(int(clean_hex, 16))
-
-    # 2. 显示字模 (假设是 8x8 点阵，每 8 个字节一个字符)
-    bytes_per_char = 8
-    total_chars = len(byte_list) // bytes_per_char
-
-    print(f&quot;解析到 &#123;total_chars&#125; 个字符:\n&quot;)
-
-    for i in range(total_chars):
-        # 获取当前字符的 8 个字节
-        char_bytes = byte_list[i*bytes_per_char : (i+1)*bytes_per_char]
-        
-        print(f&quot;--- 字符 &#123;i+1&#125; (Offset: &#123;i*8&#125;) ---&quot;)
-        for b in char_bytes:
-            # 转为二进制字符串，补足8位
-            bits = format(b, &#39;08b&#39;)
-            # 替换 0 和 1 为更可视化的字符
-            visual = bits.replace(&#39;0&#39;, &#39;  &#39;).replace(&#39;1&#39;, &#39;██&#39;)
-            print(f&quot;&#123;visual&#125;  (&#123;hex(b)&#125;)&quot;)
-        print(&quot;&quot;)
-
-# 你的原始数据
-raw_data = &quot;&quot;&quot;
-0208:                DB      03CH, 018H, 018H, 018H, 018H, 018H, 03CH, 000H
-0210:                DB      03CH, 042H, 040H, 03CH, 002H, 042H, 03CH, 000H
-0218:                DB      03CH, 042H, 040H, 040H, 040H, 042H, 03CH, 000H
-0220:                DB      07EH, 008H, 008H, 008H, 008H, 008H, 008H, 000H
-0228:                DB      07EH, 040H, 040H, 07CH, 040H, 040H, 040H, 000H
-0230:                DB      01EH, 010H, 010H, 020H, 010H, 010H, 01EH, 000H
-0238:                DB      042H, 042H, 042H, 05AH, 07EH, 066H, 042H, 000H
-0240:                DB      000H, 000H, 03CH, 042H, 042H, 042H, 03CH, 000H
-0248:                DB      000H, 000H, 042H, 042H, 05AH, 07EH, 042H, 000H
-0250:                DB      000H, 000H, 000H, 000H, 000H, 000H, 07EH, 000H
-0258:                DB      042H, 042H, 042H, 03CH, 018H, 018H, 018H, 000H
-0260:                DB      000H, 000H, 03CH, 042H, 042H, 042H, 03CH, 000H
-0268:                DB      000H, 000H, 042H, 042H, 042H, 042H, 03EH, 000H
-0270:                DB      000H, 000H, 000H, 000H, 000H, 000H, 07EH, 000H
-0278:                DB      018H, 024H, 042H, 042H, 07EH, 042H, 042H, 000H
-0280:                DB      000H, 000H, 05CH, 062H, 040H, 040H, 040H, 000H
-0288:                DB      000H, 000H, 03CH, 042H, 07EH, 040H, 03CH, 000H
-0290:                DB      000H, 000H, 000H, 000H, 000H, 000H, 07EH, 000H
-0298:                DB      03CH, 042H, 040H, 04EH, 042H, 042H, 03EH, 000H
-02A0:                DB      000H, 000H, 03CH, 042H, 042H, 042H, 03CH, 000H
-02A8:                DB      000H, 000H, 03CH, 042H, 042H, 042H, 03CH, 000H
-02B0:                DB      002H, 002H, 032H, 04AH, 04AH, 04AH, 03EH, 000H
-02B8:                DB      000H, 000H, 000H, 000H, 000H, 000H, 07EH, 000H
-02C0:                DB      018H, 024H, 042H, 042H, 07EH, 042H, 042H, 000H
-02C8:                DB      010H, 010H, 07EH, 010H, 010H, 010H, 00EH, 000H
-02D0:                DB      000H, 000H, 000H, 000H, 000H, 000H, 07EH, 000H
-02D8:                DB      03EH, 020H, 020H, 03CH, 002H, 002H, 03CH, 000H
-02E0:                DB      010H, 030H, 010H, 010H, 010H, 010H, 038H, 000H
-02E8:                DB      078H, 008H, 008H, 00CH, 008H, 008H, 078H, 000H
-&quot;&quot;&quot;
-
-if __name__ == &quot;__main__&quot;:
-    visualize_font(raw_data)
-</code></pre>
-<h2 id="单片机2"><a href="#单片机2" class="headerlink" title="单片机2"></a>单片机2</h2><h4 id="解题思路-1"><a href="#解题思路-1" class="headerlink" title="解题思路"></a>解题思路</h4><p>1602A屏幕的显示程序，实际1602的DATA引脚要接收的是ASCII码。程序这里只是做了一个简单异或加密。</p>
-<p>给的前面大堆反汇编出来的汇编源码和NOTE.txt其实都没什么用。真正有用的内容还是最后那一部分。</p>
-<p><img src="8e5203d8-defb-4c57-a5b6-ba06c35493eb.png" alt="8e5203d8-defb-4c57-a5b6-ba06c35493eb"></p>
-<p>密文和解密逻辑都在这了，直接解。</p>
-<p><img src="091d6664-df65-46f5-9b46-a1006d56a2c4.png" alt="091d6664-df65-46f5-9b46-a1006d56a2c4"></p>
-<p>其实这题是我1602的作业改的，，，专门加了一个解密逻辑进去喵~</p>
-
             
         </div>
     </div>
@@ -342,17 +235,17 @@ if __name__ == &quot;__main__&quot;:
         
         <span class="tag">
             
-            <a href="/tags/CTF/" style="color: #ff7d73">CTF</a>
+            <a href="/tags/CTF/" style="color: #00bcd4">CTF</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/Misc/" style="color: #00bcd4">Misc</a>
+            <a href="/tags/Misc/" style="color: #ffa2c4">Misc</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/Reverse/" style="color: #ffa2c4">Reverse</a>
+            <a href="/tags/Reverse/" style="color: #ff7d73">Reverse</a>
         </span>
         
         <span class="tag">
@@ -405,7 +298,7 @@ if __name__ == &quot;__main__&quot;:
         
         <span class="tag">
             
-            <a href="/tags/Writeup/" style="color: #ffa2c4">Writeup</a>
+            <a href="/tags/Writeup/" style="color: #00a596">Writeup</a>
         </span>
         
         <span class="tag">
@@ -458,7 +351,7 @@ if __name__ == &quot;__main__&quot;:
         
         <span class="tag">
             
-            <a href="/tags/%E9%9A%8F%E7%AC%94/" style="color: #ffa2c4">随笔</a>
+            <a href="/tags/%E9%9A%8F%E7%AC%94/" style="color: #03a9f4">随笔</a>
         </span>
         
     </div>
@@ -512,7 +405,7 @@ if __name__ == &quot;__main__&quot;:
         
         <span class="tag">
             
-            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00bcd4">笔记</a>
+            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #ff7d73">笔记</a>
         </span>
         
     </div>
@@ -563,7 +456,7 @@ if __name__ == &quot;__main__&quot;:
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #ffa2c4">弔文</a>
+            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #ff7d73">弔文</a>
         </span>
         
     </div>
@@ -611,12 +504,12 @@ if __name__ == &quot;__main__&quot;:
         
         <span class="tag">
             
-            <a href="/tags/Writeup/" style="color: #ffa2c4">Writeup</a>
+            <a href="/tags/Writeup/" style="color: #ff7d73">Writeup</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/CTF/" style="color: #ff7d73">CTF</a>
+            <a href="/tags/CTF/" style="color: #ffa2c4">CTF</a>
         </span>
         
     </div>
@@ -664,7 +557,7 @@ if __name__ == &quot;__main__&quot;:
         
         <span class="tag">
             
-            <a href="/tags/%E9%9A%8F%E7%AC%94/" style="color: #ff7d73">随笔</a>
+            <a href="/tags/%E9%9A%8F%E7%AC%94/" style="color: #00a596">随笔</a>
         </span>
         
     </div>
@@ -717,7 +610,7 @@ if __name__ == &quot;__main__&quot;:
         
         <span class="tag">
             
-            <a href="/tags/CTF/" style="color: #03a9f4">CTF</a>
+            <a href="/tags/CTF/" style="color: #00a596">CTF</a>
         </span>
         
     </div>
@@ -765,7 +658,7 @@ if __name__ == &quot;__main__&quot;:
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #03a9f4">弔文</a>
+            <a href="/tags/%E5%BC%94%E6%96%87/" style="color: #00bcd4">弔文</a>
         </span>
         
     </div>
