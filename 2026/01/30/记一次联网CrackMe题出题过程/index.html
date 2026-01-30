@@ -1,0 +1,477 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8" />
+    <title>记一次联网CrackMe题出题过程 | PR0_M1X 的小站</title>
+    <meta name="author" content="PR0_M1X" />
+    <meta name="description" content="自力更生 艰苦奋斗" />
+    <meta name="keywords" content="CTF" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>PR0_M1X 的小站</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+        <a target="_blank" rel="noopener" href="http://gz.crispsheep.icu:5000/display">
+            <i class="fa-solid fa-eye fa-fw"></i>
+            <span>&ensp;Observe</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;PR0_M1X 的小站</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+                <a target="_blank" rel="noopener" href="http://gz.crispsheep.icu:5000/display">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-eye fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Observe</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>记一次联网CrackMe题出题过程</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/1/30
+        </span>
+        
+        <span class="category">
+            <a href="/categories/%E7%AC%94%E8%AE%B0/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                笔记
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00a596">
+                    笔记
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h3 id="前情提要："><a href="#前情提要：" class="headerlink" title="前情提要："></a>前情提要：</h3><p>Gemini 3 Pro 太好用了！</p>
+<p>同时感谢yyyspark师傅对本题wp的贡献！</p>
+<span id="more"></span>
+
+<h2 id="出题动机："><a href="#出题动机：" class="headerlink" title="出题动机："></a>出题动机：</h2><p>本意是打算出一个仿真题的，逆一个激活码算法。逆出来算法之后就可以结合机器码来算激活码，进而通过程序来请求获取flag了。</p>
+<p>给的环境有一个远程靶机，一个本地激活客户端。远程靶机有一个web页面，但是在这肯定获取不了激活码的。毕竟想一想：作为一名黑客，在并没有购买厂商软件的情况下，厂商不可能会把你的机器码（也可能是其他特征数据）存放在自家验证服务器上，对吧？</p>
+<p>给了一个漏洞点：通过激活软件提交的激活请求是完全不经过数据库比对的，只比对发来的机器码信息与算出的激活码对不对。这便是本题的一大突破口。</p>
+<h3 id="核心源码："><a href="#核心源码：" class="headerlink" title="核心源码："></a>核心源码：</h3><h4 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h4><pre><code class="language-rust">const CHARSET: &amp;[u8] = b&quot;0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;;
+const SALT_REAL: &amp;str = &quot;SpringCTF2026&quot;;
+const SALT_TRAP_API: &amp;str = &quot;Spr1ngCTF2O26&quot;;
+const SALT_TRAP_TIME: &amp;str = &quot;SpringCTF2O26&quot;;
+
+#[tauri::command]
+fn get_machine_id() -&gt; String &#123;
+    match get_mac_address() &#123;
+        Ok(Some(mac)) =&gt; mac.to_string().to_uppercase(),
+        _ =&gt; &quot;00:00:00:00:00:00&quot;.to_string(),
+    &#125;
+&#125;
+
+fn generate_code_internal(id: &amp;str, salt: &amp;str) -&gt; String &#123;
+    let mut hasher = Sha256::new();
+    hasher.update(id.as_bytes());
+    hasher.update(salt.as_bytes());
+    let result = hasher.finalize();
+
+    let mut code = String::new();
+    for i in 0..25 &#123;
+        let byte = result[i % result.len()];
+        let char_idx = (byte as usize) % CHARSET.len();
+        code.push(CHARSET[char_idx] as char);
+        if (i + 1) % 5 == 0 &amp;&amp; i != 24 &#123;
+            code.push(&#39;-&#39;);
+        &#125;
+    &#125;
+    code
+&#125;
+
+#[tauri::command]
+fn verify_local(id: String, input_code: String) -&gt; Result&lt;bool, String&gt; &#123;
+    let mut current_salt = SALT_REAL;
+    unsafe &#123;
+        if IsDebuggerPresent().as_bool() &#123;
+            current_salt = SALT_TRAP_API;
+        &#125;
+    &#125;
+    let start = Instant::now();
+    let expected = generate_code_internal(&amp;id, current_salt);
+    
+    let mut _dummy = 0;
+    for _ in 0..1000 &#123; _dummy += 1; &#125;
+
+    if start.elapsed().as_millis() &gt; TIME_THRESHOLD_MS &#123;
+        let trap_expected = generate_code_internal(&amp;id, SALT_TRAP_TIME);
+        return Ok(input_code == trap_expected);
+    &#125;
+    Ok(input_code == expected)
+&#125;
+
+#[tauri::command]
+async fn verify_remote(server_ip: String, id: String, code: String) -&gt; Result&lt;String, String&gt; &#123;
+    let clean_addr = server_ip
+        .trim()
+        .trim_start_matches(&quot;http://&quot;)
+        .trim_start_matches(&quot;https://&quot;)
+        .trim_end_matches(&#39;/&#39;);
+
+    let clean_addr = clean_addr.split(&#39;/&#39;).next().unwrap_or(clean_addr);
+
+    let target_addr = if clean_addr.contains(&#39;:&#39;) &#123;
+        clean_addr.to_string()
+    &#125; else &#123;
+        format!(&quot;&#123;&#125;:80&quot;, clean_addr)
+    &#125;;
+
+    println!(&quot;正在连接目标: &#123;&#125;&quot;, target_addr);
+
+    let mut stream = TcpStream::connect(&amp;target_addr)
+        .map_err(|e| format!(&quot;连接服务器失败 (&#123;&#125;): &#123;&#125;&quot;, target_addr, e))?;
+
+    let payload = format!(&quot;&#123;&#125;|&#123;&#125;&quot;, id, code);
+    stream.write_all(payload.as_bytes())
+        .map_err(|e| format!(&quot;发送失败: &#123;&#125;&quot;, e))?;
+
+    let mut buffer = [0; 1024];
+    let n = stream.read(&amp;mut buffer)
+        .map_err(|e| format!(&quot;读取响应失败: &#123;&#125;&quot;, e))?;
+
+    let response = String::from_utf8_lossy(&amp;buffer[0..n]).to_string();
+    
+    // 判断 Flag
+    if response.contains(&quot;Flag:&quot;) || response.contains(&quot;Spring&#123;&quot;) &#123;
+        Ok(response)
+    &#125; else &#123;
+        Err(response)
+    &#125;
+&#125;
+</code></pre>
+<h4 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h4><pre><code class="language-rust">fn generate_real_code(id: &amp;str) -&gt; String &#123;
+    let mut hasher = Sha256::new();
+    hasher.update(id.as_bytes());
+    hasher.update(SALT_REAL.as_bytes());
+    let result = hasher.finalize();
+
+    let mut code = String::new();
+    for i in 0..25 &#123;
+        let byte = result[i % result.len()];
+        let char_idx = (byte as usize) % CHARSET.len();
+        code.push(CHARSET[char_idx] as char);
+        if (i + 1) % 5 == 0 &amp;&amp; i != 24 &#123;
+            code.push(&#39;-&#39;);
+        &#125;
+    &#125;
+    code
+&#125;
+
+async fn tcp_handler(mut stream: TcpStream) &#123;
+    let mut buffer = [0; 1024];
+
+    if let Ok(n) = stream.read(&amp;mut buffer).await &#123;
+        let request = String::from_utf8_lossy(&amp;buffer[0..n]);
+        let request_line = request.lines().next().unwrap_or(&quot;&quot;).trim();
+        println!(&quot;[TCP Logic] Raw Payload: &#123;&#125;&quot;, request_line);
+
+        let parts: Vec&lt;&amp;str&gt; = request_line.split(&#39;|&#39;).collect();
+        if parts.len() == 2 &#123;
+            let id = parts[0];
+            let code = parts[1];
+            
+            let expected = generate_real_code(id);
+            if code == expected &#123;
+                let msg = format!(&quot;Access Granted. Flag: &#123;&#125;&quot;, *FLAG);
+                let _ = stream.write_all(msg.as_bytes()).await;
+            &#125; else &#123;
+                let _ = stream.write_all(b&quot;Verification Failed.&quot;).await;
+            &#125;
+        &#125; else &#123;
+            let _ = stream.write_all(b&quot;Invalid Protocol Format&quot;).await;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p>可以看到所谓机器码，就是获取了一下用户网卡的MAC地址。</p>
+<p>激活码过了两遍验证，第一遍是本地验证，这是我们后续逆向分析的关键。</p>
+<p>获取完本地地址之后，过了两个反调试判断：第一层，检查是否被调试，如果是，则调用一号假SALT（SALT_TRAP_API）。第二层，检查单步执行时间是否超过阈值时间200ms，如果是，则调用二号假SALT（SALT_TRAP_TIME）。如果都没有，则用真SALT。</p>
+<p>在激活码生成函数中，机器码和盐进行了拼接处理（先机器码，后盐）。拼接后进行了一次SHA256。之后从生成的SHA256中提取前25个字节，逐个字节与字符表长度取模作为字符表（CHARSET）索引。字符表有36个字符，所以就是与36模，得到索引值。之后再根据索引值进行拼接，得到激活码，与用户输入的激活码进行本地校验。校验通过后再与用户输入的远程服务器通信，进行远程校验来获取flag。</p>
+<h2 id="Writeup："><a href="#Writeup：" class="headerlink" title="Writeup："></a>Writeup：</h2><p>![Pasted image 20260124193403](Pasted image 20260124193403.png)</p>
+<p>ida9对rust支持已经比较友好了。可以发现，v5对应的就是rust的main函数。跟进。</p>
+<p><img src="823b1e0e-9a82-4a01-a140-62046135f45c.png" alt="823b1e0e-9a82-4a01-a140-62046135f45c"></p>
+<p>依旧rust特有的鬼画符主函数。不用看这部分，我们直接搜索<code>index.html</code>，为什么这样想？</p>
+<p>因为程序是tauri做的，看程序图标就能看出来。tauri是前后端分离，而前端用什么写自然就不必多说了。</p>
+<p><img src="0a35d4eb-56bd-434d-b3dc-acfb5b6abf94.png" alt="0a35d4eb-56bd-434d-b3dc-acfb5b6abf94"></p>
+<p>找到好几个字符串，一个个查找，找到这个部分</p>
+<p><img src="84296e63-87fa-4a43-83ce-ca93e685f317.png" alt="84296e63-87fa-4a43-83ce-ca93e685f317"></p>
+<p>很明显的结构</p>
+<p><img src="9e78f3ae-ac75-4a03-b2c6-8146aacece42.png" alt="9e78f3ae-ac75-4a03-b2c6-8146aacece42"></p>
+<p>将二进制数据提取出来放入<code>br</code>文件，然后进行<code>Brotli</code>解压，得到<code>index.html</code>的内容</p>
+<pre><code class="language-html">&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot; /&gt;
+    &lt;link rel=&quot;icon&quot; type=&quot;image/svg+xml&quot; href=&quot;/vite.svg&quot; /&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
+    &lt;title&gt;Tauri + React + Typescript&lt;/title&gt;
+    &lt;script type=&quot;module&quot; crossorigin src=&quot;/assets/index-DGCiB7OF.js&quot;&gt;&lt;/script&gt;
+    &lt;link rel=&quot;stylesheet&quot; crossorigin href=&quot;/assets/index-DJErgufo.css&quot;&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id=&quot;root&quot;&gt;&lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>可以看到加载了关键文件<code>index-DGCiB7OF.js</code>，前端的内容都在该文件中，回去可以看到该文件和刚刚提取出来的文件<code>index.html</code>下面一点位置</p>
+<p><img src="429f30b4-4f58-41d1-970a-5112c477ba28.png" alt="429f30b4-4f58-41d1-970a-5112c477ba28"></p>
+<p>同样提取出来解压可以得到该文件的混淆内容，但是<code>js</code>混淆是编译时候的正常现象</p>
+<p>你如果不想去混淆可以直接让ai分析一下，可以知道js文件是用来进行本地验证。如果本地通过，再进行远程服务器验证。</p>
+<p>而本地验证的文件是<code>verify_local</code>，查找字符串</p>
+<p><img src="96523e7f-f2ef-4802-856c-f6801b8cf670.png" alt="96523e7f-f2ef-4802-856c-f6801b8cf670"></p>
+<p>找到一个verify_local字符串，跟过去看看。</p>
+<p><img src="37a3d1c6-1284-4172-a698-fe52d592865a.png" alt="37a3d1c6-1284-4172-a698-fe52d592865a"></p>
+<p>依旧弯弯绕绕看不懂，不过看到了一些特别的东西：IsDebuggerPresent函数，以及出现的几个aSpringctf2026s。同时注意到有一个函数引用过aSpringctf2026s这个字符串的切片。</p>
+<p><img src="7686d4cc-ce97-4800-a730-98b4e72c94f3.png" alt="7686d4cc-ce97-4800-a730-98b4e72c94f3"></p>
+<p>既然这么严防死守，那看来这里肯定有我们想要的东西了。这个sub_14011F6E0函数很可疑，我们跟进去看一看，同时也别忘了把这个字符串提出来。<code>aSpringctf2026s db &#39;SpringCTF2026Spr1ngCTF2O26SpringCTF2O2600:00:00:00:00:00&#39;</code></p>
+<p>提取时还注意到一个特别的字符串<code>a0123456789abcd db &#39;0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ&#39;</code>，一起提取出来。</p>
+<p><img src="a9b01bb3-5d87-4915-be77-7d87c038cb33.png" alt="a9b01bb3-5d87-4915-be77-7d87c038cb33"></p>
+<p>sha256函数，这里被rust编译器优化过了。传入待处理的内容经过sha256之后，哈希结果传递给了<code>v31.m128i_i8</code></p>
+<p><img src="05e86e2c-ef2e-433a-b3b0-0ab35cdc7cd4.png" alt="05e86e2c-ef2e-433a-b3b0-0ab35cdc7cd4"></p>
+<p>发现一个for循环，循环次数刚好是25次。每次都从哈希结果中取一字节，经过<code>((v31.m128i_i8[i] / 9u) &amp; 0xFC)</code>这个优化后的模运算（本质上等同于<code>byte % 36</code>），最终从字符集<code>a0123456789abcd</code>取一个字符传入v23。</p>
+<p>经此分析，我们可以写出注册机：</p>
+<pre><code class="language-python">CHARSET = &quot;0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;
+
+def compute_activation_code(input_bytes: bytes, key: bytes) -&gt; str:
+    message = input_bytes + key
+
+    sha256 = hashlib.sha256()
+    sha256.update(message)
+    hash_bytes = sha256.digest()
+
+    output_chars = []
+    for i, byte in enumerate(hash_bytes[:25]):
+        idx = byte % 36
+        output_chars.append(CHARSET[idx])
+        if i % 5 == 4 and i != 24:
+            output_chars.append(&#39;-&#39;)
+    
+    return &#39;&#39;.join(output_chars)
+
+KEY = b&quot;SpringCTF2026&quot;
+
+machine_code = b&quot;00:11:22:33:44:55&quot; # 自己随便编一个mac地址进去就行
+code = compute_activation_code(machine_code, KEY)
+print(code)
+</code></pre>
+<p>参考激活码: 9WKWU-4KBOG-J723X-AXF78-UPR1F</p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2020 - 2026 PR0_M1X 的小站
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;PR0_M1X
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>
