@@ -359,7 +359,8 @@ async fn tcp_handler(mut stream: TcpStream) &#123;
 <p>激活码过了两遍验证，第一遍是本地验证，这是我们后续逆向分析的关键。</p>
 <p>获取完本地地址之后，过了两个反调试判断：第一层，检查是否被调试，如果是，则调用一号假SALT（SALT_TRAP_API）。第二层，检查单步执行时间是否超过阈值时间200ms，如果是，则调用二号假SALT（SALT_TRAP_TIME）。如果都没有，则用真SALT。</p>
 <p>在激活码生成函数中，机器码和盐进行了拼接处理（先机器码，后盐）。拼接后进行了一次SHA256。之后从生成的SHA256中提取前25个字节，逐个字节与字符表长度取模作为字符表（CHARSET）索引。字符表有36个字符，所以就是与36模，得到索引值。之后再根据索引值进行拼接，得到激活码，与用户输入的激活码进行本地校验。校验通过后再与用户输入的远程服务器通信，进行远程校验来获取flag。</p>
-<h2 id="Writeup："><a href="#Writeup：" class="headerlink" title="Writeup："></a>Writeup：</h2><p>![Pasted_image_20260124193403](Pasted_image_20260124193403.png)</p>
+<h2 id="Writeup："><a href="#Writeup：" class="headerlink" title="Writeup："></a>Writeup：</h2>
+<p><img src="Pasted_image_20260124193403.png" alt="Pasted_image_20260124193403"></p>
 <p>ida9对rust支持已经比较友好了。可以发现，v5对应的就是rust的main函数。跟进。</p>
 <p><img src="823b1e0e-9a82-4a01-a140-62046135f45c.png" alt="823b1e0e-9a82-4a01-a140-62046135f45c"></p>
 <p>依旧rust特有的鬼画符主函数。不用看这部分，我们直接搜索<code>index.html</code>，为什么这样想？</p>
