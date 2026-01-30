@@ -203,7 +203,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00a596">
+                <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #03a9f4">
                     笔记
                 </a>
             </span>
@@ -370,21 +370,7 @@ async fn tcp_handler(mut stream: TcpStream) &#123;
 <p>很明显的结构</p>
 <p><img src="9e78f3ae-ac75-4a03-b2c6-8146aacece42.png" alt="9e78f3ae-ac75-4a03-b2c6-8146aacece42"></p>
 <p>将二进制数据提取出来放入<code>br</code>文件，然后进行<code>Brotli</code>解压，得到<code>index.html</code>的内容</p>
-<pre><code class="language-html">&lt;!doctype html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-  &lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot; /&gt;
-    &lt;link rel=&quot;icon&quot; type=&quot;image/svg+xml&quot; href=&quot;/vite.svg&quot; /&gt;
-    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
-    &lt;title&gt;Tauri + React + Typescript&lt;/title&gt;
-    &lt;script type=&quot;module&quot; crossorigin src=&quot;/assets/index-DGCiB7OF.js&quot;&gt;&lt;/script&gt;
-    &lt;link rel=&quot;stylesheet&quot; crossorigin href=&quot;/assets/index-DJErgufo.css&quot;&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-    &lt;div id=&quot;root&quot;&gt;&lt;/div&gt;
-  &lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
+<p><img src="image-20260130220429473.png" alt="image-20260130220429473"></p>
 <p>可以看到加载了关键文件<code>index-DGCiB7OF.js</code>，前端的内容都在该文件中，回去可以看到该文件和刚刚提取出来的文件<code>index.html</code>下面一点位置</p>
 <p><img src="429f30b4-4f58-41d1-970a-5112c477ba28.png" alt="429f30b4-4f58-41d1-970a-5112c477ba28"></p>
 <p>同样提取出来解压可以得到该文件的混淆内容，但是<code>js</code>混淆是编译时候的正常现象</p>
