@@ -1,7 +1,8 @@
 ---
-title: 操作系统原理
+title: 操作系统
 index: true
 icon: ix:operating-system
+order: 3
 dir:
   link: true
 category:

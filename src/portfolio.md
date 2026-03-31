@@ -11,6 +11,7 @@ titles:
   - CTFer
   - IoT Enginering
   - PDSU
+  - Computer Science
 
 footer: true
 ---

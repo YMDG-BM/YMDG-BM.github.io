@@ -1,6 +1,9 @@
 ---
 title: 计算机组成原理
 index: true
+order: 1
+dir:
+  link: true
 icon: lucide:computer
 category:
   - 计算机组成原理

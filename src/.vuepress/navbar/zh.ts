@@ -7,4 +7,5 @@ export const zhNavbar = navbar([
   "/ctf/",
   "/study/",
   "/wiki/",
+  "/misc/",
 ]);

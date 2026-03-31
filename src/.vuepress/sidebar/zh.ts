@@ -40,5 +40,12 @@ export const zhSidebar = sidebar({
       link: "wiki/",
       children: "structure",
     },
+    {
+      text: "除此之外...",
+      icon: "codicon:symbol-misc",
+      prefix: "misc/",
+      link: "misc/",
+      children: "structure",
+    },
   ],
 });
