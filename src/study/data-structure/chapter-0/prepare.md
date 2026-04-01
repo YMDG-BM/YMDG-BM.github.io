@@ -1,5 +1,5 @@
 ---
-title: 第零章——第一幕：启程——准备环境
+title: 第一幕：启程——准备环境
 icon: material-symbols:power-outline
 order: 1
 category:
