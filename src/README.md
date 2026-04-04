@@ -17,6 +17,7 @@ actions:
     type: primary
 
   - text: 本博客Github仓库
+    icon: mdi:github
     link: https://github.com/YMDG-BM/YMDG-BM.github.io
 
   - text: CTF Writeup
