@@ -1,5 +1,5 @@
 ---
-title: CTF （WIP）
+title: CTF （施工中）
 index: false
 icon: flag
 category:
