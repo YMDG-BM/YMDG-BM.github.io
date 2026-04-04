@@ -1,5 +1,5 @@
 ---
-title: Writeup
+title: CTF （WIP）
 index: false
 icon: flag
 category:

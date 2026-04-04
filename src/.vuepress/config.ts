@@ -8,7 +8,7 @@ export default defineUserConfig({
   locales: {
     "/": {
       lang: "zh-CN",
-      title: "KanaDE Wiki",
+      title: "KanaDE Notes",
       description: "KanaDE的个人笔记存储站",
     },
   },

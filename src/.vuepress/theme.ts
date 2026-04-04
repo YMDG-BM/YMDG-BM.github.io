@@ -11,7 +11,7 @@ export default hopeTheme({
     url: "https://nacpromix.top",
   },
 
-  logo: "https://theme-hope-assets.vuejs.press/logo.svg",
+  logo: "logo.png",
 
   docsDir: "src",
 
@@ -116,7 +116,7 @@ export default hopeTheme({
   plugins: {
     // Note: This is for testing ONLY!
     // You MUST generate and use your own comment service in production.
-    
+    blog: false,
     slimsearch: true,
 
     components: {

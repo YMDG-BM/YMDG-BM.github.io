@@ -1,8 +1,9 @@
 ---
 home: true
+catalog: false
 icon: house
 title: 项目主页
-heroImage: https://theme-hope-assets.vuejs.press/logo.svg
+heroImage: logo.png
 bgImage: https://theme-hope-assets.vuejs.press/bg/6-light.svg
 bgImageDark: https://theme-hope-assets.vuejs.press/bg/6-dark.svg
 bgImageStyle:
@@ -56,25 +57,25 @@ highlights:
       - title: 服务器配置
         icon: server
         details: 服务器环境搭建与配置指南
-        link: ./operation/server-config/
+        link: ./operation/
 
       - title: 服务部署
         icon: cloud
         details: 各类服务的部署与维护
-        link: ./operation/deployment/
+        link: ./operation/
 
       - title: 监控与安全
         icon: shield
         details: 服务器监控与安全加固
-        link: ./operation/security/
+        link: ./operation/
 
       - title: 故障排查
         icon: bug
         details: 常见问题与解决方案
-        link: ./operation/troubleshooting/
+        link: ./operation/
 
-  - header: 🏴 CTF Writeup
-    description: CTF比赛解题思路与技巧总结
+  - header: 🏴 CTF
+    description: CTF 入门指路
     image: /assets/image/ctf.svg
     bgImage: https://theme-hope-assets.vuejs.press/bg/1-light.svg
     bgImageDark: https://theme-hope-assets.vuejs.press/bg/1-dark.svg
@@ -108,19 +109,15 @@ highlights:
       - title: 内容导航
         icon: compass
         details: 如何快速找到需要的内容
-        link: ./guide/navigation
+        link: ./guide/#全站地图-六个核心领域
 
       - title: 搜索功能
         icon: material-symbols:search
         details: 使用搜索快速定位信息
-        link: ./guide/search
-
-      - title: 贡献指南
-        icon: fa7-solid:hands-helping
-        details: 如何参与内容维护
-        link: ./guide/contribution
+        link: ./guide/#_1-高效检索
 
 
 copyright: false
 footer: 使用 <a href="https://theme-hope.vuejs.press/zh/" target="_blank">VuePress Theme Hope</a> 主题 | MIT 协议, 版权所有 © 2026-至今 KanaDE
+
 ---
