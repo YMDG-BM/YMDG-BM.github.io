@@ -66,7 +66,14 @@ https://gitee.com/nachn_admin/stm32-foc-mp3
 特别特别好相处！技术同好直接扩，相处舒服至上 ~
 
 ## 友链
-
+欢迎添加我的友链！如果你想添加我的友链，那么请复制以下内容作为参考：
+```yaml
+title: KanaDE的小册子
+desc: 个人技术知识库与学习记录
+logo: https://kanade-chan.top/logo.png
+link: https://kanade-chan.top/
+background: rgba(138, 253, 222, 0.15)
+```
 欢迎找我添加友链！如果你想添加友链，那么请参考以下格式：
 ```yaml
 title: 你的 ID
