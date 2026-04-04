@@ -1,6 +1,9 @@
 ---
 title: Writeup
 order: 9
+dir:
+  order: 9
+  link: true
 index: false
 icon: mdi:file
 category:

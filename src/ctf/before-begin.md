@@ -1,6 +1,8 @@
 ---
 title: 在第一步之前......
 order: 1
+dir:
+  order: 1
 icon: game-icons:walking-boot
 category:
   - CTF
