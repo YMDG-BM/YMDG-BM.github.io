@@ -16,8 +16,8 @@ actions:
     link: ./study/
     type: primary
 
-  - text: 运维文档
-    link: ./operation/
+  - text: 本博客Github仓库
+    link: https://github.com/YMDG-BM/YMDG-BM.github.io
 
   - text: CTF Writeup
     icon: flag
