@@ -8,7 +8,7 @@ bgImage: https://theme-hope-assets.vuejs.press/bg/6-light.svg
 bgImageDark: https://theme-hope-assets.vuejs.press/bg/6-dark.svg
 bgImageStyle:
   background-attachment: fixed
-heroText: KanaDE Wiki
+heroText: KanaDE Notes
 tagline: 个人技术知识库与学习记录
 actions:
   - text: 学习笔记
