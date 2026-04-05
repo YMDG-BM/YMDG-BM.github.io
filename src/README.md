@@ -4,7 +4,7 @@ catalog: false
 icon: house
 title: 项目主页
 heroImage: logo.png
-bgImage: /assets/bg/green.png
+bgImage: /assets/bg/green.jpg
 bgImageDark: /assets/bg/green-dark.png
 bgImageStyle:
   background-attachment: fixed
@@ -28,7 +28,7 @@ highlights:
   - header: 📚 学习笔记
     description: 记录日常学习的技术知识与心得
     image: /assets/image/book-svgrepo-com.svg
-    bgImage: /assets/bg/yellow.png
+    bgImage: /assets/bg/yellow.jpg
     bgImageDark: /assets/bg/yellow-dark.jpg
     highlights:
       - title: 数据结构
@@ -75,7 +75,7 @@ highlights:
   - header: 🏴 CTF
     description: CTF 入门指路
     image: /assets/image/flag-svgrepo-com.svg
-    bgImage: /assets/bg/red.jpeg
+    bgImage: /assets/bg/red.jpg
     bgImageDark: /assets/bg/red-dark.jpg
     features:
       - title: Web安全
