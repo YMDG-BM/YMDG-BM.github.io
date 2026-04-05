@@ -8,7 +8,7 @@ export default hopeTheme({
 
   author: {
     name: "KanaDE",
-    url: "https://nacpromix.top",
+    url: "https://kanade-chan.top/",
   },
 
   logo: "logo.png",

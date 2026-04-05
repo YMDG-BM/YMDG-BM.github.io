@@ -54,8 +54,7 @@ https://gitee.com/nachn_admin/stm32-foc-mp3
  
 ### 个人博客
  
-当前：nacpromix.top
-未来将迁移至：kanade-chan.top
+当前：kanade-chan.top
  
 ### 雷区 & 小吐槽
  
@@ -128,5 +127,13 @@ title: 2hi5hu
 desc: 一起愉快的玩耍吧~
 logo: https://2hi5hu.cn/upload/avatar-bakr.jpg
 link: https://2hi5hu.cn/
+background: rgba(138, 203, 253, 0.15)
+```
+
+```component VPCard
+title: Britney
+desc: 似乎没找到简介，，，
+logo: https://www.britn3y.top/_astro/1.CHR2qJXG_1PVwUm.webp
+link: https://www.britn3y.top/
 background: rgba(138, 203, 253, 0.15)
 ```
