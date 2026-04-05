@@ -39,10 +39,8 @@ IoT 嵌入式 / 二进制 pwn / Coding / 计算机科学
 - 基于 JavaFX 的音乐播放器
 https://gitee.com/nachn_admin/java-course-design
  
-##### ✅ 已完成（暂未同步）
- 
 - 基于 STC15W4K61S4 的硬件终端
-https://gitee.com/nachn_admin/digital-interactive-command-konsole
+https://gitee.com/nachn_admin/DICK-Project
  
 ##### 🔁 施工中
  
