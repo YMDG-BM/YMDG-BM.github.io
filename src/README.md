@@ -27,7 +27,7 @@ actions:
 highlights:
   - header: 📚 学习笔记
     description: 记录日常学习的技术知识与心得
-    image: /assets/image/study.svg
+    image: /assets/image/book-svgrepo-com.svg
     bgImage: /assets/bg/yellow.png
     bgImageDark: /assets/bg/yellow-dark.jpg
     highlights:
@@ -48,7 +48,7 @@ highlights:
 
   - header: 🖥️ 运维文档
     description: 社团服务器管理与运维经验记录
-    image: /assets/image/server.svg
+    image: /assets/image/advanced.svg
     bgImage: /assets/bg/white.jpg
     bgImageDark: /assets/bg/white-dark.jpg
     features:
@@ -74,7 +74,7 @@ highlights:
 
   - header: 🏴 CTF
     description: CTF 入门指路
-    image: /assets/image/ctf.svg
+    image: /assets/image/flag-svgrepo-com.svg
     bgImage: /assets/bg/red.jpeg
     bgImageDark: /assets/bg/red-dark.jpg
     features:
@@ -100,7 +100,7 @@ highlights:
 
   - header: 🚀 快速开始
     description: 了解如何使用本Wiki
-    image: /assets/image/guide.svg
+    image: /assets/image/compass-svgrepo-com.svg
     bgImage: /assets/bg/pink.jpg
     bgImageDark: /assets/bg/pink-dark.jpeg
     highlights:
