@@ -13,7 +13,7 @@ article: false
 description: "这是 KanaDE 的档案主页、项目经历与友链。" # 4. 提供明确描述，彻底阻断系统去抓取你的正文！
 welcome: 👋 你好，我是
 name: KanaDE
-avatar: https://kanade-chan.top/maomao.png
+avatar: /maomao.png
 titles:
   - CTFer
   - IoT Enginering
