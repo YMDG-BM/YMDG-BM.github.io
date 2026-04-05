@@ -4,8 +4,8 @@ catalog: false
 icon: house
 title: 项目主页
 heroImage: logo.png
-bgImage: https://theme-hope-assets.vuejs.press/bg/6-light.svg
-bgImageDark: https://theme-hope-assets.vuejs.press/bg/6-dark.svg
+bgImage: /assets/bg/green.png
+bgImageDark: /assets/bg/green-dark.png
 bgImageStyle:
   background-attachment: fixed
 heroText: KanaDE Notes
@@ -28,8 +28,8 @@ highlights:
   - header: 📚 学习笔记
     description: 记录日常学习的技术知识与心得
     image: /assets/image/study.svg
-    bgImage: https://theme-hope-assets.vuejs.press/bg/3-light.svg
-    bgImageDark: https://theme-hope-assets.vuejs.press/bg/3-dark.svg
+    bgImage: /assets/bg/yellow.png
+    bgImageDark: /assets/bg/yellow-dark.jpg
     highlights:
       - title: 数据结构
         icon: sitemap
@@ -49,11 +49,8 @@ highlights:
   - header: 🖥️ 运维文档
     description: 社团服务器管理与运维经验记录
     image: /assets/image/server.svg
-    bgImage: https://theme-hope-assets.vuejs.press/bg/2-light.svg
-    bgImageDark: https://theme-hope-assets.vuejs.press/bg/2-dark.svg
-    bgImageStyle:
-      background-repeat: repeat
-      background-size: initial
+    bgImage: /assets/bg/white.jpg
+    bgImageDark: /assets/bg/white-dark.jpg
     features:
       - title: 服务器配置
         icon: server
@@ -78,8 +75,8 @@ highlights:
   - header: 🏴 CTF
     description: CTF 入门指路
     image: /assets/image/ctf.svg
-    bgImage: https://theme-hope-assets.vuejs.press/bg/1-light.svg
-    bgImageDark: https://theme-hope-assets.vuejs.press/bg/1-dark.svg
+    bgImage: /assets/bg/red.jpeg
+    bgImageDark: /assets/bg/red-dark.jpg
     features:
       - title: Web安全
         icon: globe
@@ -104,8 +101,8 @@ highlights:
   - header: 🚀 快速开始
     description: 了解如何使用本Wiki
     image: /assets/image/guide.svg
-    bgImage: https://theme-hope-assets.vuejs.press/bg/5-light.svg
-    bgImageDark: https://theme-hope-assets.vuejs.press/bg/5-dark.svg
+    bgImage: /assets/bg/pink.jpg
+    bgImageDark: /assets/bg/pink-dark.jpeg
     highlights:
       - title: 内容导航
         icon: compass
