@@ -5,6 +5,7 @@ index: true
 order: 6
 dir:
   link: true
+  order: 6
 category:
   - 杂七杂八
 ---

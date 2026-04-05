@@ -5,6 +5,7 @@ icon: ix:operating-system
 order: 3
 dir:
   link: true
+  order: 3
 category:
   - 操作系统
 ---

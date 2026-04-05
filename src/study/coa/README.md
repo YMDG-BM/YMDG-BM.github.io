@@ -4,6 +4,7 @@ index: true
 order: 1
 dir:
   link: true
+  order: 1
 icon: lucide:computer
 category:
   - 计算机组成原理
