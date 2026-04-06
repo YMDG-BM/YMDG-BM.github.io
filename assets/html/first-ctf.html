@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flag Validator - 新手引导</title>
+    <style>
+        /* 极客风格/终端风格 CSS */
+        body {
+            background-color: #0d1117;
+            color: #c9d1d9;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            background: #161b22;
+            padding: 40px;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+            box-shadow: 0 0 20px rgba(88, 166, 255, 0.15);
+            width: 90%;
+            max-width: 500px;
+        }
+        h1 {
+            color: #58a6ff;
+            margin-bottom: 10px;
+        }
+        p.subtitle {
+            color: #8b949e;
+            font-size: 0.9em;
+            margin-bottom: 30px;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        input {
+            padding: 12px;
+            width: 100%;
+            box-sizing: border-box;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            color: #58a6ff;
+            font-family: inherit;
+            font-size: 16px;
+            border-radius: 4px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            border-color: #58a6ff;
+            box-shadow: 0 0 8px rgba(88, 166, 255, 0.3);
+        }
+        button {
+            margin-top: 20px;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: inherit;
+            font-weight: bold;
+            transition: all 0.3s;
+            width: 100%;
+        }
+        .btn-primary {
+            background: #238636;
+            color: white;
+            border: none;
+        }
+        .btn-primary:hover {
+            background: #2ea043;
+        }
+        
+        #result {
+            margin-top: 25px;
+            font-weight: bold;
+            font-size: 1.1em;
+            min-height: 25px;
+        }
+        .error { color: #f85149; }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #8b949e;
+            text-decoration: none;
+            font-size: 0.9em;
+            transition: color 0.3s;
+        }
+        .back-link:hover {
+            color: #58a6ff;
+            text-decoration: underline;
+        }
+
+        /* 成功弹窗遮罩层 CSS */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(13, 17, 23, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(3px); /* 背景模糊效果 */
+        }
+        
+        /* 弹窗内容 CSS */
+        .modal-content {
+            background: #161b22;
+            padding: 35px 40px;
+            border: 1px solid #3fb950;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(63, 185, 80, 0.2);
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-width: 450px;
+            width: 90%;
+        }
+
+        .modal-content h2 {
+            color: #3fb950;
+            margin-top: 0;
+            font-size: 1.8em;
+        }
+
+        .modal-content p {
+            color: #c9d1d9;
+            font-size: 1.05em;
+            margin-bottom: 20px;
+        }
+
+        /* 校园网警告框 CSS */
+        .network-warning {
+            background: rgba(210, 153, 34, 0.1);
+            border: 1px solid rgba(210, 153, 34, 0.4);
+            border-radius: 6px;
+            padding: 15px;
+            color: #e3b341;
+            font-size: 0.95em;
+            text-align: left;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        .network-warning strong {
+            color: #f2cc60;
+        }
+
+        /* 弹窗按钮组 */
+        .modal-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #8b949e;
+            border: 1px solid #30363d;
+            margin-top: 0;
+        }
+        .btn-secondary:hover {
+            background: #30363d;
+            color: #c9d1d9;
+        }
+
+        /* 弹窗动画 */
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 主容器 -->
+    <div class="container">
+        <h1>Flag 验证器</h1>
+        <p class="subtitle">欢迎来到 CTF 的世界！请输入你在教程中找到的 Flag</p>
+        
+        <div class="input-group">
+            <input type="text" id="flagInput" placeholder="输入格式：flag{...}" autocomplete="off" onkeypress="handleEnter(event)">
+            <button class="btn-primary" onclick="checkFlag()">验证 (Submit)</button>
+        </div>
+
+        <div id="result"></div>
+
+        <a href="https://kanade-chan.top/ctf/first-step.html" class="back-link">← 返回新手引导教程</a>
+    </div>
+
+    <!-- 成功后的弹窗 -->
+    <div id="successModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>🎉 破解成功！</h2>
+            <p>太棒了！你已经成功迈出了 CTF 的第一步。<br>真正的战场已经为你准备好。</p>
+            
+            <!-- 校园网提示框 -->
+            <div class="network-warning">
+                <strong>⚠️ 网络环境确认：</strong><br>
+                实战靶场部署在校园内网 (172.16.173.140:8081)。请确认您当前设备已连接至 <strong>PDSU 校园网</strong>（或已登录校园 VPN），否则将无法打开平台页面！
+            </div>
+
+            <!-- 按钮操作区 -->
+            <div class="modal-actions">
+                <button class="btn-primary" onclick="goToPlatform()">我已连接校园网，进入靶场</button>
+                <button class="btn-secondary" onclick="closeModal()">暂不跳转，留在本页</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        console.log("%cHello Hacker!", "color: #58a6ff; font-size: 30px; font-weight: bold;");
+        console.log("%c既然你打开了控制台，说明你已经具备了初步的 Hacker 思维！", "color: #3fb950; font-size: 14px;");
+        console.log("%c提示：纯前端验证是不安全的。仔细看看 checkFlag 函数里的神秘字符是什么编码？", "color: #8b949e; font-size: 12px;");
+
+        function checkFlag() {
+            const input = document.getElementById('flagInput').value.trim();
+            const resultDiv = document.getElementById('result');
+
+            if (!input) {
+                resultDiv.textContent = "⚠️ 请先输入 Flag！";
+                resultDiv.className = "error";
+                return;
+            }
+
+            // flag{v3ry_go0d_hacker} 的 Base64 编码
+            const encodedFlag = "ZmxhZ3t2M3J5X2dvMGRfaGFja2VyfQ==";
+
+            try {
+                if (btoa(input) === encodedFlag) {
+                    resultDiv.textContent = ""; 
+                    showSuccessModal(); // 弹出确认框
+                } else {
+                    resultDiv.textContent = "❌ Flag 错误，请再试一次吧！";
+                    resultDiv.className = "error";
+                }
+            } catch (e) {
+                resultDiv.textContent = "❌ Flag 格式似乎不对哦，只能包含英文字符或数字！";
+                resultDiv.className = "error";
+            }
+        }
+
+        // 显示弹窗
+        function showSuccessModal() {
+            document.getElementById('successModal').style.display = 'flex';
+        }
+
+        // 关闭弹窗
+        function closeModal() {
+            document.getElementById('successModal').style.display = 'none';
+        }
+
+        // 跳转到实战平台
+        function goToPlatform() {
+            window.location.href = "http://172.16.173.140:8081/";
+        }
+
+        // 支持回车键提交
+        function handleEnter(event) {
+            if (event.key === 'Enter') {
+                checkFlag();
+            }
+        }
+    </script>
+</body>
+</html>
