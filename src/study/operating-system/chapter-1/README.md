@@ -1,5 +1,5 @@
 ---
-title: 第一章：内核基石 —— 裸机环境与初始输出
+title: 第一章：内核基石 —— 裸机环境与初始输出 （TBD）
 icon: material-symbols:computer-outline
 index: true
 order: 2
