@@ -32,6 +32,8 @@ footer: true
 喜欢拆解复杂系统，从底层硬件到上层应用，追求简洁高效的实现。  
 信奉 **“Talk is cheap, show me the code, and don‘t forget to free()”**。
 
+I use ::logos:archlinux =2rem::  Arch, btw.
+
 ---
 
 ## 🧰 技术栈 & 兴趣领域
@@ -40,7 +42,7 @@ footer: true
 |--------------|------------------------------------------------------------------------|
 | 编程语言     | C / Rust / C++ / Python / 汇编                                        |
 | 嵌入式       | STM32 / STC15 / FreeRTOS / 裸机开发 / 硬件调试                         |
-| 二进制 & 安全| Pwn / 逆向工程 / 漏洞分析 / ROP                               |
+| 二进制 & 安全| Pwn / 漏洞分析                              |
 | 操作系统     | Linux 内核学习 / 自制操作系统内核 (KanaDE_Kernel)        |
 | 其他         | JavaFX / Git / 电路设计基础 / FOC 算法应用                             |
 
