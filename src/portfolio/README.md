@@ -146,7 +146,7 @@ background: rgba(138, 253, 188, 0.15)
 ```component VPCard
 title: Mi1kte4
 desc: 接下来就是高光时刻！
-logo: undefined
+logo: https://mi1kte4.top/upload/ec046f11-09f4-4675-bcd4-7b0bd816eb05.png
 link: https://mi1kte4.top/
 background: rgba(176, 138, 253, 0.15)
 ```
