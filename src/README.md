@@ -140,3 +140,10 @@ footer: 使用 <a href="https://theme-hope.vuejs.press/zh/" target="_blank">VueP
         background-color: #00000080;
     }
 </style>
+
+<!-- 你这主页怎么还有个黑坨坨啊.jpg -->
+<style>
+    html[data-theme=dark] img[src="/assets/image/compass-svgrepo-com.svg"] {
+        filter: invert(1);
+    }
+</style>
