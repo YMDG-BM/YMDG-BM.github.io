@@ -182,3 +182,25 @@ logo: https://www.britn3y.top/_astro/1.CHR2qJXG_1PVwUm.webp
 link: https://www.britn3y.top/
 background: rgba(138, 203, 253, 0.15)
 ```
+
+<!-- 修复code块溢出导致窄屏渲染异常 -->
+<style>
+    code {
+        width: 0 !important; /* Don't know why, so don't touch it. */
+    }
+</style>
+
+<!-- 调优maomao的显示样式 -->
+<style>
+    @media (min-width: 959px) {
+        .vp-portfolio-avatar {
+            display: flex;
+            align-items: center;
+            width: min(50%, 800px);
+        }
+    }
+
+    .vp-portfolio-avatar img {
+        max-height: min(93vh, 600px);
+    }
+</style>
