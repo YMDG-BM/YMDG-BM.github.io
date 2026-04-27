@@ -119,3 +119,31 @@ copyright: false
 footer: 使用 <a href="https://theme-hope.vuejs.press/zh/" target="_blank">VuePress Theme Hope</a> 主题 | MIT 协议, 版权所有 © 2026-至今 KanaDE
 
 ---
+
+<!-- 优化首页可阅读性 -->
+<style>
+    main>*>*.light::after {
+        content: " ";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        display: block;
+        background-color: #ffffff80;
+    }
+
+    main>*>*.dark::after {
+        content: " ";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        display: block;
+        background-color: #00000080;
+    }
+</style>
+
+<!-- 你这主页怎么还有个黑坨坨啊.jpg -->
+<style>
+    html[data-theme=dark] img[src="/assets/image/compass-svgrepo-com.svg"] {
+        filter: invert(1);
+    }
+</style>
