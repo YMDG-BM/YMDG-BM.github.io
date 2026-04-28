@@ -158,3 +158,20 @@ footer: 使用 <a href="https://theme-hope.vuejs.press/zh/" target="_blank">VueP
         justify-content: center;
     }
 </style>
+
+<style>
+    /* 加上翻页效果 */
+    html {
+        scroll-snap-type: y mandatory;
+    }
+
+    main.vp-project-home>*:not([vp-content]) {
+        scroll-snap-align: center;
+        scroll-snap-stop: always;
+    }
+
+    main.vp-project-home ~ footer {
+        scroll-snap-align: end;
+        scroll-snap-stop: always;
+    }
+</style>
