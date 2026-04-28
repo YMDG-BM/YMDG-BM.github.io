@@ -182,7 +182,13 @@ logo: https://www.britn3y.top/_astro/1.CHR2qJXG_1PVwUm.webp
 link: https://www.britn3y.top/
 background: rgba(138, 203, 253, 0.15)
 ```
-
+```component VPCard
+title: joke
+desc: joke的小世界
+logo: https://simple9656.github.io/img/9.jpg
+link: https://simple9656.github.io/
+background: rgba(253, 230, 138, 0.15) 
+```
 <style>
     /* 修复code块溢出导致窄屏渲染异常 */
     code {
