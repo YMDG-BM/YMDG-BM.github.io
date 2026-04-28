@@ -120,9 +120,9 @@ footer: 使用 <a href="https://theme-hope.vuejs.press/zh/" target="_blank">VueP
 
 ---
 
-<!-- 优化首页可阅读性 -->
 <style>
-    main>*>*.light::after {
+    /* 优化首页可阅读性 */
+    main.vp-project-home>*>*.light::after {
         content: " ";
         position: absolute;
         inset: 0;
@@ -131,7 +131,7 @@ footer: 使用 <a href="https://theme-hope.vuejs.press/zh/" target="_blank">VueP
         background-color: #ffffff80;
     }
 
-    main>*>*.dark::after {
+    main.vp-project-home>*>*.dark::after {
         content: " ";
         position: absolute;
         inset: 0;
@@ -141,9 +141,20 @@ footer: 使用 <a href="https://theme-hope.vuejs.press/zh/" target="_blank">VueP
     }
 </style>
 
-<!-- 你这主页怎么还有个黑坨坨啊.jpg -->
 <style>
-    html[data-theme=dark] img[src="/assets/image/compass-svgrepo-com.svg"] {
+    /* 你这主页怎么还有个黑坨坨啊.jpg */
+    html[data-theme=dark] .vp-project-home img[src="/assets/image/compass-svgrepo-com.svg"] {
         filter: invert(1);
+    }
+</style>
+
+<style>
+    /* 把主页的段落变大 */
+    main.vp-project-home>*:not([vp-content]) {
+        min-height: 100vh;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 </style>

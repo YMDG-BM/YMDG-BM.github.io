@@ -183,15 +183,15 @@ link: https://www.britn3y.top/
 background: rgba(138, 203, 253, 0.15)
 ```
 
-<!-- 修复code块溢出导致窄屏渲染异常 -->
 <style>
+    /* 修复code块溢出导致窄屏渲染异常 */
     code {
         width: 0 !important; /* Don't know why, so don't touch it. */
     }
 </style>
 
-<!-- 调优maomao的显示样式 -->
 <style>
+    /* 调优maomao的显示样式 */
     @media (min-width: 959px) {
         .vp-portfolio-avatar {
             display: flex;
